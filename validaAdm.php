@@ -1,5 +1,6 @@
 <?php
 session_start();
+include("mensagemPadrao.php");
 $btnLogin = filter_input(INPUT_POST, 'btnLogin', FILTER_SANITIZE_STRING);
 if($btnLogin){
 	$usuario = filter_input(INPUT_POST, 'usuario', FILTER_SANITIZE_STRING);
@@ -15,13 +16,13 @@ if($btnLogin){
 
 				header("Location: adm/home.php");
 			}else{
-				$_SESSION['msg'] = "<div class='alert alert-danger'>Login ou senha incorreto!</div>";
+				$_SESSION['codRetorno'] = 3;
 				header("Location: login.php");
 			}
 		
 	}
 	else{
-		$_SESSION['msg'] = "<div class='alert alert-danger'>Login ou senha não informados !</div>";
+		$_SESSION['codRetorno'] =4;
 		header("Location: login.php");
 	}
 }

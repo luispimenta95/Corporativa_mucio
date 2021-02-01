@@ -1,7 +1,6 @@
 <?php
+include("mensagemPadrao.php");
 
-session_start();
-unset($_SESSION['nome']);
 
-$_SESSION['msg'] = "<div class='alert alert-success'>Deslogado com sucesso!</div>";
+$_SESSION['codRetorno'] = 6;
 header("Location: login.php");

@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -16,9 +17,9 @@ session_start();
 			<div class="form-signin">
 				<h2 class="text-center">Área restrita</h2>
 				<?php
-					if(isset($_SESSION['msg'])){
-						echo $_SESSION['msg'];
-						unset($_SESSION['msg']);
+					if(isset($_SESSION['codRetorno'])){
+						echo $_SESSION['codRetorno'];
+						unset($_SESSION['codRetorno']);
 					}
 					
 				?>
