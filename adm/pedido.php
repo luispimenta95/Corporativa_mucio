@@ -50,6 +50,7 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
     <!-- Meta tags Obrigatórias -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -58,14 +59,17 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 </head>
 
 <body>
+
+
     <h1>Bem vindo <?php echo $_SESSION["nomeAdministrador"] ?>!</h1>
     <a href="../sair.php">Logout</a>
 
-    <form method="POST" action="home.php" class="search nav-form">
+    <form method="POST" action="pedido.php" class="search nav-form">
         <div class="input-group input-search">
             <input type="text" class="form-control" name="termo" id="q" placeholder="Pesquisa por nome...">
             <span class="input-group-btn">
-                <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                </button>
             </span>
         </div>
     </form>
