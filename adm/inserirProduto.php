@@ -25,11 +25,11 @@ if (isset($_FILES['arquivo'])) {
 
     if (move_uploaded_file($_FILES['arquivo']['tmp_name'], $_UP['pasta'] . $novo_nome)) {
         $logoProduto = $novo_nome;
-        $sqlUpdate = "INSERT INTO produto (nomeProduto,preco,codigo,estoque,unidade,imagem,dataCadastro)
+        $sqlInsert = "INSERT INTO produto (nomeProduto,preco,codigo,estoque,unidade,imagem,dataCadastro)
         VALUES ('$nomeProduto','$preco','$codigo','$estoque','$variacao','$logoProduto',NOW())";
     }
 
-    if ($conn->query($sqlUpdate) === TRUE) {
+    if ($conn->query($sqlInsert) === TRUE) {
         $_SESSION['msg'] = $mensagens["cadastro"];
 
         header("Location:produto.php");
