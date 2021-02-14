@@ -128,7 +128,7 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
                         $resultadoTotal = mysqli_query($conn, $pesquisaTotal);
 
                         $precoFinal = mysqli_fetch_assoc($resultadoTotal);
-                        echo  number_format($precoFinal["total"], 2, ",", ".");
+                        echo "R$ " .  number_format($precoFinal["total"], 2, ",", ".");
                         ?>
 
 
@@ -143,11 +143,10 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
         </tbody>
     </table>
 
-    <a href="#cadastro" data-toggle="modal"><button type='button' class='btn btn-success'>Cadastrar empresa</button></a>
 
     <?php
 
-    $result_log = "SELECT * from produto";
+    $result_log = "SELECT * from pedido";
 
     $Produtos = mysqli_query($conn, $result_log);
 
