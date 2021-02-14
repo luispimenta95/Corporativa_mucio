@@ -28,24 +28,13 @@ $incio = ($quantidade_pg * $pagina) - $quantidade_pg;
 //Selecionar os logs a serem apresentado na página
 $pesquisa = "";
 if (!isset($_POST['termo'])) {
-    $pesquisaProdutos = "select 
-    idProduto,
-    nomeProduto,
-    codigo,
-    imagem,
-    ativo , 
-    dataCadastro,
-    unidade,
-    preco,
-    estoque,
-    dataCadastro 
-    from 
-    produto p order by p.nomeProduto limit $incio, $quantidade_pg";
+    $pesquisaProdutos = "select idpedido,codPedido,quantidade, pr.preco precoUnitario, 
+    (pr.preco * quantidade) totalProduto, nomeProduto, nomeCliente from pedido pe, produto pr,
+     cliente c where idProduto = produto and idCliente = cliente limit $incio, $quantidade_pg";
 } else {
     $pesquisa = $_POST["termo"];
 
-    $pesquisaProdutos = "select idProduto, nomeProduto, codigo, imagem, ativo, dataCadastro, unidade, preco, estoque 
-    from produto p WHERE p.nomeProduto LIKE '%" . $pesquisa . "%'";
+    $pesquisaProdutos = "select idpedido,codPedido,quantidade, pr.preco precoUnitario, (pr.preco * quantidade) totalProduto, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and nomeCliente  LIKE '%" . $pesquisa . "%'";
 }
 //preciso fazer as pesquisas
 
@@ -87,21 +76,12 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 
 
     if ($totalProdutos == 0) {
-        $pesquisaProdutos = "select 
-        idProduto,
-        nomeProduto,
-        codigo,
-        imagem,
-        ativo , 
-        dataCadastro,
-        unidade,
-        preco,
-        estoque,
-        dataCadastro 
-        from 
-        produto p order by p.nomeProduto limit $incio, $quantidade_pg";
+        $pesquisaProdutos = "select idpedido,codPedido,quantidade, pr.preco precoUnitario, 
+        (pr.preco * quantidade) totalProduto, nomeProduto, nomeCliente from pedido pe, produto pr,
+         cliente c where idProduto = produto and idCliente = cliente limit $incio, $quantidade_pg";
+
         $resultadoProdutos = mysqli_query($conn, $pesquisaProdutos);
-        $totalProdutos = mysqli_num_rows($resultadoProdutos);
+
         $_SESSION["msg"] = $mensagens["semRegistro"];
     }
     if (isset($_SESSION['msg'])) {
@@ -115,15 +95,12 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 
         <thead>
             <tr>
-                <th> Código</th>
-                <th> Produto</th>
-                <th> Preço</th>
-                <th> Quantidade em estoque</th>
-
-                <th> Situação</th>
-
-
-            </tr>
+                <th>Código</th>
+                <th>Nome</th>
+                <th>Preço Unitário</th>
+                <th>Quantidade</th>
+                <th>Preço total</th>
+                <th>Comprador</th>
             </tr>
         </thead>
         <tbody>
@@ -133,22 +110,34 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
             while ($row = mysqli_fetch_assoc($resultadoProdutos)) { ?>
 
                 <tr>
-                    <th> <?php echo $row["codigo"] ?> </th>
-
+                    <th> <?php echo $row["codPedido"] ?> </th>
                     <th> <?php echo $row["nomeProduto"] ?> </th>
-                    <th> R$ <?php echo number_format($row["preco"], 2, ",", "."); ?> </th>
-
-                    <th> <?php echo $row["estoque"] ?> </th>
-                    <?php if ($row["ativo"] == 1) { ?>
-                        <th> Produto ativo</th>
-                    <?php } else { ?>
-                        <th> Produto Inativo</th>
-
-                    <?php } ?>
+                    <th>R$ <?php echo number_format($row["precoUnitario"], 2, ",", "."); ?> </th>
+                    <th> <?php echo $row["quantidade"] ?> </th>
+                    <th>R$ <?php echo number_format($row["totalProduto"], 2, ",", "."); ?> </th>
+                    <th> <?php echo $row["nomeCliente"] ?> </th>
 
 
 
                 <?php } ?>
+
+                <tr>
+                    <td>
+                        <?php
+                        $pesquisaTotal = "select 1, sum(preco * quantidade) total from pedido group by 1 ";
+                        $resultadoTotal = mysqli_query($conn, $pesquisaTotal);
+
+                        $precoFinal = mysqli_fetch_assoc($resultadoTotal);
+                        echo  number_format($precoFinal["total"], 2, ",", ".");
+                        ?>
+
+
+                    </td>
+                </tr>
+
+
+
+
                 </tr>
 
         </tbody>
