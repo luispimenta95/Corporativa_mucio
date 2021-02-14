@@ -2,6 +2,7 @@
 session_start();
 include '../conecta.php';
 include '../mensagemPadrao.php';
+include 'funcoes.php';
 
 if (!isset($_SESSION["idAdministrador"])) {
     header("Location:../login.php");
@@ -35,7 +36,8 @@ if (!isset($_POST['termo'])) {
     emailCliente,
     ativo , 
     atacado,
-    telefoneCliente
+    enderecoCliente,
+    telefoneCliente,
     dataCadastro 
     from 
     cliente c order by c.nomeCliente limit $incio, $quantidade_pg";
@@ -49,7 +51,8 @@ if (!isset($_POST['termo'])) {
     emailCliente,
     ativo , 
     atacado,
-    telefoneCliente
+    enderecoCliente,
+    telefoneCliente,
     dataCadastro 
     from 
     cliente c WHERE c.nomeCliente LIKE '%" . $pesquisa . "%'";
@@ -104,8 +107,9 @@ $totalUsuarios = mysqli_num_rows($resultadoUsuarios);
         cpf_cnpj,
         emailCliente,
         ativo , 
+        enderecoCliente,
         atacado,
-        telefoneCliente
+        telefoneCliente,
         dataCadastro 
         from 
         cliente c order by c.nomeCliente limit $incio, $quantidade_pg";
@@ -129,7 +133,10 @@ $totalUsuarios = mysqli_num_rows($resultadoUsuarios);
                 <th>CPF/CNPJ</th>
                 <th>E-mail</th>
                 <th>Tipo de cliente</th>
+                <th>Situação do cliente</th>
+
                 <th>Data de associação</th>
+                <th>Editar</th>
             </tr>
         </thead>
         <tbody>
@@ -139,6 +146,7 @@ $totalUsuarios = mysqli_num_rows($resultadoUsuarios);
             while ($row = mysqli_fetch_assoc($resultadoUsuarios)) { ?>
 
                 <tr>
+
                     <th> <?php echo $row["nomeCliente"] ?> </th>
                     <th> <?php echo $row["cpf_cnpj"] ?> </th>
                     <th> <?php echo $row["emailCliente"] ?> </th>
@@ -149,8 +157,155 @@ $totalUsuarios = mysqli_num_rows($resultadoUsuarios);
 
                     <?php } ?>
 
-                    <th> <?php echo date('d/m/Y', ($row["dataCadastro"])); ?> </th>
+                    <?php if ($row["ativo"] == 1) { ?>
+                        <th> Ativo</th>
+                    <?php } else { ?>
+                        <th> Inativo</th>
 
+                    <?php } ?>
+
+                    <th>
+                        <?php echo date('d/m/Y', strtotime($row["dataCadastro"])); ?>
+                    </th>
+                    <th>
+                        <a href="#edicao<?php echo $row["idCliente"] ?>" data-toggle="modal"><button type='button' class='btn btn-primary btn-sm'><i class="fa fa-pencil"></i> </button></a>
+
+                    </th>
+                    <form action="updateCliente.php?id=<?php echo $row["idCliente"]; ?>" method="POST" class="form-group" enctype="multipart/form-data">
+
+                        <div id="edicao<?php echo $row["idCliente"] ?>" class="modal fade" role="dialog" class="form-group">
+                            <div class="modal-dialog">
+
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <?php
+                                        if (isset($_SESSION['msg'])) {
+                                            echo $_SESSION['msg'];
+                                            unset(
+                                                $_SESSION['msg']
+
+                                            );
+                                        }
+                                        ?>
+                                        <h4 class="modal-title">Atualizar cliente</h4>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <div class="form-group row">
+                                            <label for="inputEmail3" class="col-sm-2 col-form-label">Nome</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" name="nome" value="<?php echo $row['nomeCliente'] ?>" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="inputEmail3" class="col-sm-4 col-form-label">CPF/CNPJ: </label>
+                                            <div class="col-sm-8">
+                                                <input type="text" value="<?php echo $row['cpf_cnpj'] ?>" class="form-control" name="cpf" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+                                            <div class="col-sm-10">
+                                                <input type="email" class="form-control" name="email" value="<?php echo $row['emailCliente'] ?>" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row" required>
+                                            <label for="inputEmail3" class="col-sm-6 col-form-label">Situação de cliente</label>
+                                            <div class="col-sm-6">
+
+                                                <?php
+                                                if ($row["ativo"] == 1) { ?>
+
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="ativo" value="1" checked="checked" required><span class="label label-success">Ativo</span>
+                                                    </label>
+
+                                                    <br>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="ativo" value="0" required><span class="label label-danger">Inativo</span>
+                                                    </label>
+
+                                                <?php } else { ?>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="ativo" value="1" checked="checked" required><span class="label label-success">Ativo</span>
+                                                    </label>
+
+                                                    <br>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="ativo" value="0" checked="checked" required><span class="label label-danger">Inativo</span>
+                                                    </label>
+                                                <?php } ?>
+
+
+
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group row" required>
+                                            <label for="inputEmail3" class="col-sm-6 col-form-label">Tipo de cliente</label>
+                                            <div class="col-sm-6">
+
+                                                <?php
+                                                if ($row["atacado"] == 1) { ?>
+
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="atacado" value="1" checked="checked" required><span class="label label-success">Atacado</span>
+                                                    </label>
+
+                                                    <br>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="atacado" value="0" required><span class="label label-danger">Varejo</span>
+                                                    </label>
+
+                                                <?php } else { ?>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="atacado" value="1" checked="checked" required><span class="label label-success">Atacado</span>
+                                                    </label>
+
+                                                    <br>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="atacado" value="0" checked="checked" required><span class="label label-danger">Varejo</span>
+                                                    </label>
+                                                <?php } ?>
+
+
+
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputEmail3" class="col-sm-2 col-form-label">Endereço</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" value="<?php echo $row['enderecoCliente'] ?>" name="endereco">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="inputEmail3" class="col-sm-2 col-form-label">Telefone</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" name="telefone" value="<?php echo $row['telefoneCliente'] ?>" required>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class=" btn btn-primary">Realizar alterações</button>
+
+                                        <button type="submit" class=" btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </form>
 
                 <?php } ?>
 
@@ -194,7 +349,7 @@ $totalUsuarios = mysqli_num_rows($resultadoUsuarios);
                         </div>
 
                         <div class="form-group row">
-                            <label for="inputEmail3" class="col-sm-2 col-form-label">CPF: </label>
+                            <label for="inputEmail3" class="col-sm-2 col-form-label">CPF/CNPJ: </label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" name="cpf" required>
                             </div>
