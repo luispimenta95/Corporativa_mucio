@@ -1,27 +1,29 @@
 <?php
 session_start();
-$btnLogin = filter_input(INPUT_POST, 'btnLogin', FILTER_SANITIZE_STRING);
-if($btnLogin){
-	$usuario = filter_input(INPUT_POST, 'usuario', FILTER_SANITIZE_STRING);
-	$senha = filter_input(INPUT_POST, 'senha', FILTER_SANITIZE_STRING);
-	//echo "$usuario - $senha";
-	if((!empty($usuario)) AND (!empty($senha))){
-		//Gerar a senha criptografa
-		//echo password_hash($senha, PASSWORD_DEFAULT);
-		//Pesquisar o usuário no BD
-		
-			if($usuario =="teste" && $senha =="123"){
-				$_SESSION['nome'] = $usuario;
+include 'conecta.php';
+include 'mensagemPadrao.php';
 
-				header("Location: adm/home.php");
-			}else{
-				$_SESSION['msg'] = "<div class='alert alert-danger'>Login ou senha incorreto!</div>";
-				header("Location: login.php");
-			}
-		
-	}
-	else{
-		$_SESSION['msg'] = "<div class='alert alert-danger'>Login ou senha não informados !</div>";
-		header("Location: login.php");
-	}
+$usuario = $_POST["usuario"];
+$senha = $_POST["senha"];
+
+
+
+$sql = "SELECT nomeAdministrador,idAdministrador FROM administrador WHERE LPAD(cpfAdministrador,11,'0') = '$usuario' and senhaAdministrador = '$senha'";
+$result = $conn->query($sql);
+$rowcount = mysqli_num_rows($result);
+
+if ($rowcount > 0) {
+	$acesso = $result->fetch_assoc();
+	$_SESSION['nomeAdministrador'] = $acesso["nomeAdministrador"];
+	$_SESSION['idAdministrador'] = $acesso["idAdministrador"];
+
+	$_SESSION["logado"] = true;
+	$_SESSION["senha"] = $senha;
+
+
+	header("Location:adm/home.php");
+} else {
+	$_SESSION['msg'] = $mensagens["loginIncorreto"];
+
+	header("Location:login.php");
 }

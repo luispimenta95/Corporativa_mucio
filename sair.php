@@ -1,7 +1,6 @@
 <?php
-
 session_start();
-unset($_SESSION['nome']);
-
-$_SESSION['msg'] = "<div class='alert alert-success'>Deslogado com sucesso!</div>";
+include("mensagemPadrao.php");
+unset($_SESSION['idAdministrador'], $_SESSION['nomeAdministrador'], $_SESSION['logado'], $_SESSION['senha']);
+$_SESSION["msg"] = $mensagens["logout"];
 header("Location: login.php");
