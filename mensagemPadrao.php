@@ -21,7 +21,8 @@ $mensagens = array(
 
     "erroExclusao" => "<div class='alert alert-danger'> Erro ao excluir o registro , favor entre em contato com o telefone $telefone para solicitar uma medida corretiva. </div>",
 
-
+    "cpfDuplicado" => "<div class='alert alert-danger'>O CPF já existe no sistema,favor informar outro CPF . </div>",
+    "cpfInvalido" => "<div class='alert alert-danger'>O CPF não é válido,favor informar outro CPF . </div>"
 
 
 
