@@ -226,8 +226,6 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
                                                     <input type="radio" name="situacao" value="0" required><span class="label label-danger">Indisponível</span>
                                                 </label>
                                             </div>
-
-
                                         </div>
 
                                         <div class="form-group row">
