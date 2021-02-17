@@ -38,7 +38,7 @@ if (!isset($_POST['termo'])) {
 
     $pesquisaProdutos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and nomeCliente  LIKE '%" . $pesquisa . "%'";
 }
-//preciso fazer as pesquisas
+//preciso fazer os filtros
 
 
 $resultadoProdutos = mysqli_query($conn, $pesquisaProdutos);
