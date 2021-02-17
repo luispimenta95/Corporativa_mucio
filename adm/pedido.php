@@ -27,6 +27,9 @@ $incio = ($quantidade_pg * $pagina) - $quantidade_pg;
 
 //Selecionar os logs a serem apresentado na página
 $pesquisa = "";
+$dataIni = "";
+$dataFim = "";
+
 if (!isset($_POST['termo'])) {
     $pesquisaProdutos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
     limit $incio, $quantidade_pg";
@@ -73,6 +76,21 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
         </div>
     </form>
 
+
+    <form method="POST" action="pedido.php" class="search nav-form">
+        <div class="form-group">
+            <label for="example-date-input" class="col-2 col-form-label">Data inicial</label>
+            <div class="col-6">
+                <input class="form-control" type="date" name="dataIni" id="example-date-input">
+            </div>
+            <label for="example-date-input" name="dataFim" class="col-2 col-form-label">Data final</label>
+            <div class="col-6">
+                <input class="form-control" type="date" id="example-date-input">
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Small button</button>
+        </div>
+
+    </form>
 
     <?php
 
