@@ -29,7 +29,13 @@ $incio = ($quantidade_pg * $pagina) - $quantidade_pg;
 $pesquisa = "";
 $dataIni = "";
 $dataFim = "";
-
+if (!isset($_POST['dataIni']) && !isset($_POST['dataFim'])) {
+    echo "Não enviou datas";
+} else {
+    $dataIni = $_POST["dataIni"];
+    $dataFim = $_POST["dataFim"];
+    echo $dataIni . " " . $dataFim;
+}
 if (!isset($_POST['termo'])) {
     $pesquisaProdutos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
     limit $incio, $quantidade_pg";
@@ -83,9 +89,9 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
             <div class="col-6">
                 <input class="form-control" type="date" name="dataIni" id="example-date-input">
             </div>
-            <label for="example-date-input" name="dataFim" class="col-2 col-form-label">Data final</label>
+            <label for="example-date-input" class="col-2 col-form-label">Data final</label>
             <div class="col-6">
-                <input class="form-control" type="date" id="example-date-input">
+                <input class="form-control" type="date" name="dataFim" id="example-date-input">
             </div>
             <button type="submit" class="btn btn-primary btn-sm">Small button</button>
         </div>
