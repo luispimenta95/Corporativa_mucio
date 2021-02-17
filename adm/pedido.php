@@ -28,13 +28,12 @@ $incio = ($quantidade_pg * $pagina) - $quantidade_pg;
 //Selecionar os logs a serem apresentado na página
 $pesquisa = "";
 if (!isset($_POST['termo'])) {
-    $pesquisaProdutos = "select idpedido,codPedido,quantidade, pr.preco precoUnitario, 
-    (pr.preco * quantidade) totalProduto, nomeProduto, nomeCliente from pedido pe, produto pr,
-     cliente c where idProduto = produto and idCliente = cliente limit $incio, $quantidade_pg";
+    $pesquisaProdutos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+    limit $incio, $quantidade_pg";
 } else {
     $pesquisa = $_POST["termo"];
 
-    $pesquisaProdutos = "select idpedido,codPedido,quantidade, pr.preco precoUnitario, (pr.preco * quantidade) totalProduto, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and nomeCliente  LIKE '%" . $pesquisa . "%'";
+    $pesquisaProdutos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and nomeCliente  LIKE '%" . $pesquisa . "%'";
 }
 //preciso fazer as pesquisas
 
@@ -80,9 +79,8 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 
 
     if ($totalProdutos == 0) {
-        $pesquisaProdutos = "select idpedido,codPedido,quantidade, pr.preco precoUnitario, 
-        (pr.preco * quantidade) totalProduto, nomeProduto, nomeCliente from pedido pe, produto pr,
-         cliente c where idProduto = produto and idCliente = cliente limit $incio, $quantidade_pg";
+        $pesquisaProdutos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+        limit $incio, $quantidade_pg";
 
         $resultadoProdutos = mysqli_query($conn, $pesquisaProdutos);
 
@@ -105,34 +103,39 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
                 <th>Quantidade</th>
                 <th>Preço total</th>
                 <th>Comprador</th>
+                <th>Data do pedido</th>
+
             </tr>
         </thead>
         <tbody>
             <?php
+            $totalPedido = 0;
+            $somaProduto = 0;
 
-
-            while ($row = mysqli_fetch_assoc($resultadoProdutos)) { ?>
+            while ($row = mysqli_fetch_assoc($resultadoProdutos)) {
+                $somaProduto = $row["precoPedido"] * $row["quantidade"];
+            ?>
 
                 <tr>
                     <th> <?php echo $row["codPedido"] ?> </th>
                     <th> <?php echo $row["nomeProduto"] ?> </th>
-                    <th>R$ <?php echo number_format($row["precoUnitario"], 2, ",", "."); ?> </th>
+                    <th>R$ <?php echo number_format($row["precoPedido"], 2, ",", "."); ?> </th>
                     <th> <?php echo $row["quantidade"] ?> </th>
-                    <th>R$ <?php echo number_format($row["totalProduto"], 2, ",", "."); ?> </th>
+                    <th>R$ <?php echo number_format($somaProduto, 2, ",", "."); ?> </th>
                     <th> <?php echo $row["nomeCliente"] ?> </th>
+                    <th>
+                        <?php echo date('d/m/Y', strtotime($row["dataPedido"])); ?>
+                    </th>
 
 
-
-                <?php } ?>
+                <?php
+                $totalPedido += $somaProduto;
+            } ?>
 
                 <tr>
                     <td>
                         <?php
-                        $pesquisaTotal = "select 1, sum(preco * quantidade) total from pedido group by 1 ";
-                        $resultadoTotal = mysqli_query($conn, $pesquisaTotal);
-
-                        $precoFinal = mysqli_fetch_assoc($resultadoTotal);
-                        echo "R$ " .  number_format($precoFinal["total"], 2, ",", ".");
+                        echo "R$ " .  number_format($totalPedido, 2, ",", ".");
                         ?>
 
 
