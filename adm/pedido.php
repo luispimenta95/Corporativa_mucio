@@ -133,7 +133,15 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
             } ?>
 
                 <tr>
-                    <td> Total de pedidos realizados : <?php echo $totalProdutos ?> </td>
+                    <td> Total de pedidos realizados : <?php
+                                                        if ($totalProdutos == 0) {
+                                                            $pesquisaProdutos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+                        limit $incio, $quantidade_pg";
+                                                            $resultadoProdutos = mysqli_query($conn, $pesquisaProdutos);
+                                                            $totalProdutos = mysqli_num_rows($resultadoProdutos);
+                                                        }
+
+                                                        echo $totalProdutos ?> </td>
                     <td>
                         <?php
                         echo "Arrecadação total : R$ " .  number_format($totalPedido, 2, ",", ".");
