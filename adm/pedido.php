@@ -44,7 +44,13 @@ if (!isset($_POST['termo'])) {
 
     $pesquisaProdutos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and nomeCliente  LIKE '%" . $pesquisa . "%'";
 }
-//preciso fazer os filtros
+/*
+preciso fazer os filtros:
+Filtro por nome de cliente - OK
+Filtro por data de pedido - Implementar
+Filtro por nome de produto - Implementar
+Filtro por código de pedido - Implementar
+*/
 
 
 $resultadoProdutos = mysqli_query($conn, $pesquisaProdutos);
