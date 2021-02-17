@@ -133,9 +133,10 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
             } ?>
 
                 <tr>
+                    <td> Total de pedidos realizados : <?php echo $totalProdutos ?> </td>
                     <td>
                         <?php
-                        echo "R$ " .  number_format($totalPedido, 2, ",", ".");
+                        echo "Arrecadação total : R$ " .  number_format($totalPedido, 2, ",", ".");
                         ?>
 
 
