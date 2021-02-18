@@ -27,14 +27,18 @@ $incio = ($quantidade_pg * $pagina) - $quantidade_pg;
 
 //Selecionar os logs a serem apresentado na página
 $pesquisa = "";
+$nomeProduto = "";
+$codPedido = "";
 $dataIni = "";
 $dataFim = "";
+
 if (!isset($_POST['dataIni']) && !isset($_POST['dataFim'])) {
-    echo "Não enviou datas";
+    $pesquisaProdutos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente";
 } else {
     $dataIni = $_POST["dataIni"];
     $dataFim = $_POST["dataFim"];
-    echo $dataIni . " " . $dataFim;
+    $filtroData = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and dataPedido >= '" . $dataIni . " ' and dataPedido <= '" . $dataFim . "'
+    ";
 }
 if (!isset($_POST['termo'])) {
     $pesquisaProdutos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
@@ -42,7 +46,43 @@ if (!isset($_POST['termo'])) {
 } else {
     $pesquisa = $_POST["termo"];
 
-    $pesquisaProdutos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and nomeCliente  LIKE '%" . $pesquisa . "%'";
+    $filtroClientes = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and nomeCliente  LIKE '%" . $pesquisa . "%'";
+}
+
+if (!isset($_POST['codigo'])) {
+    $pesquisaProdutos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+    limit $incio, $quantidade_pg";
+} else {
+    $codPedido = $_POST["codigo"];
+
+    $filtroCodigo = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and codPedido=   . $codPedido . ";
+}
+if (!isset($_POST['produto'])) {
+    $pesquisaProdutos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+    limit $incio, $quantidade_pg";
+} else {
+    $nomeProduto = $_POST["produto"];
+
+    $filtroProduto = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and nomeProduto  LIKE '%" . $nomeProduto . "%'";
+}
+if (!isset($_POST['codigo'])) {
+    $pesquisaCodigo = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+    limit $incio, $quantidade_pg";
+} else {
+    $codPedido = $_POST["codigo"];
+
+    $filtroCodigo = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and codPedido = $codPedido";
+}
+
+if ($dataIni != "" && $dataFim != "") {
+    $pesquisaProdutos = $filtroData;
+} else if ($nomeProduto != "") {
+
+    $pesquisaProdutos = $filtroProduto;
+} else if ($pesquisa != "") {
+    $pesquisaProdutos = $filtroClientes;
+} else if ($codPedido != "") {
+    $pesquisaProdutos = $filtroCodigo;
 }
 /*
 preciso fazer os filtros:
@@ -51,7 +91,6 @@ Filtro por data de pedido - Implementar
 Filtro por nome de produto - Implementar
 Filtro por código de pedido - Implementar
 */
-
 
 $resultadoProdutos = mysqli_query($conn, $pesquisaProdutos);
 $totalProdutos = mysqli_num_rows($resultadoProdutos);
@@ -80,7 +119,26 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 
     <form method="POST" action="pedido.php" class="search nav-form">
         <div class="input-group input-search">
-            <input type="text" class="form-control" name="termo" id="q" placeholder="Pesquisa por nome...">
+            <input type="text" class="form-control" name="termo" id="q" placeholder="Pesquisa por nome do cliente">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+
+    <form method="POST" action="pedido.php" class="search nav-form">
+        <div class="input-group input-search">
+            <input type="text" class="form-control" name="produto" id="q" placeholder="Pesquisa por nome do produto">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+    <form method="POST" action="pedido.php" class="search nav-form">
+        <div class="input-group input-search">
+            <input type="text" class="form-control" name="codigo" id="q" placeholder="Pesquisa por código do pedido">
             <span class="input-group-btn">
                 <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i>
                 </button>
@@ -97,7 +155,11 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
             </div>
             <label for="example-date-input" class="col-2 col-form-label">Data final</label>
             <div class="col-6">
-                <input class="form-control" type="date" name="dataFim" id="example-date-input">
+                <?php
+                $hoje = date('y-m-d');
+                echo $hoje;
+                ?>
+                <input class="form-control" type="date" name="dataFim" max=<?php echo date('Y-m-d'); ?> id="example-date-input">
             </div>
             <button type="submit" class="btn btn-primary btn-sm">Small button</button>
         </div>
