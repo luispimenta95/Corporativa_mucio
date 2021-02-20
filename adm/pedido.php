@@ -155,7 +155,6 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
             </div>
             <label for="example-date-input" class="col-2 col-form-label">Data final</label>
             <div class="col-6">
-
                 <input class="form-control" type="date" name="dataFim" max=<?php echo date('Y-m-d'); ?> id="example-date-input">
             </div>
             <button type="submit" class="btn btn-primary btn-sm">Filtrar por datas</button>
@@ -248,6 +247,13 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
         </tbody>
     </table>
 
+    <form method="POST" action="relatorioPedido.php" class="search nav-form">
+        </div>
+        <input type="hidden" name="sql" value="<?php echo $pesquisaProdutos ?>">
+        <button type="submit" class="btn btn-primary btn-sm">Small button</button>
+        </div>
+
+    </form>
 
     <?php
 
