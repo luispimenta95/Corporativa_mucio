@@ -8,19 +8,19 @@ if (!isset($_SESSION["idAdministrador"])) {
 }
 mysqli_set_charset($conn, 'utf8');
 $pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
-$pagina_atual = "home.php";
+$pagina_atual = "pedido.php";
 //Selecionar todos os logs da tabela
-$pesquisaProdutos = "SELECT nomeProduto from produto p order by p.nomeProduto";
-$Produtos = mysqli_query($conn, $pesquisaProdutos);
+$pesquisaPedidos = "SELECT * from pedido";
+$Pedidos = mysqli_query($conn, $pesquisaPedidos);
 
 //Contar o total de logs
-$totalProdutos = mysqli_num_rows($Produtos);
+$totalPedidos = mysqli_num_rows($Pedidos);
 
 //Seta a quantidade de logs por pagina
-$quantidade_pg = 30;
+$quantidade_pg = 20;
 
 //calcular o número de pagina necessárias para apresentar os logs
-$num_pagina = ceil($totalProdutos / $quantidade_pg);
+$num_pagina = ceil($totalPedidos / $quantidade_pg);
 
 //Calcular o inicio da visualizacao
 $incio = ($quantidade_pg * $pagina) - $quantidade_pg;
@@ -31,11 +31,9 @@ $nomeProduto = "";
 $codPedido = "";
 $dataIni = "";
 $dataFim = "";
-$pesquisa = "";
-
 
 if (!isset($_POST['dataIni']) && !isset($_POST['dataFim'])) {
-    $pesquisaProdutos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente";
+    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente";
 } else {
     $dataIni = $_POST["dataIni"];
     $dataFim = $_POST["dataFim"];
@@ -43,7 +41,7 @@ if (!isset($_POST['dataIni']) && !isset($_POST['dataFim'])) {
     ";
 }
 if (!isset($_POST['termo'])) {
-    $pesquisaProdutos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
     limit $incio, $quantidade_pg";
 } else {
     $pesquisa = $_POST["termo"];
@@ -52,7 +50,7 @@ if (!isset($_POST['termo'])) {
 }
 
 if (!isset($_POST['codigo'])) {
-    $pesquisaProdutos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
     limit $incio, $quantidade_pg";
 } else {
     $codPedido = $_POST["codigo"];
@@ -60,7 +58,7 @@ if (!isset($_POST['codigo'])) {
     $filtroCodigo = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and codPedido=   . $codPedido . ";
 }
 if (!isset($_POST['produto'])) {
-    $pesquisaProdutos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
     limit $incio, $quantidade_pg";
 } else {
     $nomeProduto = $_POST["produto"];
@@ -75,23 +73,16 @@ if (!isset($_POST['codigo'])) {
 
     $filtroCodigo = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and codPedido = $codPedido";
 }
-if (isset($_POST['todos'])) {
-    $pesquisa = "todos";
-    $listaTodos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
-    ";
-}
 
 if ($dataIni != "" && $dataFim != "") {
-    $pesquisaProdutos = $filtroData;
+    $pesquisaPedidos = $filtroData;
 } else if ($nomeProduto != "") {
 
-    $pesquisaProdutos = $filtroProduto;
+    $pesquisaPedidos = $filtroProduto;
 } else if ($pesquisa != "") {
-    $pesquisaProdutos = $filtroClientes;
+    $pesquisaPedidos = $filtroClientes;
 } else if ($codPedido != "") {
-    $pesquisaProdutos = $filtroCodigo;
-} else if ($pesquisa == "todos") {
-    $pesquisaProdutos = $listaTodos;
+    $pesquisaPedidos = $filtroCodigo;
 }
 /*
 preciso fazer os filtros:
@@ -101,8 +92,8 @@ Filtro por nome de produto - Implementar
 Filtro por código de pedido - Implementar
 */
 
-$resultadoProdutos = mysqli_query($conn, $pesquisaProdutos);
-$totalProdutos = mysqli_num_rows($resultadoProdutos);
+$resultadoPedidos = mysqli_query($conn, $pesquisaPedidos);
+$totalPedidos = mysqli_num_rows($resultadoPedidos);
 
 ?>
 <!DOCTYPE html>
@@ -125,16 +116,6 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 
     <h1>Bem vindo <?php echo $_SESSION["nomeAdministrador"] ?>!</h1>
     <a href="../sair.php">Logout</a>
-
-    <!--<form method="POST" action="pedido.php" class="search nav-form">
-        <div class="input-group input-search">
-            <input type="hidden" name="todos">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="submit"> Listar todos</button>
-            </span>
-        </div>
-    </form>
--->
 
     <form method="POST" action="pedido.php" class="search nav-form">
         <div class="input-group input-search">
@@ -185,11 +166,11 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 
 
 
-    if ($totalProdutos == 0) {
-        $pesquisaProdutos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+    if ($totalPedidos == 0) {
+        $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
         limit $incio, $quantidade_pg";
 
-        $resultadoProdutos = mysqli_query($conn, $pesquisaProdutos);
+        $resultadoPedidos = mysqli_query($conn, $pesquisaPedidos);
 
         $_SESSION["msg"] = $mensagens["semRegistro"];
     }
@@ -219,7 +200,7 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
             $totalPedido = 0;
             $somaProduto = 0;
 
-            while ($row = mysqli_fetch_assoc($resultadoProdutos)) {
+            while ($row = mysqli_fetch_assoc($resultadoPedidos)) {
                 $somaProduto = $row["precoPedido"] * $row["quantidade"];
             ?>
 
@@ -241,14 +222,14 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 
                 <tr>
                     <td> Total de pedidos realizados : <?php
-                                                        if ($totalProdutos == 0) {
-                                                            $pesquisaProdutos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+                                                        if ($totalPedidos == 0) {
+                                                            $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
                         limit $incio, $quantidade_pg";
-                                                            $resultadoProdutos = mysqli_query($conn, $pesquisaProdutos);
-                                                            $totalProdutos = mysqli_num_rows($resultadoProdutos);
+                                                            $resultadoPedidos = mysqli_query($conn, $pesquisaPedidos);
+                                                            $totalPedidos = mysqli_num_rows($resultadoPedidos);
                                                         }
 
-                                                        echo $totalProdutos ?> </td>
+                                                        echo $totalPedidos ?> </td>
                     <td>
                         <?php
                         echo "Arrecadação total : R$ " .  number_format($totalPedido, 2, ",", ".");
@@ -268,7 +249,7 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 
     <form method="POST" action="relatorioPedido.php" class="search nav-form">
         </div>
-        <input type="hidden" name="sql" value="<?php echo $pesquisaProdutos ?>">
+        <input type="hidden" name="sql" value="<?php echo $pesquisaPedidos ?>">
         <input type="hidden" name="pg_atual" value="<?php echo $pagina ?>">
         <input type="hidden" name="total_pg" value="<?php echo $num_pagina ?>">
 
@@ -282,23 +263,23 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 
     $result_log = "SELECT * from pedido";
 
-    $Produtos = mysqli_query($conn, $result_log);
+    $Pedidos = mysqli_query($conn, $result_log);
 
     //Contar o total de logs
-    $totalProdutos = mysqli_num_rows($Produtos);
+    $totalPedidos = mysqli_num_rows($Pedidos);
     $limitador = 1;
-    if ($totalProdutos > $quantidade_pg && $totalProdutos > 0) { ?>
+    if ($totalPedidos > $quantidade_pg && $totalPedidos > 0) { ?>
         <nav class="text-center">
             <ul class="pagination">
 
-                <li><a href="home.php?pagina=1"> Primeira página </a></li>
+                <li><a href="pedido.php?pagina=1"> Primeira página </a></li>
 
 
                 <?php
                 for ($i = $pagina - $limitador; $i <= $pagina - 1; $i++) {
                     if ($i >= 1) {
                 ?>
-                        <li><a href="home.php?pagina=<?php echo $i; ?>"> <?php echo $i; ?></a></li>
+                        <li><a href="pedido.php?pagina=<?php echo $i; ?>"> <?php echo $i; ?></a></li>
 
 
                 <?php }
@@ -309,7 +290,7 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
                 <?php
                 for ($i = $pagina + 1; $i <= $pagina + $limitador; $i++) {
                     if ($i <= $num_pagina) { ?>
-                        <li><a href="home.php?pagina=<?php echo $i; ?>"> <?php echo $i; ?></a></li>
+                        <li><a href="pedido.php?pagina=<?php echo $i; ?>"> <?php echo $i; ?></a></li>
 
                 <?php }
                 }
@@ -317,7 +298,7 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 
 
                 ?>
-                <li><a href="home.php?pagina=<?php echo $num_pagina; ?>"> <span aria-hidden="true"> Ultima página </span></a></li>
+                <li><a href="pedido.php?pagina=<?php echo $num_pagina; ?>"> <span aria-hidden="true"> Ultima página </span></a></li>
 
 
 

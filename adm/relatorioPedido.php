@@ -48,11 +48,6 @@ while ($row = $result->fetch_assoc()) {
 
 $html .= '</tr>';
 $html .= '<tr>';
-$html .= '<td> Total de pedidos: '  . $numLinhas . "</td>";
-
-$html .= '<td> Arrecadação total : R$'  .  number_format($totalPedido, 2, ",", ".");
-"</td>";
-
 $html .= '</tr>';
 $html .= '</tbody>';
 $html .= '</table';
@@ -72,10 +67,13 @@ $dompdf->loadHtml(
 
 
     '<h1 style="text-align: center;">  Relatório</h1>
+    <h4 style="text-align: right;">Total de pedidos listados : ' . $numLinhas . '  
+    </h4>  
+    
     ' . $html . '
 
-    <h4 style="text-align: right;">Relatório  gerado em : ' . $dataHora . '
- </h4>  </footer>'
+    <h4 style="text-align: right;"> Arrecadação total : R$'  .  number_format($totalPedido, 2, ",", ".") . '<br><br> 
+    Relatório  gerado em : ' . $dataHora . '</h4>  </footer>'
 );
 
 //Define o tipo de papel de impressão (opcional)
