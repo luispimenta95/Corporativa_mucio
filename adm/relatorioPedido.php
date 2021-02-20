@@ -48,11 +48,6 @@ while ($row = $result->fetch_assoc()) {
 
 $html .= '</tr>';
 $html .= '<tr>';
-$html .= '<td> Total de pedidos: '  . $numLinhas . "</td>";
-
-$html .= '<td> Arrecadação total : R$'  .  number_format($totalPedido, 2, ",", ".");
-"</td>";
-
 $html .= '</tr>';
 $html .= '</tbody>';
 $html .= '</table';
@@ -65,17 +60,20 @@ $dompdf = new Dompdf();
 date_default_timezone_set('America/Sao_Paulo');
 // CRIA UMA VARIAVEL E ARMAZENA A HORA ATUAL DO FUSO-HORÀRIO DEFINIDO (BRASÍLIA)
 $dataHora = date('d/m/Y H:i', time());
-$dia = date('d_m_Y', time());
+$dia = date('d_m_Y_H_i', time());
 
 //Criando o código HTML que será transformado em pdf
 $dompdf->loadHtml(
 
 
     '<h1 style="text-align: center;">  Relatório</h1>
+    <h4 style="text-align: right;">Total de pedidos listados : ' . $numLinhas . '  
+    </h4>  
+    
     ' . $html . '
 
-    <h4 style="text-align: right;">Relatório  gerado em : ' . $dataHora . '
- </h4>  </footer>'
+    <h4 style="text-align: right;"> Arrecadação total : R$'  .  number_format($totalPedido, 2, ",", ".") . '<br><br> 
+    Relatório  gerado em : ' . $dataHora . '</h4>  </footer>'
 );
 
 //Define o tipo de papel de impressão (opcional)
