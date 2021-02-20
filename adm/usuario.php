@@ -9,7 +9,7 @@ if (!isset($_SESSION["idAdministrador"])) {
 }
 mysqli_set_charset($conn, 'utf8');
 $pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
-$pagina_atual = "home.php";
+$pagina_atual = "usuario.php";
 //Selecionar todos os logs da tabela
 $pesquisaUsuarios = "SELECT nomeCliente from cliente u order by u.nomeCliente";
 $Usuarios = mysqli_query($conn, $pesquisaUsuarios);
@@ -18,7 +18,7 @@ $Usuarios = mysqli_query($conn, $pesquisaUsuarios);
 $totalUsuarios = mysqli_num_rows($Usuarios);
 
 //Seta a quantidade de logs por pagina
-$quantidade_pg = 30;
+$quantidade_pg = 6;
 
 //calcular o número de pagina necessárias para apresentar os logs
 $num_pagina = ceil($totalUsuarios / $quantidade_pg);
@@ -57,6 +57,24 @@ if (!isset($_POST['termo'])) {
     from 
     cliente c WHERE c.nomeCliente LIKE '%" . $pesquisa . "%'";
 }
+if (!isset($_POST['termo'])) {
+    $pesquisa = "todos";
+    $listarTodos = "select 
+    idCliente,
+    nomeCliente,
+    cpf_cnpj,
+    emailCliente,
+    ativo , 
+    atacado,
+    enderecoCliente,
+    telefoneCliente,
+    dataCadastro 
+    from 
+    cliente c order by c.nomeCliente";
+}
+if ($pesquisa == "todos") {
+    $pesquisaUsuarios = $listarTodos;
+}
 //preciso fazer as pesquisas
 
 
@@ -84,8 +102,23 @@ $totalUsuarios = mysqli_num_rows($resultadoUsuarios);
 
     <h1>Bem vindo <?php echo $_SESSION["nomeAdministrador"] ?>!</h1>
     <a href="../sair.php">Logout</a>
+    <form method="POST" action="usuario.php" class="search nav-form">
+        <div class="input-group input-search">
+            <input type="hidden" name="todos">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit"> Listar todos</button>
+            </span>
+        </div>
+    </form>
+    <form method="POST" action="relatorioUsuario.php" class="search nav-form">
+        </div>
+        <input type="hidden" name="sql" value="<?php echo $pesquisaUsuarios ?>">
 
-    <form method="POST" action="pedido.php" class="search nav-form">
+        <button type="submit" class="btn btn-primary btn-sm">Gerar relatório </button>
+        </div>
+
+    </form>
+    <form method="POST" action="usuario.php" class="search nav-form">
         <div class="input-group input-search">
             <input type="text" class="form-control" name="termo" id="q" placeholder="Pesquisa por nome...">
             <span class="input-group-btn">
@@ -417,14 +450,14 @@ $totalUsuarios = mysqli_num_rows($resultadoUsuarios);
         <nav class="text-center">
             <ul class="pagination">
 
-                <li><a href="home.php?pagina=1"> Primeira página </a></li>
+                <li><a href="usuario.php?pagina=1"> Primeira página </a></li>
 
 
                 <?php
                 for ($i = $pagina - $limitador; $i <= $pagina - 1; $i++) {
                     if ($i >= 1) {
                 ?>
-                        <li><a href="home.php?pagina=<?php echo $i; ?>"> <?php echo $i; ?></a></li>
+                        <li><a href="usuario.php?pagina=<?php echo $i; ?>"> <?php echo $i; ?></a></li>
 
 
                 <?php }
@@ -435,7 +468,7 @@ $totalUsuarios = mysqli_num_rows($resultadoUsuarios);
                 <?php
                 for ($i = $pagina + 1; $i <= $pagina + $limitador; $i++) {
                     if ($i <= $num_pagina) { ?>
-                        <li><a href="home.php?pagina=<?php echo $i; ?>"> <?php echo $i; ?></a></li>
+                        <li><a href="usuario.php?pagina=<?php echo $i; ?>"> <?php echo $i; ?></a></li>
 
                 <?php }
                 }
@@ -443,7 +476,7 @@ $totalUsuarios = mysqli_num_rows($resultadoUsuarios);
 
 
                 ?>
-                <li><a href="home.php?pagina=<?php echo $num_pagina; ?>"> <span aria-hidden="true"> Ultima página </span></a></li>
+                <li><a href="usuario.php?pagina=<?php echo $num_pagina; ?>"> <span aria-hidden="true"> Ultima página </span></a></li>
 
 
 
