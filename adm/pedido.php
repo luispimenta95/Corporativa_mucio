@@ -250,7 +250,7 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
         </tbody>
     </table>
 
-    <form method="POST" action="relatorio.php" class="search nav-form">
+    <form method="POST" action="relatorioPedido.php" class="search nav-form">
         </div>
         <input type="hidden" name="sql" value="<?php echo $pesquisaProdutos ?>">
         <button type="submit" class="btn btn-primary btn-sm">Small button</button>

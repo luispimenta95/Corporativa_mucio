@@ -7,10 +7,16 @@ mysqli_set_charset($conn, 'utf8');
 $sql = $_POST['sql'];
 $html = '<table';
 
-$html = '<table  border="1"';
+$html = '<table';
 $html .= '<thead>';
 $html .= '<tr>';
+$html .= '<th>Código do pedido</th>';
 $html .= '<th>Nome do produto</th>';
+$html .= '<th>Preço unitário</th>';
+$html .= '<th>Quantidade</th>';
+$html .= '<th>Preço total</th>';
+$html .= '<th>Comprador</th>';
+$html .= '<th>Data do pedido</th>';
 
 
 
@@ -20,15 +26,34 @@ $html .= '<tbody>';
 
 
 $result = $conn->query($sql);
+$totalPedido = 0;
+$numLinhas = 0;
+$somaProduto = 0;
 
 
 while ($row = $result->fetch_assoc()) {
+    $somaProduto = $row["precoPedido"] * $row["quantidade"];
+    $totalPedido += $somaProduto;
+    $numLinhas += 1;
 
-    $html .= '<tr><td>' . $row['nomeProduto'] . "</td>";
+
+    $html .= '<tr><td>' . $row['codPedido'] . "</td>";
+    $html .= '<td>' . $row['nomeProduto'] . "</td>";
+    $html .= '<td>' . number_format($row["precoPedido"], 2, ",", ".") . "</td>";
+    $html .= '<td>' . $row['quantidade'] . "</td>";
+    $html .= '<td>' . number_format($totalPedido, 2, ",", ".") . "</td>";
+    $html .= '<td>' . $row['nomeCliente'] . "</td>";
+    $html .= '<td>' . date('d/m/Y', strtotime($row["dataPedido"])) . "</td>";
 }
 
+$html .= '</tr>';
+$html .= '<tr>';
+$html .= '<td> Total de pedidos: '  . $numLinhas . "</td>";
 
+$html .= '<td> Arrecadação total : R$'  .  number_format($totalPedido, 2, ",", ".");
+"</td>";
 
+$html .= '</tr>';
 $html .= '</tbody>';
 $html .= '</table';
 //Criando a instancia do Dom PDF.
