@@ -157,7 +157,6 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
             <div class="col-6">
                 <?php
                 $hoje = date('y-m-d');
-                echo $hoje;
                 ?>
                 <input class="form-control" type="date" name="dataFim" max=<?php echo date('Y-m-d'); ?> id="example-date-input">
             </div>
@@ -251,6 +250,13 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
         </tbody>
     </table>
 
+    <form method="POST" action="relatorio.php" class="search nav-form">
+        </div>
+        <input type="hidden" name="sql" value="<?php echo $pesquisaProdutos ?>">
+        <button type="submit" class="btn btn-primary btn-sm">Small button</button>
+        </div>
+
+    </form>
 
     <?php
 
