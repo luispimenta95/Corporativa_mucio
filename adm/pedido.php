@@ -250,6 +250,10 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
     <form method="POST" action="relatorioPedido.php" class="search nav-form">
         </div>
         <input type="hidden" name="sql" value="<?php echo $pesquisaProdutos ?>">
+        <input type="hidden" name="pg_atual" value="<?php echo $pagina ?>">
+        <input type="hidden" name="total_pg" value="<?php echo $num_pagina ?>">
+
+
         <button type="submit" class="btn btn-primary btn-sm">Small button</button>
         </div>
 
