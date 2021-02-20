@@ -58,13 +58,35 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-sm bg-light">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="home.php">Inicio</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="pedido.php">Pedidos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="produto.php">Produtos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="usuario.php">Usuários</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="../sair.php">
+                    <i class="fa fa-sign-out"> Fazer logout</i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../sair.php">
+                    <i class="fa fa-user"> <?php echo $_SESSION["nomeAdministrador"] ?></i>
+                </a>
+            </li>
 
-
-    <h1>Bem vindo <?php echo $_SESSION["nomeAdministrador"] ?>!</h1>
-    <a href="../sair.php">Logout</a>
-
-
-
+        </ul>
+    </nav>
     <!-- JavaScript (Opcional) -->
     <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
