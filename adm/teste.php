@@ -139,10 +139,6 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 
                 </div> <!-- card.// -->
             </div>
-            <br><br>
-
-            <h3 class="text-center"> Produtos coorporativa </h3>
-            <br><br>
             <div class="col-sm-12">
 
 
