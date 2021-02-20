@@ -17,7 +17,7 @@ $Pedidos = mysqli_query($conn, $pesquisaPedidos);
 $totalPedidos = mysqli_num_rows($Pedidos);
 
 //Seta a quantidade de logs por pagina
-$quantidade_pg = 20;
+$quantidade_pg = 30;
 
 //calcular o número de pagina necessárias para apresentar os logs
 $num_pagina = ceil($totalPedidos / $quantidade_pg);
@@ -31,6 +31,12 @@ $nomeProduto = "";
 $codPedido = "";
 $dataIni = "";
 $dataFim = "";
+$buscar = "";
+if (isset($_POST["todos"])) {
+    $buscar = "todos";
+    $buscaTodos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+    ";
+}
 
 if (!isset($_POST['dataIni']) && !isset($_POST['dataFim'])) {
     $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente";
@@ -83,6 +89,8 @@ if ($dataIni != "" && $dataFim != "") {
     $pesquisaPedidos = $filtroClientes;
 } else if ($codPedido != "") {
     $pesquisaPedidos = $filtroCodigo;
+} else if ($buscar == "todos") {
+    $pesquisaPedidos = $buscaTodos;
 }
 /*
 preciso fazer os filtros:
@@ -116,7 +124,14 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
 
     <h1>Bem vindo <?php echo $_SESSION["nomeAdministrador"] ?>!</h1>
     <a href="../sair.php">Logout</a>
-
+    <form method="POST" action="pedido.php" class="search nav-form">
+        <div class="input-group input-search">
+            <input type="hidden" name="todos">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit"> Listar todos</button>
+            </span>
+        </div>
+    </form>
     <form method="POST" action="pedido.php" class="search nav-form">
         <div class="input-group input-search">
             <input type="text" class="form-control" name="termo" id="q" placeholder="Pesquisa por nome do cliente">
