@@ -41,7 +41,7 @@ while ($row = $result->fetch_assoc()) {
     $html .= '<td>' . $row['nomeProduto'] . "</td>";
     $html .= '<td>' . number_format($row["precoPedido"], 2, ",", ".") . "</td>";
     $html .= '<td>' . $row['quantidade'] . "</td>";
-    $html .= '<td>' . number_format($totalPedido, 2, ",", ".") . "</td>";
+    $html .= '<td>' . number_format($somaProduto, 2, ",", ".") . "</td>";
     $html .= '<td>' . $row['nomeCliente'] . "</td>";
     $html .= '<td>' . date('d/m/Y', strtotime($row["dataPedido"])) . "</td>";
 }
