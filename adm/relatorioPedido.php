@@ -65,7 +65,7 @@ $dompdf = new Dompdf();
 date_default_timezone_set('America/Sao_Paulo');
 // CRIA UMA VARIAVEL E ARMAZENA A HORA ATUAL DO FUSO-HORÀRIO DEFINIDO (BRASÍLIA)
 $dataHora = date('d/m/Y H:i', time());
-$dia = date('d_m_Y', time());
+$dia = date('d_m_Y_H_i', time());
 
 //Criando o código HTML que será transformado em pdf
 $dompdf->loadHtml(

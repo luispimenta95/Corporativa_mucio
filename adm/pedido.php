@@ -31,6 +31,8 @@ $nomeProduto = "";
 $codPedido = "";
 $dataIni = "";
 $dataFim = "";
+$pesquisa = "";
+
 
 if (!isset($_POST['dataIni']) && !isset($_POST['dataFim'])) {
     $pesquisaProdutos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente";
@@ -73,6 +75,11 @@ if (!isset($_POST['codigo'])) {
 
     $filtroCodigo = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and codPedido = $codPedido";
 }
+if (isset($_POST['todos'])) {
+    $pesquisa = "todos";
+    $listaTodos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+    ";
+}
 
 if ($dataIni != "" && $dataFim != "") {
     $pesquisaProdutos = $filtroData;
@@ -83,6 +90,8 @@ if ($dataIni != "" && $dataFim != "") {
     $pesquisaProdutos = $filtroClientes;
 } else if ($codPedido != "") {
     $pesquisaProdutos = $filtroCodigo;
+} else if ($pesquisa == "todos") {
+    $pesquisaProdutos = $listaTodos;
 }
 /*
 preciso fazer os filtros:
@@ -116,6 +125,16 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 
     <h1>Bem vindo <?php echo $_SESSION["nomeAdministrador"] ?>!</h1>
     <a href="../sair.php">Logout</a>
+
+    <!--<form method="POST" action="pedido.php" class="search nav-form">
+        <div class="input-group input-search">
+            <input type="hidden" name="todos">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit"> Listar todos</button>
+            </span>
+        </div>
+    </form>
+-->
 
     <form method="POST" action="pedido.php" class="search nav-form">
         <div class="input-group input-search">
