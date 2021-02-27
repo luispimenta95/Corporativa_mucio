@@ -21,6 +21,7 @@ if ($rowcount > 0) {
 
 	$_SESSION["logado"] = true;
 	$_SESSION["senha"] = $senha;
+	$_SESSION["codPedido"] = substr(md5(time()), 0, 5);
 
 
 	header("Location:cliente/home.php");
