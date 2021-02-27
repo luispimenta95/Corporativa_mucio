@@ -18,7 +18,7 @@ $Usuarios = mysqli_query($conn, $pesquisaUsuarios);
 $totalUsuarios = mysqli_num_rows($Usuarios);
 
 //Seta a quantidade de logs por pagina
-$quantidade_pg = 6;
+$quantidade_pg = 20;
 
 //calcular o número de pagina necessárias para apresentar os logs
 $num_pagina = ceil($totalUsuarios / $quantidade_pg);
@@ -28,6 +28,22 @@ $incio = ($quantidade_pg * $pagina) - $quantidade_pg;
 
 //Selecionar os logs a serem apresentado na página
 $pesquisa = "";
+if (isset($_POST["todos"])) {
+    $pesquisa = "todos";
+    $listarTodos = "select 
+    idCliente,
+    nomeCliente,
+    cpf_cnpj,
+    emailCliente,
+    ativo , 
+    atacado,
+    enderecoCliente,
+    telefoneCliente,
+    dataCadastro 
+    from 
+    cliente c order by c.nomeCliente";
+}
+
 if (!isset($_POST['termo'])) {
     $pesquisaUsuarios = "select 
     idCliente,
@@ -56,21 +72,6 @@ if (!isset($_POST['termo'])) {
     dataCadastro 
     from 
     cliente c WHERE c.nomeCliente LIKE '%" . $pesquisa . "%'";
-}
-if (!isset($_POST['termo'])) {
-    $pesquisa = "todos";
-    $listarTodos = "select 
-    idCliente,
-    nomeCliente,
-    cpf_cnpj,
-    emailCliente,
-    ativo , 
-    atacado,
-    enderecoCliente,
-    telefoneCliente,
-    dataCadastro 
-    from 
-    cliente c order by c.nomeCliente";
 }
 if ($pesquisa == "todos") {
     $pesquisaUsuarios = $listarTodos;
@@ -129,33 +130,59 @@ $totalUsuarios = mysqli_num_rows($resultadoUsuarios);
 
         </ul>
     </nav>
-    <form method="POST" action="usuario.php" class="search nav-form">
-        <div class="input-group input-search">
-            <input type="hidden" name="todos">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="submit"> Listar todos</button>
-            </span>
-        </div>
-    </form>
-    <form method="POST" action="relatorioUsuario.php" class="search nav-form">
-        </div>
-        <input type="hidden" name="sql" value="<?php echo $pesquisaUsuarios ?>">
-
-        <button type="submit" class="btn btn-primary btn-sm">Gerar relatório </button>
-        </div>
-
-    </form>
-    <form method="POST" action="usuario.php" class="search nav-form">
-        <div class="input-group input-search">
-            <input type="text" class="form-control" name="termo" id="q" placeholder="Pesquisa por nome...">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i>
-                </button>
-            </span>
-        </div>
-    </form>
+    <div class="col-sm-12">
+        <div class="card">
+            <article class="card-group-item">
+                <header class="card-header">
+                    <h6 class="title">Filtrar clientes </h6>
+                </header>
+                <div class="filter-content">
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <form method="POST" action="usuario.php" class="search nav-form">
+                                    <div class="input-group input-search">
+                                        <input type="text" class="form-control" name="termo" id="q" placeholder="Pesquisa por nome...">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                </form>
+                            </div>
 
 
+                            <div class="form-group col-md-12 text-right">
+                                <form method="POST" action="relatorioUsuario.php" class="search nav-form">
+                            </div>
+
+                            <input type="hidden" name="sql" value="<?php echo $pesquisaUsuarios ?>">
+                            <input type="hidden" name="pg_atual" value="<?php echo $pagina ?>">
+                            <input type="hidden" name="total_pg" value="<?php echo $num_pagina ?>">
+
+                            <button type="submit" class="btn btn-primary btn-sm">Gerar relatório </button>
+
+
+                            </form>
+
+                            <form method="POST" action="usuario.php" class="col-md-6 search nav-form">
+                                <div class="input-group input-search">
+                                    <input type="hidden" name="todos">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit"> Listar todos</button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div> <!-- card-body.// -->
+                </div>
+            </article> <!-- card-group-item.// -->
+
+        </div> <!-- card.// -->
+    </div>
+    <br><br>
+
+    <h3 class="text-center"> Clientes coorporativa </h3>
+    <br><br>
     <?php
 
 

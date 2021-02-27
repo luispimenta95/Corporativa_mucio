@@ -111,16 +111,16 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
     <!-- Meta tags Obrigatórias -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <title>Olá, mundo!</title>
 </head>
 
 <body>
-
     <nav class="navbar navbar-expand-sm bg-light">
         <ul class="navbar-nav">
             <li class="nav-item">
@@ -146,158 +146,203 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
                 <a class="nav-link" href="#">
                     <i class="fa fa-user"> <?php echo $_SESSION["nomeAdministrador"] ?></i>
                 </a>
-
             </li>
 
         </ul>
     </nav>
-    <form method="POST" action="pedido.php" class="search nav-form">
-        <div class="input-group input-search">
-            <input type="hidden" name="todos">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="submit"> Listar todos</button>
-            </span>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Filtrar pedidos </h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <form method="POST" action="pedido.php" class="search nav-form">
+                                            <div class="input-group input-search">
+                                                <input type="text" class="form-control" name="termo" id="q" placeholder="Pesquisa por nome do cliente">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <form method="POST" action="pedido.php" class="search nav-form">
+                                            <div class="input-group input-search">
+                                                <input type="text" class="form-control" name="produto" id="q" placeholder="Pesquisa por nome do produto">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <form method="POST" action="pedido.php" class="search nav-form">
+                                            <div class="input-group input-search">
+                                                <input type="text" class="form-control" name="codigo" id="q" placeholder="Pesquisa por código do pedido">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <div class="col">
+
+                                            <label for="example-date-input" class="col-form-label">Data inicial</label>
+
+                                            <input class="form-control" max=<?php echo date('Y-m-d'); ?> type="date" name="dataIni" id="example-date-input">
+                                            <label for="example-date-input" class="col-form-label">Data inicial</label>
+
+                                            <input class="form-control" max=<?php echo date('Y-m-d'); ?> type="date" name="dataIni" id="example-date-input">
+                                            <button type="submit" class="btn btn-primary btn-sm">Filtrar por datas</button>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12 text-right">
+                                        <form method="POST" action="relatorioPedido.php" class="col-md-6 search nav-form">
+                                    </div>
+                                    <input type="hidden" name="sql" value="<?php echo $pesquisaPedidos ?>">
+                                    <input type="hidden" name="pg_atual" value="<?php echo $pagina ?>">
+                                    <input type="hidden" name="total_pg" value="<?php echo $num_pagina ?>">
+
+                                    <button type="submit" class="btn btn-primary btn-sm">Gerar relatório </button>
+
+
+                                    </form>
+
+                                    <form method="POST" action="pedido.php" class="col-md-6 search nav-form">
+                                        <div class="input-group input-search">
+                                            <input type="hidden" name="todos">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="submit"> Listar todos</button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div> <!-- card-body.// -->
+                </div>
+                </article> <!-- card-group-item.// -->
+
+            </div> <!-- card.// -->
         </div>
-    </form>
-    <form method="POST" action="pedido.php" class="search nav-form">
-        <div class="input-group input-search">
-            <input type="text" class="form-control" name="termo" id="q" placeholder="Pesquisa por nome do cliente">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i>
-                </button>
-            </span>
-        </div>
-    </form>
+        <br><br>
 
-    <form method="POST" action="pedido.php" class="search nav-form">
-        <div class="input-group input-search">
-            <input type="text" class="form-control" name="produto" id="q" placeholder="Pesquisa por nome do produto">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i>
-                </button>
-            </span>
-        </div>
-    </form>
-    <form method="POST" action="pedido.php" class="search nav-form">
-        <div class="input-group input-search">
-            <input type="text" class="form-control" name="codigo" id="q" placeholder="Pesquisa por código do pedido">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i>
-                </button>
-            </span>
-        </div>
-    </form>
-
-
-    <form method="POST" action="pedido.php" class="search nav-form">
-        <div class="form-group">
-            <label for="example-date-input" class="col-2 col-form-label">Data inicial</label>
-            <div class="col-6">
-                <input class="form-control" max=<?php echo date('Y-m-d'); ?> type="date" name="dataIni" id="example-date-input">
-            </div>
-            <label for="example-date-input" class="col-2 col-form-label">Data final</label>
-            <div class="col-6">
-                <input class="form-control" type="date" name="dataFim" max=<?php echo date('Y-m-d'); ?> id="example-date-input">
-            </div>
-            <button type="submit" class="btn btn-primary btn-sm">Filtrar por datas</button>
-        </div>
-
-    </form>
-
-    <?php
+        <h3 class="text-center"> Pedidos coorporativa </h3>
+        <br><br>
+        <div class="col-sm-12">
 
 
 
-    if ($totalPedidos == 0) {
-        $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
-        limit $incio, $quantidade_pg";
 
-        $resultadoPedidos = mysqli_query($conn, $pesquisaPedidos);
-
-        $_SESSION["msg"] = $mensagens["semRegistro"];
-    }
-    if (isset($_SESSION['msg'])) {
-        echo $_SESSION['msg'];
-        unset($_SESSION['msg']);
-    }
-
-
-    ?>
-    <table class="table table-bordered">
-
-        <thead>
-            <tr>
-                <th>Código</th>
-                <th>Nome</th>
-                <th>Preço Unitário</th>
-                <th>Quantidade</th>
-                <th>Preço total</th>
-                <th>Comprador</th>
-                <th>Data do pedido</th>
-
-            </tr>
-        </thead>
-        <tbody>
             <?php
-            $totalPedido = 0;
-            $somaProduto = 0;
 
-            while ($row = mysqli_fetch_assoc($resultadoPedidos)) {
-                $somaProduto = $row["precoPedido"] * $row["quantidade"];
+
+
+            if ($totalPedidos == 0) {
+                $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+    limit $incio, $quantidade_pg";
+
+                $resultadoPedidos = mysqli_query($conn, $pesquisaPedidos);
+
+                $_SESSION["msg"] = $mensagens["semRegistro"];
+            }
+            if (isset($_SESSION['msg'])) {
+                echo $_SESSION['msg'];
+                unset($_SESSION['msg']);
+            }
+
+
             ?>
+            <table class="table table-bordered">
 
-                <tr>
-                    <th> <?php echo $row["codPedido"] ?> </th>
-                    <th> <?php echo $row["nomeProduto"] ?> </th>
-                    <th>R$ <?php echo number_format($row["precoPedido"], 2, ",", "."); ?> </th>
-                    <th> <?php echo $row["quantidade"] ?> </th>
-                    <th>R$ <?php echo number_format($somaProduto, 2, ",", "."); ?> </th>
-                    <th> <?php echo $row["nomeCliente"] ?> </th>
-                    <th>
-                        <?php echo date('d/m/Y', strtotime($row["dataPedido"])); ?>
-                    </th>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nome</th>
+                        <th>Preço Unitário</th>
+                        <th>Quantidade</th>
+                        <th>Preço total</th>
+                        <th>Comprador</th>
+                        <th>Data do pedido</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $totalPedido = 0;
+                    $somaProduto = 0;
+
+                    while ($row = mysqli_fetch_assoc($resultadoPedidos)) {
+                        $somaProduto = $row["precoPedido"] * $row["quantidade"];
+                    ?>
+
+                        <tr>
+                            <th> <?php echo $row["codPedido"] ?> </th>
+                            <th> <?php echo $row["nomeProduto"] ?> </th>
+                            <th>R$ <?php echo number_format($row["precoPedido"], 2, ",", "."); ?> </th>
+                            <th> <?php echo $row["quantidade"] ?> </th>
+                            <th>R$ <?php echo number_format($somaProduto, 2, ",", "."); ?> </th>
+                            <th> <?php echo $row["nomeCliente"] ?> </th>
+                            <th>
+                                <?php echo date('d/m/Y', strtotime($row["dataPedido"])); ?>
+                            </th>
 
 
-                <?php
-                $totalPedido += $somaProduto;
-            } ?>
-
-                <tr>
-                    <td> Total de pedidos realizados : <?php
-                                                        if ($totalPedidos == 0) {
-                                                            $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
-                        limit $incio, $quantidade_pg";
-                                                            $resultadoPedidos = mysqli_query($conn, $pesquisaPedidos);
-                                                            $totalPedidos = mysqli_num_rows($resultadoPedidos);
-                                                        }
-
-                                                        echo $totalPedidos ?> </td>
-                    <td>
                         <?php
-                        echo "Arrecadação total : R$ " .  number_format($totalPedido, 2, ",", ".");
-                        ?>
+                        $totalPedido += $somaProduto;
+                    } ?>
+
+                        <tr>
+                            <<td style="visibility:hidden;" colspan="5">
+                                </td>
+                                <td> Total de pedidos listados : <?php
+                                                                    if ($totalPedidos == 0) {
+                                                                        $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+                limit $incio, $quantidade_pg";
+                                                                        $resultadoPedidos = mysqli_query($conn, $pesquisaPedidos);
+                                                                        $totalPedidos = mysqli_num_rows($resultadoPedidos);
+                                                                    }
+
+                                                                    echo $totalPedidos ?>
 
 
-                    </td>
-                </tr>
+                                <td>
+                                    <?php
+                                    echo "Arrecadação total : R$ " .  number_format($totalPedido, 2, ",", ".");
+                                    ?>
+
+
+                                </td>
+                        </tr>
 
 
 
 
-                </tr>
+                        </tr>
 
-        </tbody>
-    </table>
+                </tbody>
+            </table>
 
-    <form method="POST" action="relatorioPedido.php" class="search nav-form">
+            <form method="POST" action="relatorioPedido.php" class="search nav-form">
         </div>
         <input type="hidden" name="sql" value="<?php echo $pesquisaPedidos ?>">
         <input type="hidden" name="pg_atual" value="<?php echo $pagina ?>">
         <input type="hidden" name="total_pg" value="<?php echo $num_pagina ?>">
 
 
-        <button type="submit" class="btn btn-primary btn-sm">Small button</button>
-        </div>
+    </div>
 
     </form>
 
@@ -349,6 +394,14 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
         </nav>
 
 
+
+        </div>
+
+
+        </div>
+
+        </div>
+        </div>
         <!-- JavaScript (Opcional) -->
         <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
