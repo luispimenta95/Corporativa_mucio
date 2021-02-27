@@ -89,6 +89,35 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-sm bg-light">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="home.php">Inicio</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="pedido.php">Pedidos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="produto.php">Produtos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="usuario.php">Usuários</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="../sair.php">
+                    <i class="fa fa-sign-out"> Fazer logout</i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fa fa-user"> <?php echo $_SESSION["nomeAdministrador"] ?></i>
+                </a>
+            </li>
+
+        </ul>
+    </nav>
 
     <div class="container">
         <div class="row">

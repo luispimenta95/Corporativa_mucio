@@ -143,9 +143,10 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="../sair.php">
+                <a class="nav-link" href="#">
                     <i class="fa fa-user"> <?php echo $_SESSION["nomeAdministrador"] ?></i>
                 </a>
+
             </li>
 
         </ul>
