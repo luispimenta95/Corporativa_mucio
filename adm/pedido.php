@@ -307,7 +307,7 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
                         <tr>
                             <td style="visibility:hidden" colspan="5">
                             </td>
-                            <td> Total de pedidos realizados : <?php
+                            <td> Total de pedidos listados : <?php
                                                                 if ($totalPedidos == 0) {
                                                                     $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
                 limit $incio, $quantidade_pg";
