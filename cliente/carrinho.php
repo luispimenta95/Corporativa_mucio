@@ -103,143 +103,22 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
         unset($_SESSION['msg']);
     } ?>
     <div class="col-sm-12">
-        <div class="card">
-            <article class="card-group-item">
-                <header class="card-header">
-                    <h6 class="title">Filtrar produtos </h6>
-                </header>
-                <div class="filter-content">
-                    <div class="card-body">
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <form method="POST" action="produto.php" class="search nav-form">
-                                    <div class="input-group input-search">
-                                        <input type="text" class="form-control" name="termo" id="q" placeholder="Pesquisa por nome...">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
-                                        </span>
-                                    </div>
-                                </form>
-                            </div>
 
 
-                        </div> <!-- card-body.// -->
-                    </div>
-            </article> <!-- card-group-item.// -->
+    </div> <!-- card.// -->
 
-        </div> <!-- card.// -->
-    </div>
 
     <div class="row">
-        <?php
 
-
-
-        if ($totalProdutos == 0) {
-            $pesquisaProdutos = "select 
-        idProduto,
-        nomeProduto,
-        codigo,
-        imagem,
-        ativo , 
-        dataCadastro,
-        unidade,
-        preco,
-        estoque,
-        dataCadastro 
-        from 
-        produto p order by p.nomeProduto limit $incio, $quantidade_pg";
-            $resultadoProdutos = mysqli_query($conn, $pesquisaProdutos);
-            $totalProdutos = mysqli_num_rows($resultadoProdutos);
-            $_SESSION["msg"] = $mensagens["semRegistro"];
-        }
-
-
-
-
-
-
-        while ($row = mysqli_fetch_assoc($resultadoProdutos)) { ?>
-
-            <div class="col-md-4">
-                <div class="thumbnail">
-
-                    <img src="../adm/Imagens_produto/<?php echo $row["imagem"] ?>" alt="Lights" style="width:100%">
-                    <div class="caption">
-                        <h3 class="text-center"> <?php echo $row['nomeProduto'] ?> </h3>
-                        <h3 class="text-center"> R$ <?php echo number_format($row["preco"], 2, ",", "."); ?> </h3>
-                        <form action="teste.php?id=<?php echo $row["idProduto"]; ?>" method="POST" class="form-group">
-
-                            <input type="number" class="form-control" name="contador" />
-                            <button type="submit" class=" btn btn-primary">Realizar alterações</button>
-
-                        </form>
-                    </div>
-                    </a>
-
-                </div>
-
-            </div>
-
-
-
-        <?php } ?>
     </div>
 
 
-    <?php
 
-    $result_log = "SELECT * from produto";
-
-    $Produtos = mysqli_query($conn, $result_log);
-
-    //Contar o total de logs
-    $totalProdutos = mysqli_num_rows($Produtos);
-    $limitador = 1;
-    if ($totalProdutos > $quantidade_pg && $totalProdutos > 0) { ?>
-        <nav class="text-center">
-            <ul class="pagination">
-
-                <li><a href="home.php?pagina=1"> Primeira página </a></li>
-
-
-                <?php
-                for ($i = $pagina - $limitador; $i <= $pagina - 1; $i++) {
-                    if ($i >= 1) {
-                ?>
-                        <li><a href="home.php?pagina=<?php echo $i; ?>"> <?php echo $i; ?></a></li>
-
-
-                <?php }
-                }
-                ?>
-                <li class="active"> <span><?php echo $pagina; ?></span></li>
-
-                <?php
-                for ($i = $pagina + 1; $i <= $pagina + $limitador; $i++) {
-                    if ($i <= $num_pagina) { ?>
-                        <li><a href="home.php?pagina=<?php echo $i; ?>"> <?php echo $i; ?></a></li>
-
-                <?php }
-                }
-
-
-
-                ?>
-                <li><a href="home.php?pagina=<?php echo $num_pagina; ?>"> <span aria-hidden="true"> Ultima página </span></a></li>
-
-
-
-            <?php } ?>
-            </ul>
-        </nav>
-
-
-        <!-- JavaScript (Opcional) -->
-        <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <!-- JavaScript (Opcional) -->
+    <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
 
 </html>

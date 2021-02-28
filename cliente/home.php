@@ -187,7 +187,7 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
             <h3 class="text-center"> R$ <?php echo number_format($row["preco"], 2, ",", "."); ?> </h3>
             <form action="inserirPedido.php?id=<?php echo $row["idProduto"]; ?>" method="POST" class="form-group">
 
-              <input type="number" class="form-control" name="contador" />
+              <input type="number" min=0 max=1000 class="form-control" name="contador" />
               <button type="submit" class=" btn btn-success btn-sm">Adicionar ao carrinho</button>
 
             </form>
