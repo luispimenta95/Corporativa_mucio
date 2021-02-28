@@ -24,7 +24,12 @@ $mensagens = array(
     "cpfDuplicado" => "<div class='alert alert-danger'>O CPF já existe no sistema,favor informar outro CPF . </div>",
     "cpfInvalido" => "<div class='alert alert-danger'>O CPF não é válido,favor informar outro CPF . </div>",
     "envioPedido" => "<div class='alert alert-success'> Pedido enviado com sucesso ! </div>",
-    "erroPedido" => "<div class='alert alert-danger'> Erro ao receber seu pedido , por favor tente novamente. </div>"
+    "erroPedido" => "<div class='alert alert-danger'> Erro ao receber seu pedido , por favor tente novamente. </div>",
+    "atualizarPedido" => "<div class='alert alert-success'> Pedido alterado com sucesso ! </div>",
+    "erroAtualizarPedido" => "<div class='alert alert-danger'> Erro ao atualizar seu pedido , por favor tente novamente. </div>",
+    "cadastroHost" => "<div class='alert alert-success'> Cadastro realizado com sucesso, sua senha inicial é 12345 e deve ser alterada no primeiro acesso ! </div>",
+
+
 
 
 

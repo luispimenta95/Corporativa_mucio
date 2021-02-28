@@ -52,6 +52,10 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
 
         </ul>
     </nav>
+    <?php if (isset($_SESSION['msg'])) {
+        echo $_SESSION['msg'];
+        unset($_SESSION['msg']);
+    } ?>
     <div class="container">
 
 
@@ -95,16 +99,39 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
             <div class="col-md-8 order-md-1">
                 <h4 class="mb-3 text-center">Revise o seu pedido antes de confirmar </h4>
                 <?php
-                while ($linha = mysqli_fetch_assoc($resultadoPedidos)) {
+                $pesquisa = "select idpedido,codPedido,sum(quantidade) as quantidade, pe.preco precoPedido,
+                nomeProduto,imagem from pedido pe, produto pr, cliente c where 
+                idProduto = produto and idCliente = cliente and  codPedido = '$codPedido' GROUP BY produto";
 
-                    $somaProduto = $linha["precoPedido"] * $linha["quantidade"];
-                    $totalPedido += $somaProduto;
+                //preciso fazer as pesquisas
+
+
+                $resultado = mysqli_query($conn, $pesquisa);
+                $total = mysqli_num_rows($resultado);
                 ?>
+                <div class="row">
+                    <?php
+                    while ($linha = mysqli_fetch_assoc($resultado)) {
 
-                    <small class="text-muted">Quantidade: <?php echo $linha["quantidade"] ?></small>
+                    ?>
 
-                <?php } ?>
+                        <div class="card col-md-4">
+                            <img src="../adm/Imagens_produto/<?php echo $linha["imagem"] ?>" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo $linha["nomeProduto"] ?></h5>
+                                <p class="card-text"><strong> R$ <?php echo number_format($linha["precoPedido"], 2, ",", "."); ?></strong></p>
+                                <form action="atualizarPedido.php?id=<?php echo $linha["idpedido"]; ?>" method="POST" class="form-group">
 
+                                    <input type="number" min=0 max=1000 class="form-control" name="contador" value="<?php echo $linha["quantidade"] ?>" />
+                                    <button type=" submit" class=" btn btn-success btn-sm">Atualizar quantidade</button>
+
+                                </form>
+                            </div>
+                        </div>
+
+
+                    <?php } ?>
+                </div>
             </div>
         </div>
 
