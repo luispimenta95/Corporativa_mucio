@@ -2,59 +2,15 @@
 session_start();
 include '../conecta.php';
 include '../mensagemPadrao.php';
-
-if (!isset($_SESSION["idCliente"])) {
-    header("Location:../loginCliente.php");
-}
-mysqli_set_charset($conn, 'utf8');
-$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
-$pagina_atual = "home.php";
-//Selecionar todos os logs da tabela
-$pesquisaProdutos = "SELECT nomeProduto from produto p order by p.nomeProduto";
-$Produtos = mysqli_query($conn, $pesquisaProdutos);
-
-//Contar o total de logs
-$totalProdutos = mysqli_num_rows($Produtos);
-
-//Seta a quantidade de logs por pagina
-$quantidade_pg = 30;
-
-//calcular o número de pagina necessárias para apresentar os logs
-$num_pagina = ceil($totalProdutos / $quantidade_pg);
-
-//Calcular o inicio da visualizacao
-$incio = ($quantidade_pg * $pagina) - $quantidade_pg;
-
-//Selecionar os logs a serem apresentado na página
-$pesquisa = "";
-if (!isset($_POST['termo'])) {
-    $pesquisaProdutos = "select 
-    idProduto,
-    nomeProduto,
-    codigo,
-    imagem,
-    ativo , 
-    dataCadastro,
-    unidade,
-    preco,
-    estoque,
-    dataCadastro 
-    from 
-    produto p order by p.nomeProduto limit $incio, $quantidade_pg";
-} else {
-    $pesquisa = $_POST["termo"];
-
-    $pesquisaProdutos = "select idProduto, nomeProduto, codigo, imagem, ativo, dataCadastro, unidade, preco, estoque 
-    from produto p WHERE p.nomeProduto LIKE '%" . $pesquisa . "%'";
-}
-//preciso fazer as pesquisas
-
-
-$resultadoProdutos = mysqli_query($conn, $pesquisaProdutos);
-$totalProdutos = mysqli_num_rows($resultadoProdutos);
+$codPedido = $_SESSION["codPedido"];
+$pesquisaPedidos = "select idpedido,codPedido,sum(quantidade) as quantidade, pe.preco precoPedido,
+nomeProduto from pedido pe, produto pr, cliente c where 
+idProduto = produto and idCliente = cliente and  codPedido = '$codPedido' GROUP BY produto";
+$resultadoPedidos = mysqli_query($conn, $pesquisaPedidos);
+$totalPedidos = mysqli_num_rows($resultadoPedidos);
 
 ?>
-<!DOCTYPE html>
+
 <html lang="pt-br">
 
 <head>
@@ -70,9 +26,7 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
     <title>Olá, mundo!</title>
 </head>
 
-<body>
-
-
+<body class="bg-light">
     <nav class="navbar navbar-expand-sm bg-light">
         <ul class="navbar-nav">
             <li class="nav-item">
@@ -98,27 +52,106 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 
         </ul>
     </nav>
-    <?php if (isset($_SESSION['msg'])) {
-        echo $_SESSION['msg'];
-        unset($_SESSION['msg']);
-    } ?>
-    <div class="col-sm-12">
+    <div class="container">
 
 
-    </div> <!-- card.// -->
+        <div class="row">
+            <div class="col-md-4 order-md-2 mb-4">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Seu carrinho</span>
+                    <span class="badge badge-secondary badge-pill"><?php echo $totalPedidos ?></span>
+                </h4>
+                <ul class="list-group mb-3">
+                    <?php
+                    $totalPedido = 0;
+                    $somaProduto = 0;
+                    while ($row = mysqli_fetch_assoc($resultadoPedidos)) {
 
+                        $somaProduto = $row["precoPedido"] * $row["quantidade"];
+                        $totalPedido += $somaProduto;
+                    ?>
 
-    <div class="row">
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div>
+                                <h6 class="my-0"><?php echo $row["nomeProduto"] ?></h6>
+                                <small class="text-muted">Quantidade: <?php echo $row["quantidade"] ?></small>
+                            </div>
 
+                            <span class="text-muted">Preço total : R$ <?php echo number_format($somaProduto, 2, ",", "."); ?></span>
+                        </li>
+
+                    <?php } ?>
+
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total (BRL)</span>
+                        <strong>R$ <?php echo number_format($totalPedido, 2, ",", "."); ?></strong>
+                    </li>
+                </ul>
+
+                <form class="card p-2">
+                    <button type="submit" class="btn btn-secondary">Finalizar pedido</button>
+                </form>
+            </div>
+            <div class="col-md-8 order-md-1">
+                <h4 class="mb-3 text-center">Revise o seu pedido antes de confirmar </h4>
+                <?php
+                while ($linha = mysqli_fetch_assoc($resultadoPedidos)) {
+
+                    $somaProduto = $linha["precoPedido"] * $linha["quantidade"];
+                    $totalPedido += $somaProduto;
+                ?>
+
+                    <small class="text-muted">Quantidade: <?php echo $linha["quantidade"] ?></small>
+
+                <?php } ?>
+
+            </div>
+        </div>
+
+        <footer class="my-5 pt-5 text-muted text-center text-small">
+            <p class="mb-1">© 2017-2018 Nome da companhia</p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#">Privacidade</a></li>
+                <li class="list-inline-item"><a href="#">Termos</a></li>
+                <li class="list-inline-item"><a href="#">Suporte</a></li>
+            </ul>
+        </footer>
     </div>
 
-
-
-    <!-- JavaScript (Opcional) -->
-    <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->
+    <!-- Principal JavaScript do Bootstrap
+    ================================================== -->
+    <!-- Foi colocado no final para a página carregar mais rápido -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script>
+        window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')
+    </script>
+    <script src="../../assets/js/vendor/popper.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/vendor/holder.min.js"></script>
+    <script>
+        // Exemplo de JavaScript para desativar o envio do formulário, se tiver algum campo inválido.
+        (function() {
+            'use strict';
+
+            window.addEventListener('load', function() {
+                // Selecione todos os campos que nós queremos aplicar estilos Bootstrap de validação customizados.
+                var forms = document.getElementsByClassName('needs-validation');
+
+                // Faz um loop neles e previne envio
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+
+
 </body>
 
 </html>

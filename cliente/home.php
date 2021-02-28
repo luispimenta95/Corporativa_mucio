@@ -101,7 +101,9 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
           <i class="fa fa-shopping-cart"> Acessar carrinho de compras</i>
           <?php
 
-          $pesquisaPedidos = "SELECT * FROM pedido WHERE codPedido = '$codPedido'";
+          $pesquisaPedidos = "select idpedido,codPedido,sum(quantidade) as quantidade, pe.preco precoPedido,
+          nomeProduto from pedido pe, produto pr, cliente c where 
+          idProduto = produto and idCliente = cliente and  codPedido = '$codPedido' GROUP BY produto";
           $resultadoPedidos = mysqli_query($conn, $pesquisaPedidos);
           $totalPedidos = mysqli_num_rows($resultadoPedidos);
 
