@@ -27,7 +27,7 @@ $mensagens = array(
     "erroPedido" => "<div class='alert alert-danger'> Erro ao receber seu pedido , por favor tente novamente. </div>",
     "atualizarPedido" => "<div class='alert alert-success'> Pedido alterado com sucesso ! </div>",
     "erroAtualizarPedido" => "<div class='alert alert-danger'> Erro ao atualizar seu pedido , por favor tente novamente. </div>",
-    "cadastroHost" => "<div class='alert alert-success'> Cadastro realizado com sucesso, sua senha inicial é 12345 e deve ser alterada no primeiro acesso ! </div>",
+    "cadastroHost" => "<div class='alert alert-success'> Cadastro realizado com sucesso, sua senha inicial será enviada por E-mail e deve ser alterada no primeiro acesso ! </div>",
 
 
 

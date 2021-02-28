@@ -9,7 +9,7 @@ $cpf = $_POST["cpf"];
 $email = $_POST['email'];
 $telefone = $_POST["telefone"];
 $endereco = $_POST["endereco"];
-
+$senha = substr(time(), 0, 5);
 $pesquisaUsuarios = "SELECT cpf_cnpj from cliente u  where u.cpf_cnpj= $cpf";
 $Usuarios = mysqli_query($conn, $pesquisaUsuarios);
 if (!validaCPF($cpf)) {
@@ -25,8 +25,8 @@ if (!validaCPF($cpf)) {
         header("Location:loginCliente.php");
     } else {
 
-        $sqlInsert = "INSERT INTO  cliente (nomeCliente,cpf_cnpj,emailCliente,telefoneCliente,enderecoCliente,atacado,dataCadastro)
-        VALUES ('$nomeCliente', '$cpf', '$email', '$telefone', '$endereco', '0',NOW())";
+        $sqlInsert = "INSERT INTO  cliente (nomeCliente,cpf_cnpj,emailCliente,telefoneCliente,enderecoCliente,senhaCliente,atacado,dataCadastro)
+        VALUES ('$nomeCliente', '$cpf', '$email', '$telefone', '$endereco', '$senha,0,NOW())";
 
 
 
