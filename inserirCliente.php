@@ -31,6 +31,7 @@ if (!validaCPF($cpf)) {
         VALUES ('$nomeCliente', '$cpf', '$email', '$telefone', '$endereco', '$senha',0,NOW())";
 
         $mail = new PHPMailer;
+        //Para funcionar o email não pode ter verificação em 2 etapas
         $mail->CharSet = "UTF-8";
         $mail->IsSMTP();        // Ativar SMTP
         $mail->SMTPDebug = false;       // Debugar: 1 = erros e mensagens, 2 = mensagens apenas
