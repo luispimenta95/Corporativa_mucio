@@ -28,7 +28,9 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>Olá, mundo!</title>
 </head>
 
@@ -44,19 +46,21 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
 
         </ul>
         <ul class="navbar-nav ml-auto">
-            <?php if ($totalPedidos == 0) { ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="../sairCliente.php">
-                        <i class="fa fa-sign-out"> Fazer logout</i>
-                    </a>
-                </li>
-            <?php } ?>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fa fa-user"> <?php echo $_SESSION["nomeCliente"] ?></i>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-user"> <?php echo $_SESSION["nomeCliente"] ?></i>
                 </a>
-            </li>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">
+                        <i class="fa fa-pencil"> Editar dados</i>
+                    </a>
+                    <?php if ($totalPedidos == 0) { ?>
 
+                        <a class="dropdown-item" href="../sairCliente.php">
+                            <i class="fa fa-sign-out"> Fazer logout</i>
+                        </a>
+                    <?php } ?>
+
+            </li>
 
         </ul>
     </nav>

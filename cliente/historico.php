@@ -55,6 +55,11 @@ if (!isset($_POST['termo'])) {
 
 $resultadoProdutos = mysqli_query($conn, $pesquisaProdutos);
 $totalProdutos = mysqli_num_rows($resultadoProdutos);
+$pesquisaPedidos = "select idpedido,codPedido,sum(quantidade) as quantidade, pe.preco precoPedido,
+nomeProduto from pedido pe, produto pr, cliente c where 
+idProduto = produto and idCliente = cliente";
+$resultadoPedidos = mysqli_query($conn, $pesquisaPedidos);
+$totalPedidos = mysqli_num_rows($resultadoPedidos);
 
 ?>
 <!DOCTYPE html>
@@ -87,17 +92,19 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 
         </ul>
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="../sairCliente.php">
-                    <i class="fa fa-sign-out"> Fazer logout</i>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-user"> <?php echo $_SESSION["nomeCliente"] ?></i>
                 </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fa fa-user"> <?php echo $_SESSION["nomeCliente"] ?></i>
-                </a>
-            </li>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">
+                        <i class="fa fa-pencil"> Editar dados</i>
+                    </a>
+                    <a class="dropdown-item" href="../sairCliente.php">
+                        <i class="fa fa-sign-out"> Fazer logout</i>
+                    </a>
 
+
+            </li>
 
         </ul>
     </nav>
@@ -107,7 +114,12 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
     } ?>
     <div class="col-sm-12">
 
+        <?php if ($totalPedidos > 0) { ?>
+            <h4 class="mb-3 text-center">Confira seu historico de pedidos</h4>
 
+        <?php } else { ?>
+            <h4 class="mb-3 text-center">Carrinho vazio ! </h4>
+        <?php } ?>
     </div> <!-- card.// -->
 
 

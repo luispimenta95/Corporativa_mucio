@@ -94,11 +94,20 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
 
     </ul>
     <ul class="navbar-nav ml-auto">
-
-      <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fa fa-user"> <?php echo $_SESSION["nomeCliente"] ?></i>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-user"> <?php echo $_SESSION["nomeCliente"] ?></i>
         </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">
+            <i class="fa fa-pencil"> Editar dados</i>
+          </a>
+          <?php if ($totalPedidos == 0) { ?>
+
+            <a class="dropdown-item" href="../sairCliente.php">
+              <i class="fa fa-sign-out"> Fazer logout</i>
+            </a>
+          <?php } ?>
+
       </li>
       <li class="nav-item">
         <a class="nav-link" href="carrinho.php">
@@ -109,13 +118,6 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
 
         </a>
       </li>
-      <?php if ($totalPedidos == 0) { ?>
-        <li class="nav-item">
-          <a class="nav-link" href="../sairCliente.php">
-            <i class="fa fa-sign-out"> Fazer logout</i>
-          </a>
-        </li>
-      <?php } ?>
     </ul>
   </nav>
   <?php if (isset($_SESSION['msg'])) {
