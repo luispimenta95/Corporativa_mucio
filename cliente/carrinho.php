@@ -1,9 +1,15 @@
 <?php
 session_start();
+if (!isset($_SESSION["idCliente"])) {
+    header("Location:../loginCliente.php");
+}
+if ($_SESSION["primeiroAcesso"] == 1) {
+    header("Location:primeiroAcesso.php");
+}
 include '../conecta.php';
 include '../mensagemPadrao.php';
 $codPedido = $_SESSION["codPedido"];
-$pesquisaPedidos = "select idpedido,codPedido,sum(quantidade) as quantidade, pe.preco precoPedido,
+$pesquisaPedidos = "select idpedido,codPedido,sum(quantidade) as quantidade, pe.preco precoPedido,pe.pedidoFinalizado,
 nomeProduto from pedido pe, produto pr, cliente c where 
 idProduto = produto and idCliente = cliente and  codPedido = '$codPedido' GROUP BY produto";
 $resultadoPedidos = mysqli_query($conn, $pesquisaPedidos);
@@ -38,11 +44,13 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
 
         </ul>
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="../sairCliente.php">
-                    <i class="fa fa-sign-out"> Fazer logout</i>
-                </a>
-            </li>
+            <?php if ($totalPedidos == 0) { ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="../sairCliente.php">
+                        <i class="fa fa-sign-out"> Fazer logout</i>
+                    </a>
+                </li>
+            <?php } ?>
             <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="fa fa-user"> <?php echo $_SESSION["nomeCliente"] ?></i>
@@ -60,48 +68,56 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
 
 
         <div class="row">
-            <div class="col-md-4 order-md-2 mb-4">
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-muted">Seu carrinho</span>
-                    <span class="badge badge-secondary badge-pill"><?php echo $totalPedidos ?></span>
-                </h4>
-                <ul class="list-group mb-3">
-                    <?php
-                    $totalPedido = 0;
-                    $somaProduto = 0;
-                    while ($row = mysqli_fetch_assoc($resultadoPedidos)) {
+            <?php if ($totalPedidos > 0) { ?>
+                <div class="col-md-4 order-md-2 mb-4">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-muted">Seu carrinho</span>
+                        <span class="badge badge-secondary badge-pill"><?php echo $totalPedidos ?></span>
+                    </h4>
+                    <ul class="list-group mb-3">
+                        <?php
+                        $totalPedido = 0;
+                        $somaProduto = 0;
+                        while ($row = mysqli_fetch_assoc($resultadoPedidos)) {
 
-                        $somaProduto = $row["precoPedido"] * $row["quantidade"];
-                        $totalPedido += $somaProduto;
-                    ?>
+                            $somaProduto = $row["precoPedido"] * $row["quantidade"];
+                            $totalPedido += $somaProduto;
+                        ?>
 
-                        <li class="list-group-item d-flex justify-content-between lh-condensed">
-                            <div>
-                                <h6 class="my-0"><?php echo $row["nomeProduto"] ?></h6>
-                                <small class="text-muted">Quantidade: <?php echo $row["quantidade"] ?></small>
-                            </div>
+                            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                <div>
+                                    <h6 class="my-0"><?php echo $row["nomeProduto"] ?></h6>
+                                    <small class="text-muted">Quantidade: <?php echo $row["quantidade"] ?></small>
+                                </div>
 
-                            <span class="text-muted">Preço total : R$ <?php echo number_format($somaProduto, 2, ",", "."); ?></span>
+                                <span class="text-muted">Preço total : R$ <?php echo number_format($somaProduto, 2, ",", "."); ?></span>
+                            </li>
+
+                        <?php } ?>
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Total (BRL)</span>
+                            <strong>R$ <?php echo number_format($totalPedido, 2, ",", "."); ?></strong>
                         </li>
+                    </ul>
 
-                    <?php } ?>
-
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Total (BRL)</span>
-                        <strong>R$ <?php echo number_format($totalPedido, 2, ",", "."); ?></strong>
-                    </li>
-                </ul>
-
-                <form class="card p-2">
-                    <button type="submit" class="btn btn-secondary">Finalizar pedido</button>
-                </form>
-            </div>
+                    <form action="finalizarPedido.php" class="card p-2">
+                        <a onclick="return confirm('Deseja mesmo finalizar o pedido ?');"> <button type="submit" class="btn btn-secondary">Finalizar pedido</button>
+                        </a>
+                    </form>
+                </div>
+            <?php } ?>
             <div class="col-md-8 order-md-1">
-                <h4 class="mb-3 text-center">Revise o seu pedido antes de confirmar </h4>
+                <?php if ($totalPedidos > 0) { ?>
+                    <h4 class="mb-3 text-center">Revise o seu pedido antes de confirmar </h4>
+
+                <?php } else { ?>
+                    <h4 class="mb-3 text-center">Carrinho vazio ! </h4>
+                <?php } ?>
                 <?php
-                $pesquisa = "select idpedido,codPedido,sum(quantidade) as quantidade, pe.preco precoPedido,
+                $pesquisa = "select idpedido,codPedido,quantidade, pe.preco precoPedido,
                 nomeProduto,imagem from pedido pe, produto pr, cliente c where 
-                idProduto = produto and idCliente = cliente and  codPedido = '$codPedido' GROUP BY produto";
+                idProduto = produto and idCliente = cliente and  codPedido = '$codPedido'";
 
                 //preciso fazer as pesquisas
 
@@ -126,6 +142,12 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
                                     <button type=" submit" class=" btn btn-success btn-sm">Atualizar quantidade</button>
 
                                 </form>
+                                <form action="deletarPedido.php?id=<?php echo $linha["idpedido"]; ?>" method="POST" class="form-group">
+                                    <a onclick="return confirm('Deseja mesmo excluir o produto do carrinho ?');"> <button type=" submit" class=" btn btn-danger btn-sm">Remover do carrinho</button>
+                                    </a>
+
+                                </form>
+
                             </div>
                         </div>
 

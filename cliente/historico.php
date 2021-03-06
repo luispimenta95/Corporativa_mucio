@@ -6,6 +6,9 @@ include '../mensagemPadrao.php';
 if (!isset($_SESSION["idCliente"])) {
     header("Location:../loginCliente.php");
 }
+if ($_SESSION["primeiroAcesso"] == 1) {
+    header("Location:primeiroAcesso.php");
+}
 mysqli_set_charset($conn, 'utf8');
 $pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 $pagina_atual = "home.php";

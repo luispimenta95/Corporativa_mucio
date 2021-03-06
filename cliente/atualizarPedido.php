@@ -10,11 +10,10 @@ $sqlUpdate = "UPDATE pedido SET quantidade = $quantidade WHERE idpedido = $idPed
 
 
 if ($conn->query($sqlUpdate) === TRUE) {
-    echo $sqlUpdate;
-    //  $_SESSION['msg'] = $mensagens["atualizarPedido"];
-    // header("Location:carrinho.php");
+    $_SESSION['msg'] = $mensagens["atualizarPedido"];
+    header("Location:carrinho.php");
 } else {
 
-    //$_SESSION['msg'] = $mensagens["erroAtualizarPedido"];
-    //header("Location:carrinho.php");
+    $_SESSION['msg'] = $mensagens["erroAtualizarPedido"];
+    header("Location:carrinho.php");
 }

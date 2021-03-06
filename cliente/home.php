@@ -2,7 +2,12 @@
 session_start();
 include '../conecta.php';
 include '../mensagemPadrao.php';
-
+if (!isset($_SESSION["codPedido"])) {
+  $_SESSION["codPedido"] = substr(md5(time()), 0, 5);
+}
+if ($_SESSION["primeiroAcesso"] == 1) {
+  header("Location:primeiroAcesso.php");
+}
 if (!isset($_SESSION["idCliente"])) {
   header("Location:../loginCliente.php");
 }
@@ -47,11 +52,16 @@ if (!isset($_POST['termo'])) {
   $pesquisaProdutos = "select idProduto, nomeProduto, codigo, imagem, ativo, dataCadastro, unidade, preco, estoque 
     from produto p WHERE p.nomeProduto LIKE '%" . $pesquisa . "%'";
 }
-//preciso fazer as pesquisas
-
-
 $resultadoProdutos = mysqli_query($conn, $pesquisaProdutos);
 $totalProdutos = mysqli_num_rows($resultadoProdutos);
+$codPedido = $_SESSION["codPedido"];
+$pesquisaPedidos = "select idpedido,codPedido,sum(quantidade) as quantidade, pe.preco precoPedido,
+nomeProduto from pedido pe, produto pr, cliente c where 
+idProduto = produto and idCliente = cliente and  codPedido = '$codPedido' GROUP BY produto";
+$resultadoPedidos = mysqli_query($conn, $pesquisaPedidos);
+$totalPedidos = mysqli_num_rows($resultadoPedidos);
+
+
 
 ?>
 <!DOCTYPE html>
@@ -71,9 +81,7 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 </head>
 
 <body>
-  <?php
-  $codPedido = $_SESSION["codPedido"];
-  ?>
+
 
   <nav class="navbar navbar-expand-sm bg-light">
     <ul class="navbar-nav">
@@ -86,11 +94,7 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 
     </ul>
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="../sairCliente.php">
-          <i class="fa fa-sign-out"> Fazer logout</i>
-        </a>
-      </li>
+
       <li class="nav-item">
         <a class="nav-link" href="#">
           <i class="fa fa-user"> <?php echo $_SESSION["nomeCliente"] ?></i>
@@ -99,22 +103,19 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
       <li class="nav-item">
         <a class="nav-link" href="carrinho.php">
           <i class="fa fa-shopping-cart"> Acessar carrinho de compras</i>
-          <?php
-
-          $pesquisaPedidos = "select idpedido,codPedido,sum(quantidade) as quantidade, pe.preco precoPedido,
-          nomeProduto from pedido pe, produto pr, cliente c where 
-          idProduto = produto and idCliente = cliente and  codPedido = '$codPedido' GROUP BY produto";
-          $resultadoPedidos = mysqli_query($conn, $pesquisaPedidos);
-          $totalPedidos = mysqli_num_rows($resultadoPedidos);
-
-          ?>
 
           <span class="badge badge-primary badge-pill">
             <?php echo $totalPedidos ?></span>
 
         </a>
       </li>
-
+      <?php if ($totalPedidos == 0) { ?>
+        <li class="nav-item">
+          <a class="nav-link" href="../sairCliente.php">
+            <i class="fa fa-sign-out"> Fazer logout</i>
+          </a>
+        </li>
+      <?php } ?>
     </ul>
   </nav>
   <?php if (isset($_SESSION['msg'])) {
