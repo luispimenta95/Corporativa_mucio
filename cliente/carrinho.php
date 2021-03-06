@@ -1,5 +1,7 @@
 <?php
 session_start();
+$idCliente = $_SESSION["idCliente"];
+
 if (!isset($_SESSION["idCliente"])) {
     header("Location:../loginCliente.php");
 }
@@ -50,9 +52,13 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-user"> <?php echo $_SESSION["nomeCliente"] ?></i>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">
-                        <i class="fa fa-pencil"> Editar dados</i>
-                    </a>
+                    <form method="POST" action="editarDados.php">
+                        <input type="hidden" name="idCliente" value="<?php echo $idCliente ?>">
+
+                        <button type="submit" class="btn btn-default"> <i class="fa fa-pencil">Editar dados</i> </button>
+                        </button>
+
+                    </form>
                     <?php if ($totalPedidos == 0) { ?>
 
                         <a class="dropdown-item" href="../sairCliente.php">
@@ -106,7 +112,7 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
                     </ul>
 
                     <form action="finalizarPedido.php" class="card p-2">
-                        <a onclick="return confirm('Deseja mesmo finalizar o pedido ?');"> <button type="submit" class="btn btn-secondary">Finalizar pedido</button>
+                        <a onclick="return confirm('Deseja realmente finalizar o pedido ?');"> <button type="submit" class="btn btn-secondary">Finalizar pedido</button>
                         </a>
                     </form>
                 </div>
@@ -147,7 +153,7 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
 
                                 </form>
                                 <form action="deletarPedido.php?id=<?php echo $linha["idpedido"]; ?>" method="POST" class="form-group">
-                                    <a onclick="return confirm('Deseja mesmo excluir o produto do carrinho ?');"> <button type=" submit" class=" btn btn-danger btn-sm">Remover do carrinho</button>
+                                    <a onclick="return confirm('Deseja realmente excluir o produto do carrinho ?');"> <button type=" submit" class=" btn btn-danger btn-sm">Remover do carrinho</button>
                                     </a>
 
                                 </form>
