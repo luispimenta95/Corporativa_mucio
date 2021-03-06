@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 16-Fev-2021 às 19:22
+-- Tempo de geração: 06-Mar-2021 às 18:41
 -- Versão do servidor: 10.4.17-MariaDB
 -- versão do PHP: 8.0.0
 
@@ -62,23 +62,17 @@ CREATE TABLE `cliente` (
   `enderecoCliente` varchar(200) NOT NULL DEFAULT 'Não informado',
   `telefoneCliente` varchar(255) DEFAULT NULL,
   `dataCadastro` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `atacado` tinyint(1) DEFAULT 0
+  `atacado` tinyint(1) DEFAULT 0,
+  `primeiroAcesso` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `cliente`
 --
 
-INSERT INTO `cliente` (`idCliente`, `nomeCliente`, `cpf_cnpj`, `emailCliente`, `senhaCliente`, `ativo`, `enderecoCliente`, `telefoneCliente`, `dataCadastro`, `atacado`) VALUES
-(1, 'fulaninho da feira', '12345678900', 'fulano@email', '12345', 1, 'Não informado', '1234567890', '2021-02-16 16:09:44', 0),
-(3, 'LUIS PIMENTA', '1111', 'vendas.cooperorg@gmail.com', '12345', 0, 'Não informado', '61998690313', '2021-02-16 18:12:02', 0),
-(4, 'Pão teste', '60280697104', 'vendas.cooperorg@gmail.com.br', '12345', 0, 'Não informado', '61996235400', '2021-02-14 23:33:19', 0),
-(5, 'Alface Americana 44', '84002220004', 'luis.artenasruas@gmail.com.br', '12345', 0, 'Não informado', '61998690313', '2021-02-14 23:32:04', 0),
-(6, 'LUIS PIMENTA', '111111', 'felipearaujo95@hotmail.com', '12345', 1, 'teste', '61998690313', '2021-02-16 13:29:40', 1),
-(12, 'Pão', '12222', 'felipearaujo95@hotmail.com', '12345', 1, 'teste', '61998690313', '2021-02-16 14:28:58', 1),
-(13, 'LUIS PIMENTA', '1111111111111111', 'felipearaujo95@hotmail.com', '12345', 1, 'teste', '619986903130', '2021-02-16 15:13:04', 1),
-(15, 'LUIS PIMENTA', '84', 'felipearaujo95@hotmail.com', '12345', 1, 'teste', '61998690313', '2021-02-16 15:13:57', 0),
-(17, 'LUIS PIMENTA', '123456789022', 'felipearaujo95@hotmail.com', '12345', 1, 'teste', '61998690313', '2021-02-16 16:11:30', 0);
+INSERT INTO `cliente` (`idCliente`, `nomeCliente`, `cpf_cnpj`, `emailCliente`, `senhaCliente`, `ativo`, `enderecoCliente`, `telefoneCliente`, `dataCadastro`, `atacado`, `primeiroAcesso`) VALUES
+(1, 'fulaninho da feira', '12345678900', 'fulano@email', '12345', 1, 'Não informado', '1234567890', '2021-03-06 15:04:21', 0, 1),
+(25, 'LUIS PIMENTA', '02342288140', 'felipearaujo95@hotmail.com', '13151319', 1, 'Rua Pará', '61998690313', '2021-03-06 17:01:37', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -91,19 +85,22 @@ CREATE TABLE `pedido` (
   `dataPedido` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `quantidade` int(11) DEFAULT NULL,
   `preco` float DEFAULT NULL,
-  `codPedido` int(11) NOT NULL,
+  `codPedido` varchar(11) NOT NULL,
   `cliente` int(11) DEFAULT NULL,
-  `produto` int(11) DEFAULT NULL
+  `produto` int(11) DEFAULT NULL,
+  `pedidoFinalizado` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `pedido`
 --
 
-INSERT INTO `pedido` (`idPedido`, `dataPedido`, `quantidade`, `preco`, `codPedido`, `cliente`, `produto`) VALUES
-(1, '2021-02-14 00:51:26', 5, 9.8, 405, 1, 1),
-(2, '2021-02-14 00:51:32', 3, 11.2, 405, 1, 2),
-(3, '2021-02-14 01:22:19', 10, 9.8, 406, 1, 1);
+INSERT INTO `pedido` (`idPedido`, `dataPedido`, `quantidade`, `preco`, `codPedido`, `cliente`, `produto`, `pedidoFinalizado`) VALUES
+(14, '2021-03-06 14:04:46', 4, 11.2, 'c51df', 1, 2, 0),
+(16, '2021-03-06 14:37:22', 7, 9.8, 'cbe8f', 1, 1, 1),
+(17, '2021-03-06 14:44:20', 45, 3.49, '85cc7', 1, 8, 1),
+(18, '2021-03-06 17:06:47', 5, 9.8, 'd397f', 25, 1, 0),
+(19, '2021-03-06 17:07:00', 4, 11.2, 'd397f', 25, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -551,13 +548,13 @@ ALTER TABLE `administrador`
 -- AUTO_INCREMENT de tabela `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de tabela `pedido`
 --
 ALTER TABLE `pedido`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de tabela `produto`
