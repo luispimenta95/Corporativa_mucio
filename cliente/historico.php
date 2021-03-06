@@ -113,6 +113,7 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
         unset($_SESSION['msg']);
     } ?>
     <div class="col-sm-12">
+        <!--Exemplo -->
 
         <?php if ($totalPedidos > 0) { ?>
             <h4 class="mb-3 text-center">Confira seu historico de pedidos</h4>
