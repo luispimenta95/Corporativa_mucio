@@ -41,7 +41,7 @@ if (isset($_SESSION["idAdministrador"])) {
 					Não possui uma conta ?<a href="#cadastro" data-toggle="modal">Cadastre-se agora</a>
 				</div>
 				<div class="d-flex justify-content-center links">
-					Esqueceu a sua senha ?<a href="#"> Clique aqui </a>
+					Esqueceu a sua senha ?<a href="esqueciSenha.php"> Clique aqui </a>
 				</div>
 			</form>
 

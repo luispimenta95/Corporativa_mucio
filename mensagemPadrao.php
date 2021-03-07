@@ -21,13 +21,16 @@ $mensagens = array(
     "erroHost" => "<div class='alert alert-danger'> Erro ao realizar seu cadastro , por favor tente novamente. </div>",
     "removerPedido" => "<div class='alert alert-success'> Produto excluido do carrinho com sucesso ! </div>",
     "erroRemoverPedido" => "<div class='alert alert-danger'> Erro ao remover produto do carrinho , por favor tente novamente ! </div>",
-    "finalizarPedido" => "<div class='alert alert-success'> Produto finalizado com sucesso ! </div>",
+    "finalizarPedido" => "<div class='alert alert-success'> Pedido finalizado com sucesso ! </div>",
     "erroFinalizarPedido" => "<div class='alert alert-danger'> Erro ao finalizar seu pedido, por favor tente novamente ! </div>",
     "cpfNaoEncontrado" => "<div class='alert alert-danger'> CPF não encontrado, por favor tente novamente ! </div>",
     "erroSenhaProvisoria" => "<div class='alert alert-danger'> O campo senha provisória é divergente da senha cadastrada no sistema, por favor tente novamente ! </div>",
-    "erroConfirmação" => "<div class='alert alert-danger'> Os campos senha e nova senha são divergentes, por favor tente novamente ! </div>",
+    "erroConfirmacao" => "<div class='alert alert-danger'> Os campos senha e nova senha são divergentes, por favor tente novamente ! </div>",
     "erroAtualizarSenhaHost" => "<div class='alert alert-danger'> Erro ao atualizar a sua senha, por favor tente novamente ! </div>",
     "atualizarSenhaHost" => "<div class='alert alert-success'> Senha alterada com sucesso, seu usuário está liberado para acessar o sistema ! </div>",
+    "erroEmailDivergergente" => "<div class='alert alert-danger'> O campo email é divergente do email cadastrado no sistema, por favor tente novamente ! </div>",
+    "atualizarEsqueceuSenha" => "<div class='alert alert-success'> Dados atualizados com sucesso, para acessar o sistema , por favor realize o login ! </div>",
+
 
 
 
