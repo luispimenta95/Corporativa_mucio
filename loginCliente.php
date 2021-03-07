@@ -12,7 +12,8 @@ if (isset($_SESSION["idAdministrador"])) {
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Celke - Login</title>
+	<title>Coorporativa Orgânica</title>
+	<link rel="shortcut icon" href="imagens/google.png" type="image/x-icon" />
 	<link href="css/bootstrap.css" rel="stylesheet">
 	<link href="css/signin.css" rel="stylesheet">
 </head>
