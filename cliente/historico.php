@@ -31,38 +31,14 @@ $num_pagina = ceil($totalProdutos / $quantidade_pg);
 $incio = ($quantidade_pg * $pagina) - $quantidade_pg;
 
 //Selecionar os logs a serem apresentado na página
-$pesquisa = "";
-if (!isset($_POST['termo'])) {
-    $pesquisaProdutos = "select 
-    idProduto,
-    nomeProduto,
-    codigo,
-    imagem,
-    ativo , 
-    dataCadastro,
-    unidade,
-    preco,
-    estoque,
-    dataCadastro 
-    from 
-    produto p order by p.nomeProduto limit $incio, $quantidade_pg";
-} else {
-    $pesquisa = $_POST["termo"];
-
-    $pesquisaProdutos = "select idProduto, nomeProduto, codigo, imagem, ativo, dataCadastro, unidade, preco, estoque 
-    from produto p WHERE p.nomeProduto LIKE '%" . $pesquisa . "%'";
-}
-//preciso fazer as pesquisas
 
 
 $resultadoProdutos = mysqli_query($conn, $pesquisaProdutos);
 $totalProdutos = mysqli_num_rows($resultadoProdutos);
-$pesquisaPedidos = "select idpedido,codPedido,sum(quantidade) as quantidade, pe.preco precoPedido,
-nomeProduto from pedido pe, produto pr, cliente c where 
-idProduto = produto and idCliente = cliente";
+$pesquisaPedidos = "select idpedido,codPedido,sum(quantidade) as quantidade, pe.preco precoPedido,pe.pedidoFinalizado, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and pedidoFinalizado = 1 and idCliente = " . $_SESSION["idCliente"] . " GROUP BY produto";
 $resultadoPedidos = mysqli_query($conn, $pesquisaPedidos);
 $totalPedidos = mysqli_num_rows($resultadoPedidos);
-
+echo $totalPedidos;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -133,7 +109,65 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
 
 
     <div class="row">
+        <?php if ($totalPedidos > 0) { ?>
+            <div class="col-md-4 order-md-2 mb-4">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Seu carrinho</span>
+                    <span class="badge badge-secondary badge-pill"><?php echo $totalPedidos ?></span>
+                </h4>
+                <ul class="list-group mb-3">
+                    <?php
+                    $totalPedido = 0;
+                    $somaProduto = 0;
+                    while ($row = mysqli_fetch_assoc($resultadoPedidos)) {
 
+                        $somaProduto = $row["precoPedido"] * $row["quantidade"];
+                        $totalPedido += $somaProduto;
+                    ?>
+
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div>
+                                <h6 class="my-0"><?php echo $row["nomeProduto"] ?></h6>
+                                <small class="text-muted">Quantidade: <?php echo $row["quantidade"] ?></small>
+                            </div>
+
+                            <span class="text-muted">Preço total : R$ <?php echo number_format($somaProduto, 2, ",", "."); ?></span>
+                        </li>
+
+                    <?php } ?>
+
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total (BRL)</span>
+                        <strong>R$ <?php echo number_format($totalPedido, 2, ",", "."); ?></strong>
+                    </li>
+                </ul>
+
+                <form action="finalizarPedido.php" class="card p-2">
+                    <a onclick="return confirm('Deseja realmente finalizar o pedido ?');"> <button type="submit" class="btn btn-secondary">Finalizar pedido</button>
+                    </a>
+                </form>
+            </div>
+        <?php } ?>
+        <div class="col-md-8 order-md-1">
+            <?php if ($totalPedidos > 0) { ?>
+                <h4 class="mb-3 text-center">Revise o seu pedido antes de confirmar </h4>
+
+            <?php } else { ?>
+                <h4 class="mb-3 text-center">Carrinho vazio ! </h4>
+            <?php } ?>
+            <?php
+            $pesquisa =  "select idpedido,codPedido,sum(quantidade) as quantidade, pe.preco precoPedido,pe.pedidoFinalizado, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and pedidoFinalizado = 1 and idCliente = " . $_SESSION["idCliente"] . " GROUP BY produto";
+
+            //preciso fazer as pesquisas
+
+
+            $resultado = mysqli_query($conn, $pesquisa);
+            $total = mysqli_num_rows($resultado);
+            ?>
+            <div class="row">
+
+            </div>
+        </div>
     </div>
 
 
