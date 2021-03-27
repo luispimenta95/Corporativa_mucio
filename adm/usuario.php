@@ -116,6 +116,9 @@ $totalUsuarios = mysqli_num_rows($resultadoUsuarios);
             <li class="nav-item">
                 <a class="nav-link" href="usuario.php">Usuários</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="cidades.php">Cidades</a>
+            </li>
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">

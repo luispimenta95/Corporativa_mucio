@@ -77,10 +77,13 @@ $totalCidades = mysqli_num_rows($resultadoCidades);
                 <a class="nav-link" href="pedido.php">Pedidos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="cidades.php">Cidades</a>
+                <a class="nav-link" href="produto.php">Produtos</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="usuario.php">Usuários</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="cidades.php">Cidades</a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
@@ -219,7 +222,7 @@ $totalCidades = mysqli_num_rows($resultadoCidades);
                                             );
                                         }
                                         ?>
-                                        <h4 class="modal-title">Atualizar produto</h4>
+                                        <h4 class="modal-title">Atualizar preço do frete</h4>
                                     </div>
                                     <div class="modal-body">
 
