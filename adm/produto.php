@@ -37,7 +37,8 @@ if (isset($_POST['todos'])) {
     ativo , 
     dataCadastro,
     unidade,
-    preco,
+    precoAtacado,
+    precoDelivery,
     estoque,
     dataCadastro 
     from 
@@ -52,7 +53,8 @@ if (!isset($_POST['termo'])) {
     ativo , 
     dataCadastro,
     unidade,
-    preco,
+    precoAtacado,
+    precoDelivery,
     estoque,
     dataCadastro 
     from 
@@ -60,7 +62,7 @@ if (!isset($_POST['termo'])) {
 } else {
     $pesquisa = $_POST["termo"];
 
-    $pesquisaProdutos = "select idProduto, nomeProduto, codigo, imagem, ativo, dataCadastro, unidade, preco, estoque 
+    $pesquisaProdutos = "select idProduto, nomeProduto, codigo, imagem, ativo, dataCadastro, unidade, precoAtacado,precoDelivery, estoque 
     from produto p WHERE p.nomeProduto LIKE '%" . $pesquisa . "%'";
 }
 if ($pesquisa == "todos") {
@@ -210,7 +212,8 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
                 <th>Imagem</th>
                 <th> Código</th>
                 <th> Produto</th>
-                <th> Preço</th>
+                <th> Preço Atacado</th>
+                <th> Preço Delivery</th>
                 <th> Quantidade em estoque</th>
 
                 <th> Situação</th>
@@ -228,13 +231,14 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 
                 <tr>
                     <th>
-                        <img class="img-fluid img-thumbnail" src="Imagens_produto/<?php echo $row['imagem']; ?>" alt="Imagem de capa da empresa">
+                        <img class="img-fluid img-thumbnail" src="Imagens_produto/<?php echo $row['imagem']; ?>" alt="Imagem de capa do produto">
 
                     </th>
                     <th> <?php echo $row["codigo"] ?> </th>
 
                     <th> <?php echo $row["nomeProduto"] ?> </th>
-                    <th> R$ <?php echo number_format($row["preco"], 2, ",", "."); ?> </th>
+                    <th> R$ <?php echo number_format($row["precoAtacado"], 2, ",", "."); ?> </th>
+                    <th> R$ <?php echo number_format($row["precoDelivery"], 2, ",", "."); ?> </th>
 
                     <th> <?php echo $row["estoque"] ?> </th>
                     <?php if ($row["ativo"] == 1) { ?>
@@ -285,9 +289,15 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
                                         </div>
 
                                         <div class="form-group row">
-                                            <label for="inputEmail3" class="col-sm-2 col-form-label">Preço</label>
+                                            <label for="inputEmail3" class="col-sm-2 col-form-label">Preço atacado</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" name="preco" value="R$ <?php echo number_format($row["preco"], 2, ",", "."); ?>" required>
+                                                <input type="text" class="form-control" name="precoAtacado" value="R$ <?php echo number_format($row["precoAtacado"], 2, ",", "."); ?>" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputEmail3" class="col-sm-2 col-form-label">Preço delivery</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" name="precoDelivery" value="R$ <?php echo number_format($row["precoDelivery"], 2, ",", "."); ?>" required>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -384,9 +394,15 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
                         </div>
 
                         <div class="form-group row">
-                            <label for="inputEmail3" class="col-sm-2 col-form-label">Preço</label>
+                            <label for="inputEmail3" class="col-sm-2 col-form-label">Preço atacado</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="preco" required>
+                                <input type="text" class="form-control" name="precoAtacado" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputEmail3" class="col-sm-2 col-form-label">Preço delivery</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="precoDelivery" required>
                             </div>
                         </div>
                         <div class="form-group row">

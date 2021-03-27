@@ -5,11 +5,10 @@ include 'mensagemPadrao.php';
 
 $usuario = $_POST["usuario"];
 $senha = $_POST["senha"];
-
-
+$tipoCliente = $_POST["tipoCliente"];
 
 $sql = "SELECT nomeCliente,idCliente,primeiroAcesso FROM cliente WHERE LPAD(cpf_cnpj,11,'0') = '$usuario' 
-and senhaCliente = '$senha'";
+and senhaCliente = '$senha' and tipoCliente = '$tipoCliente'";
 // echo $sql;
 $result = $conn->query($sql);
 $rowcount = mysqli_num_rows($result);
@@ -19,13 +18,10 @@ if ($rowcount > 0) {
 	$_SESSION['nomeCliente'] = $acesso["nomeCliente"];
 	$_SESSION['idCliente'] = $acesso["idCliente"];
 	$_SESSION['primeiroAcesso'] = $acesso["primeiroAcesso"];
-
-
-
-
+	$_SESSION['tipoCliente'] = $tipoCliente;
 	$_SESSION["logado"] = true;
 	$_SESSION["senha"] = $senha;
-	$_SESSION["codPedido"] = substr(md5(time()), 0, 5);
+	$_SESSION["codPedido"] = substr(md5(time()), 0, 7);
 
 	if ($acesso["primeiroAcesso"] == 1) {
 		header("Location:cliente/primeiroAcesso.php");

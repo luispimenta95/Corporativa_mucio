@@ -1,6 +1,8 @@
 <?php
 session_start();
 include("mensagemPadrao.php");
+include("conecta.php");
+
 if (isset($_SESSION["idAdministrador"])) {
 	header("Location:adm/home.php");
 }
@@ -30,14 +32,33 @@ if (isset($_SESSION["idAdministrador"])) {
 
 			?>
 			<form method="POST" action="validaCliente.php">
-				<!--<label>Usuário</label>-->
-				<input type="text" name="usuario" placeholder="Digite o seu usuário" class="form-control"><br>
+				<div class="d-flex justify-content-center links">
 
-				<!--<label>Senha</label>-->
-				<input type="password" name="senha" placeholder="Digite a sua senha" class="form-control"><br>
+					<!--<label>Usuário</label>-->
+					<input type="text" name="usuario" placeholder="Digite o seu usuário" class="form-control"><br>
 
-				<input type="submit" name="btnLogin" value="Acessar" class="btn btn-default btn-block">
+					<!--<label>Senha</label>-->
+					<input type="password" name="senha" placeholder="Digite a sua senha" class="form-control"><br>
 
+					<select name="tipoCliente" required>
+						<option>Selecione</option>
+						<?php
+
+						$sql2 = "SELECT * from  tipoCliente order by nomeTipoCliente";
+						$result2 = $conn->query($sql2);
+
+						while ($socio2 = $result2->fetch_assoc()) {
+
+						?>
+							<option value="<?php echo $socio2["idTipoCliente"]; ?>"><?php echo $socio2["nomeTipoCliente"]; ?></option>
+						<?php
+						}
+						?>
+					</select>
+
+					<input type="submit" name="btnLogin" value="Acessar" class="btn btn-default btn-block">
+
+				</div>
 				<div class="d-flex justify-content-center links">
 					Não possui uma conta ?<a href="#cadastro" data-toggle="modal">Cadastre-se agora</a>
 				</div>

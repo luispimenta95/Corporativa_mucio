@@ -9,6 +9,23 @@ telefoneAdministrador varchar(255),
 dataCadastro timestamp,
 administradorMaster boolean default 0
     );
+    create table tipoCliente(
+        idTipoCliente int auto_increment not null primary key,
+        nomeTipoCliente varchar(255)
+    );
+
+create table estado(
+      idEstado int auto_increment not null primary key,
+      ufEstado varchar(2),
+      nomeEstado varchar(35)
+  );
+
+create table cidade(
+      idCidade int auto_increment not null primary key,
+      estado int,
+      nomeCidade varchar(50),
+      precoFrete float
+  );
 
 create table cliente (
 idCliente int auto_increment not null primary key,
@@ -19,7 +36,15 @@ senhaCliente varchar(255)  default '12345',
 ativo boolean default 1, 
 telefoneCliente varchar(255),
 dataCadastro timestamp,
-atacado boolean default 0
+primeiroAcesso boolean default 1,
+acessoLiberado boolean default 0,
+tipoCliente int,
+enderecoCliente varchar(200),
+cidade int,
+foreign key(cidade) references cidade (idCidade) ON update cascade on delete restrict,
+
+foreign key(tipoCliente) references tipoCliente (idTipoCliente) ON update cascade on delete restrict
+
     );
 
 create table produto (
@@ -28,10 +53,10 @@ nomeProduto varchar(255),
 codigo int,
 imagem varchar(255),
 ativo boolean default 1, 
-
 unidade varchar(25),
-preco float,
-estoque int,
+precoAtacado float,
+precoDelivery float,
+estoque int default 0,
 dataCadastro timestamp
 
     );
@@ -43,6 +68,7 @@ quantidade int,
 preco float,
 cliente int,
 produto int,
+codPedido varchar(10),
 foreign key(cliente) references cliente (idCliente) ON update cascade on delete restrict,
 foreign key(produto) references produto (idProduto) ON update cascade on delete restrict
 

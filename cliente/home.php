@@ -1,6 +1,7 @@
 <?php
 session_start();
 $idCliente = $_SESSION["idCliente"];
+echo $_SESSION["tipoCliente"];
 include '../conecta.php';
 include '../mensagemPadrao.php';
 if (!isset($_SESSION["codPedido"])) {
@@ -42,7 +43,8 @@ if (!isset($_POST['termo'])) {
     ativo , 
     dataCadastro,
     unidade,
-    preco,
+    precoAtacado,
+    precoDelivery,
     estoque,
     dataCadastro 
     from 
@@ -50,7 +52,7 @@ if (!isset($_POST['termo'])) {
 } else {
   $pesquisa = $_POST["termo"];
 
-  $pesquisaProdutos = "select idProduto, nomeProduto, codigo, imagem, ativo, dataCadastro, unidade, preco, estoque 
+  $pesquisaProdutos = "select idProduto, nomeProduto, codigo, imagem, ativo, dataCadastro, unidade, precoAtacado, precoDelivery, estoque 
     from produto p WHERE p.nomeProduto LIKE '%" . $pesquisa . "%'";
 }
 $resultadoProdutos = mysqli_query($conn, $pesquisaProdutos);
@@ -173,7 +175,8 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
         ativo , 
         dataCadastro,
         unidade,
-        preco,
+        precoAtacado,
+        precoDelivery,
         estoque,
         dataCadastro 
         from 
@@ -196,7 +199,14 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
           <img src="../adm/Imagens_produto/<?php echo $row["imagem"] ?>" alt="Lights" style="width:100%">
           <div class="caption">
             <h3 class="text-center"> <?php echo $row['nomeProduto'] ?> </h3>
-            <h3 class="text-center"> R$ <?php echo number_format($row["preco"], 2, ",", "."); ?> </h3>
+
+            <?php if ($_SESSION["tipoCliente"] == 1) { ?>
+              <h3 class="text-center"> R$ <?php echo number_format($row["precoAtacado"], 2, ",", "."); ?> </h3>
+
+            <?php } else { ?>
+
+              <h3 class="text-center"> R$ <?php echo number_format($row["precoDelivery"], 2, ",", "."); ?> </h3>
+            <?php } ?>
             <form action="inserirPedido.php?id=<?php echo $row["idProduto"]; ?>" method="POST" class="form-group">
 
               <input type="number" min=0 max=1000 class="form-control" name="contador" />
