@@ -111,8 +111,8 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <title>Coorporativa Orgânica</title>
-    <link rel="shortcut icon" href="../imagens/google.png" type="image/x-icon" />
+    <title>Legrano Orgânicos</title>
+    <link rel="shortcut icon" href="../imagens/icon.jpg" type="image/x-icon" />
 </head>
 
 <body>

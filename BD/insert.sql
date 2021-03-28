@@ -444,16 +444,16 @@ insert into tipoCliente (nomeTipoCliente) values
 ("Cliente atacado"), ("Cliente delivery") , ("Sócio Legrano");
 
 INSERT INTO `cliente` (`idCliente`, `nomeCliente`, `cpf_cnpj`, `emailCliente`, `senhaCliente`, `ativo`, `telefoneCliente`, 
-`dataCadastro`, `primeiroAcesso`, `acessoLiberado`, `tipoCliente`, `enderecoCliente`, `cidade`) VALUES (NULL, 'Cliente sócio', '09952848775',
- 'teste@socio.com.br', '12345', '1', '45484', current_timestamp(), '0', '1', '3', 'Endereço sócio', '27');
+`dataCadastro`, `primeiroAcesso`,  `tipoCliente`, `enderecoCliente`, `cidade`) VALUES (NULL, 'Cliente sócio', '09952848775',
+ 'teste@socio.com.br', '12345', '1', '45484', current_timestamp(), '0','3', 'Endereço sócio', '27');
 
 INSERT INTO `cliente` (`idCliente`, `nomeCliente`, `cpf_cnpj`, `emailCliente`, `senhaCliente`, `ativo`, `telefoneCliente`, 
-`dataCadastro`, `primeiroAcesso`, `acessoLiberado`, `tipoCliente`, `enderecoCliente`, `cidade`) VALUES (NULL, 'Cliente atacado', '09952848011',
- 'teste@atacado.com.br', '12345', '1', '99669478', current_timestamp(), '0', '1', '1', 'Endereço atacado', '27');
+`dataCadastro`, `primeiroAcesso`,  `tipoCliente`, `enderecoCliente`, `cidade`) VALUES (NULL, 'Cliente atacado', '09952848011',
+ 'teste@atacado.com.br', '12345', '1', '99669478', current_timestamp(), '0', '1', 'Endereço atacado', '27');
 
 INSERT INTO `cliente` (`idCliente`, `nomeCliente`, `cpf_cnpj`, `emailCliente`, `senhaCliente`, `ativo`, `telefoneCliente`, 
-`dataCadastro`, `primeiroAcesso`, `acessoLiberado`, `tipoCliente`, `enderecoCliente`, `cidade`) VALUES (NULL, 'Cliente delivery', '09952848054',
- 'teste@delivery.com.br', '12345', '1', "45898974", current_timestamp(), '0', '1', '2', 'Endereço delivery', '27');
+`dataCadastro`, `primeiroAcesso`,  `tipoCliente`, `enderecoCliente`, `cidade`) VALUES (NULL, 'Cliente delivery', '09952848054',
+ 'teste@delivery.com.br', '12345', '1', "45898974", current_timestamp(), '0', '2', 'Endereço delivery', '27');
 
 INSERT INTO `administrador` (`idAdministrador`, `nomeAdministrador`, `cpfAdministrador`, `emailAdministrador`, `senhaAdministrador`, `ativo`, 
 `telefoneAdministrador`, `dataCadastro`, `administradorMaster`) VALUES (NULL, 'Luis Felipe ', '02342288140', 'teste@administrador.com.br', 
