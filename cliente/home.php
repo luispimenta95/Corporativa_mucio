@@ -1,7 +1,6 @@
 <?php
 session_start();
 $idCliente = $_SESSION["idCliente"];
-echo $_SESSION["tipoCliente"];
 include '../conecta.php';
 include '../mensagemPadrao.php';
 if (!isset($_SESSION["codPedido"])) {
@@ -209,7 +208,7 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
             <?php } ?>
             <form action="inserirPedido.php?id=<?php echo $row["idProduto"]; ?>" method="POST" class="form-group">
 
-              <input type="number" min=0 max=1000 class="form-control" name="contador" />
+              <input type="number" min=0 max=1000 class="form-control" name="contador" required />
               <button type="submit" class=" btn btn-success btn-sm">Adicionar ao carrinho</button>
 
             </form>

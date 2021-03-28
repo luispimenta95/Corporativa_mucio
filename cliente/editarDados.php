@@ -53,6 +53,25 @@ $user = $result->fetch_assoc();
                     <input type="text" name="telefone" class="form-control" id="inputPassword4" value="<?php echo $user["telefoneCliente"] ?>" required>
                 </div>
                 <div class="form-group col-md-6">
+                    <label for="inputEmail4">Cidade</label>
+
+                    <select name="cidade" required>
+                        <option>Selecione</option>
+                        <?php
+
+                        $sql3 = "SELECT * from  cidade where entrega =1 order by nomeCidade";
+                        $result3 = $conn->query($sql3);
+
+                        while ($cidade = $result3->fetch_assoc()) {
+
+                        ?>
+                            <option value="<?php echo $cidade["idCidade"]; ?>"><?php echo $cidade["nomeCidade"]; ?></option>
+                        <?php
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
                     <label for="inputEmail4">Endereço</label>
                     <input type="text" name="endereco" class="form-control" id="inputEmail4" value="<?php echo $user["enderecoCliente"] ?>" required>
                 </div>

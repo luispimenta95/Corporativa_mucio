@@ -53,10 +53,8 @@ if (!validaCPF($cpf)) {
             header("Location:loginCliente.php");
         } else {
 
-            /*$_SESSION['msg'] = $mensagens["erroCadastro"];
+            $_SESSION['msg'] = $mensagens["erroCadastro"];
             header("Location:loginCliente.php");
-        */
-            echo $conn->error;
         }
     }
 }

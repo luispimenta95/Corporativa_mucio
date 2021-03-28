@@ -10,6 +10,8 @@ $email = $_POST['email'];
 $telefone = $_POST["telefone"];
 $endereco = $_POST["endereco"];
 $atacado = $_POST["atacado"];
+$tipoCliente = $_POST["tipoCliente"];
+$cidade = $_POST["cidade"];
 
 $pesquisaUsuarios = "SELECT cpf_cnpj from cliente u  where u.cpf_cnpj= $cpf";
 $Usuarios = mysqli_query($conn, $pesquisaUsuarios);
@@ -26,9 +28,8 @@ if (!validaCPF($cpf)) {
         header("Location:usuario.php");
     } else {
 
-        $sqlInsert = "INSERT INTO  cliente (nomeCliente,cpf_cnpj,emailCliente,telefoneCliente,enderecoCliente,atacado,dataCadastro)
-        VALUES ('$nomeCliente', '$cpf', '$email', '$telefone', '$endereco', '$atacado',NOW())";
-
+        $sqlInsert = "INSERT INTO  cliente (nomeCliente,cpf_cnpj,emailCliente,telefoneCliente,enderecoCliente,tipoCliente,cidade,dataCadastro)
+        VALUES ('$nomeCliente', '$cpf', '$email', '$telefone', '$endereco',$tipoCliente,$cidade,NOW())";
 
 
         if ($conn->query($sqlInsert) === TRUE) {

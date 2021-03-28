@@ -7,12 +7,16 @@ $idCliente = $_GET["id"];
 $situacao = $_POST['ativo'];
 $nomeCliente = $_POST["nome"];
 $cpf = $_POST["cpf"];
+$cpfBd = $_POST["cpfBd"];
 $email = $_POST['email'];
 $telefone = $_POST["telefone"];
 $endereco = $_POST["endereco"];
-$atacado = $_POST["atacado"];
+$tipoCliente = $_POST["tipoCliente"];
+$cidade = $_POST["cidade"];
+
 $pesquisaUsuarios = "SELECT cpf_cnpj from cliente u  where u.cpf_cnpj= $cpf";
 $Usuarios = mysqli_query($conn, $pesquisaUsuarios);
+
 if (!validaCPF($cpf)) {
 
     $_SESSION['msg'] = $mensagens["cpfInvalido"];
@@ -21,12 +25,12 @@ if (!validaCPF($cpf)) {
 
     //Contar o total de logs
     $totalUsuarios = mysqli_num_rows($Usuarios);
-    if ($totalUsuarios > 0) {
+    if ($totalUsuarios > 0 && $cpfBd != $cpf) {
         $_SESSION['msg'] = $mensagens["cpfDuplicado"];
         header("Location:usuario.php");
     } else {
 
-        $sqlUpdate = "UPDATE Cliente SET nomeCliente = '$nomeCliente', atacado = '$atacado' , cpf_cnpj = '$cpf',
+        $sqlUpdate = "UPDATE Cliente SET nomeCliente = '$nomeCliente', tipoCliente = '$tipoCliente' , cidade = '$cidade', cpf_cnpj = '$cpf',
             emailCliente = '$email', telefoneCliente = '$telefone', ativo = '$situacao',enderecoCliente = '$endereco'  
           where idCliente=$idCliente";
 

@@ -254,22 +254,22 @@ $totalCidades = mysqli_num_rows($resultadoCidades);
                                                 if ($row["entrega"] == 1) { ?>
 
                                                     <label class="radio-inline">
-                                                        <input type="radio" name="entrega" value="1" checked="checked" required><span class="label label-success">Disponível para entregas</span>
+                                                        <input type="radio" name="entrega" value="1" checked="checked" required><span class="label label-success"> Disponível para entregas</span>
                                                     </label>
 
                                                     <br>
                                                     <label class="radio-inline">
-                                                        <input type="radio" name="entrega" value="0" required><span class="label label-danger">Indisponível para entregas</span>
+                                                        <input type="radio" name="entrega" value="0" required><span class="label label-danger"> Indisponível para entregas</span>
                                                     </label>
 
                                                 <?php } else { ?>
                                                     <label class="radio-inline">
-                                                        <input type="radio" name="entrega" value="1" checked="checked" required><span class="label label-success">Disponível para entregas</span>
+                                                        <input type="radio" name="entrega" value="1" checked="checked" required><span class="label label-success"> Disponível para entregas</span>
                                                     </label>
 
                                                     <br>
                                                     <label class="radio-inline">
-                                                        <input type="radio" name="entrega" value="0" checked="checked" required><span class="label label-danger">Indisponível para entregas</span>
+                                                        <input type="radio" name="entrega" value="0" checked="checked" required><span class="label label-danger"> Indisponível para entregas</span>
                                                     </label>
                                                 <?php } ?>
 

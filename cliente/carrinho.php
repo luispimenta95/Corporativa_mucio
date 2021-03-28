@@ -14,6 +14,7 @@ $codPedido = $_SESSION["codPedido"];
 $pesquisaPedidos = "select idpedido,codPedido,sum(quantidade) as quantidade, pe.preco precoPedido,pe.pedidoFinalizado,
 nomeProduto from pedido pe, produto pr, cliente c where 
 idProduto = produto and idCliente = cliente and  codPedido = '$codPedido' GROUP BY produto";
+
 $resultadoPedidos = mysqli_query($conn, $pesquisaPedidos);
 $totalPedidos = mysqli_num_rows($resultadoPedidos);
 
@@ -105,7 +106,18 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
                             </li>
 
                         <?php } ?>
+                        <?php
 
+                        $sql3 = "SELECT precoFrete,nomeCidade FROM cidade ci INNER JOIN cliente cl on cl.cidade = ci.idCidade where cl.idCliente = $idCliente";
+                        $result3 = $conn->query($sql3);
+                        $cidade = $result3->fetch_assoc();
+                        $frete = $cidade["precoFrete"];
+                        ?>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Preço do frete para <?php echo $cidade["nomeCidade"] ?></span>
+                            <strong>R$ <?php echo number_format($frete, 2, ",", "."); ?></strong>
+                        </li>
+                        <?php $totalPedido += $frete; ?>
                         <li class="list-group-item d-flex justify-content-between">
                             <span>Total (BRL)</span>
                             <strong>R$ <?php echo number_format($totalPedido, 2, ",", "."); ?></strong>

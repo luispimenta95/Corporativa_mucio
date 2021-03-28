@@ -10,8 +10,13 @@ $codPedido = $_SESSION['codPedido'];
 $buscar = "SELECT * FROM produto WHERE idProduto = $idProduto";
 $result = $conn->query($buscar);
 $produto = $result->fetch_assoc();
-$total =  $produto["preco"] * $quantidade;
-$preco =  $produto["preco"];
+if ($_SESSION["tipoCliente"] == 1) {
+    $total =  $produto["precoAtacado"] * $quantidade;
+    $preco =  $produto["precoAtacado"];
+} else {
+    $total =  $produto["precoDelivery"] * $quantidade;
+    $preco =  $produto["precoDelivery"];
+}
 $sqlInsert =
     "INSERT INTO  pedido(dataPedido, quantidade, preco, codPedido, cliente, produto)
 VALUES (NOW(), '$quantidade', '$preco', '$codPedido', '$idCliente','$idProduto')";

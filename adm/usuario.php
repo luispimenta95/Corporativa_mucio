@@ -36,12 +36,13 @@ if (isset($_POST["todos"])) {
     cpf_cnpj,
     emailCliente,
     ativo , 
-    atacado,
     enderecoCliente,
     telefoneCliente,
-    dataCadastro 
+    dataCadastro,
+    nomeCidade,
+    nomeTipoCliente
     from 
-    cliente c order by c.nomeCliente";
+    cliente cl inner join cidade ci on cl.cidade = ci.idCidade inner join tipoCliente t on cl.tipoCliente = t.idTipoCliente order by cl.nomeCliente";
 }
 
 if (!isset($_POST['termo'])) {
@@ -51,12 +52,13 @@ if (!isset($_POST['termo'])) {
     cpf_cnpj,
     emailCliente,
     ativo , 
-    atacado,
     enderecoCliente,
     telefoneCliente,
-    dataCadastro 
+    dataCadastro,
+    nomeCidade,
+    nomeTipoCliente 
     from 
-    cliente c order by c.nomeCliente limit $incio, $quantidade_pg";
+    cliente cl inner join cidade ci on cl.cidade = ci.idCidade inner join tipoCliente t on cl.tipoCliente = t.idTipoCliente limit $incio, $quantidade_pg";
 } else {
     $pesquisa = $_POST["termo"];
 
@@ -66,12 +68,13 @@ if (!isset($_POST['termo'])) {
     cpf_cnpj,
     emailCliente,
     ativo , 
-    atacado,
     enderecoCliente,
     telefoneCliente,
-    dataCadastro 
+    dataCadastro,
+    nomeTipoCliente,
+    nomeCidade 
     from 
-    cliente c WHERE c.nomeCliente LIKE '%" . $pesquisa . "%'";
+    cliente cl inner join cidade ci on cl.cidade = ci.idCidade inner join tipoCliente t on cl.tipoCliente = t.idTipoCliente WHERE cl.nomeCliente LIKE '%" . $pesquisa . "%'";
 }
 if ($pesquisa == "todos") {
     $pesquisaUsuarios = $listarTodos;
@@ -199,11 +202,13 @@ $totalUsuarios = mysqli_num_rows($resultadoUsuarios);
         emailCliente,
         ativo , 
         enderecoCliente,
-        atacado,
         telefoneCliente,
-        dataCadastro 
+        dataCadastro,
+        nomeCidade,
+        nomeTipoCliente 
         from 
-        cliente c order by c.nomeCliente limit $incio, $quantidade_pg";
+        cliente cl inner join cidade ci on cl.cidade = ci.idCidade inner join tipoCliente t on cl.tipoCliente = t.idTipoCliente
+        order by cl.nomeCliente limit $incio, $quantidade_pg";
         $resultadoUsuarios = mysqli_query($conn, $pesquisaUsuarios);
 
         $_SESSION["msg"] = $mensagens["semRegistro"];
@@ -225,7 +230,7 @@ $totalUsuarios = mysqli_num_rows($resultadoUsuarios);
                 <th>E-mail</th>
                 <th>Tipo de cliente</th>
                 <th>Situação do cliente</th>
-
+                <th> Cidade para entrega </th>
                 <th>Data de associação</th>
                 <th>Editar</th>
             </tr>
@@ -241,23 +246,19 @@ $totalUsuarios = mysqli_num_rows($resultadoUsuarios);
                     <th> <?php echo $row["nomeCliente"] ?> </th>
                     <th> <?php echo $row["cpf_cnpj"] ?> </th>
                     <th> <?php echo $row["emailCliente"] ?> </th>
-                    <?php if ($row["atacado"] == 1) { ?>
-                        <th> Atacado</th>
-                    <?php } else { ?>
-                        <th> Varejo</th>
-
-                    <?php } ?>
-
+                    <th><?php echo $row["nomeTipoCliente"] ?></th>
                     <?php if ($row["ativo"] == 1) { ?>
                         <th> Ativo</th>
                     <?php } else { ?>
                         <th> Inativo</th>
 
                     <?php } ?>
+                    <th> <?php echo $row["nomeCidade"] ?> </th>
 
                     <th>
                         <?php echo date('d/m/Y', strtotime($row["dataCadastro"])); ?>
                     </th>
+
                     <th>
                         <a href="#edicao<?php echo $row["idCliente"] ?>" data-toggle="modal"><button type='button' class='btn btn-primary btn-sm'><i class="fa fa-pencil"></i> </button></a>
 
@@ -295,6 +296,8 @@ $totalUsuarios = mysqli_num_rows($resultadoUsuarios);
                                             <label for="inputEmail3" class="col-sm-4 col-form-label">CPF/CNPJ: </label>
                                             <div class="col-sm-8">
                                                 <input type="text" value="<?php echo $row['cpf_cnpj'] ?>" class="form-control" name="cpf" required>
+                                                <input type="hidden" value="<?php echo $row['cpf_cnpj'] ?>" class="form-control" name="cpfBd">
+
                                             </div>
                                         </div>
 
@@ -342,33 +345,41 @@ $totalUsuarios = mysqli_num_rows($resultadoUsuarios);
                                         <div class="form-group row" required>
                                             <label for="inputEmail3" class="col-sm-6 col-form-label">Tipo de cliente</label>
                                             <div class="col-sm-6">
+                                                <select name="tipoCliente" required>
+                                                    <option>Selecione</option>
+                                                    <?php
 
-                                                <?php
-                                                if ($row["atacado"] == 1) { ?>
+                                                    $sql2 = "SELECT * from  tipoCliente order by nomeTipoCliente";
+                                                    $result2 = $conn->query($sql2);
 
-                                                    <label class="radio-inline">
-                                                        <input type="radio" name="atacado" value="1" checked="checked" required><span class="label label-success">Atacado</span>
-                                                    </label>
+                                                    while ($socio2 = $result2->fetch_assoc()) {
 
-                                                    <br>
-                                                    <label class="radio-inline">
-                                                        <input type="radio" name="atacado" value="0" required><span class="label label-danger">Varejo</span>
-                                                    </label>
+                                                    ?>
+                                                        <option value="<?php echo $socio2["idTipoCliente"]; ?>"><?php echo $socio2["nomeTipoCliente"]; ?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row" required>
+                                            <label for="inputEmail3" class="col-sm-6 col-form-label">Cidade</label>
+                                            <div class="col-sm-6">
+                                                <select name="cidade" required>
+                                                    <option>Selecione</option>
+                                                    <?php
 
-                                                <?php } else { ?>
-                                                    <label class="radio-inline">
-                                                        <input type="radio" name="atacado" value="1" checked="checked" required><span class="label label-success">Atacado</span>
-                                                    </label>
+                                                    $sql3 = "SELECT * from  cidade where entrega =1 order by nomeCidade";
+                                                    $result3 = $conn->query($sql3);
 
-                                                    <br>
-                                                    <label class="radio-inline">
-                                                        <input type="radio" name="atacado" value="0" checked="checked" required><span class="label label-danger">Varejo</span>
-                                                    </label>
-                                                <?php } ?>
+                                                    while ($cidade = $result3->fetch_assoc()) {
 
-
-
-
+                                                    ?>
+                                                        <option value="<?php echo $cidade["idCidade"]; ?>"><?php echo $cidade["nomeCidade"]; ?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -456,14 +467,41 @@ $totalUsuarios = mysqli_num_rows($resultadoUsuarios);
                         <div class="form-group row" required>
                             <label for="inputEmail3" class="col-sm-6 col-form-label">Tipo de cliente</label>
                             <div class="col-sm-6">
-                                <label class="radio-inline">
-                                    <input type="radio" name="atacado" value="1" required><span class="label label-success">Atacado</span>
-                                </label>
+                                <select name="tipoCliente" required>
+                                    <option>Selecione</option>
+                                    <?php
 
-                                <br>
-                                <label class="radio-inline">
-                                    <input type="radio" name="atacado" value="0" required><span class="label label-danger">Varejo</span>
-                                </label>
+                                    $sql2 = "SELECT * from  tipoCliente order by nomeTipoCliente";
+                                    $result2 = $conn->query($sql2);
+
+                                    while ($socio2 = $result2->fetch_assoc()) {
+
+                                    ?>
+                                        <option value="<?php echo $socio2["idTipoCliente"]; ?>"><?php echo $socio2["nomeTipoCliente"]; ?></option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row" required>
+                            <label for="inputEmail3" class="col-sm-6 col-form-label">Cidade</label>
+                            <div class="col-sm-6">
+                                <select name="cidade" required>
+                                    <option>Selecione</option>
+                                    <?php
+
+                                    $sql3 = "SELECT * from  cidade where entrega =1 order by nomeCidade";
+                                    $result3 = $conn->query($sql3);
+
+                                    while ($cidade = $result3->fetch_assoc()) {
+
+                                    ?>
+                                        <option value="<?php echo $cidade["idCidade"]; ?>"><?php echo $cidade["nomeCidade"]; ?></option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
                             </div>
                         </div>
 

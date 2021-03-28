@@ -18,6 +18,7 @@ if ($rowcount > 0) {
 	$_SESSION['nomeCliente'] = $acesso["nomeCliente"];
 	$_SESSION['idCliente'] = $acesso["idCliente"];
 	$_SESSION['primeiroAcesso'] = $acesso["primeiroAcesso"];
+	$_SESSION["cpfUsuario"] = $usuario;
 	$_SESSION['tipoCliente'] = $tipoCliente;
 	$_SESSION["logado"] = true;
 	$_SESSION["senha"] = $senha;
