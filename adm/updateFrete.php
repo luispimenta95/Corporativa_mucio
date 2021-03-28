@@ -5,10 +5,10 @@ include '../mensagemPadrao.php';
 
 $idCidade = $_GET["id"];
 $precoFrete = $_POST["precoFrete"];
-
+$entrega = $_POST["entrega"];
 $precoFrete = str_replace(",", ".", $precoFrete);
 $precoFrete = str_replace("R$", "", $precoFrete);
-$sqlUpdate = "UPDATE cidade set precoFrete = $precoFrete where idCidade = $idCidade";
+$sqlUpdate = "UPDATE cidade set precoFrete = $precoFrete , entrega = $entrega where idCidade = $idCidade";
 if ($conn->query($sqlUpdate) === TRUE) {
     $_SESSION['msg'] = $mensagens["edicao"];
 

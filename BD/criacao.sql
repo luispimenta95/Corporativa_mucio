@@ -24,7 +24,8 @@ create table cidade(
       idCidade int auto_increment not null primary key,
       estado int,
       nomeCidade varchar(50),
-      precoFrete float
+      precoFrete float,
+      entrega boolean default 0,
   );
 
 create table cliente (

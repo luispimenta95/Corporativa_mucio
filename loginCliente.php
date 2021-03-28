@@ -126,6 +126,47 @@ if (isset($_SESSION["idAdministrador"])) {
 									</div>
 								</div>
 
+								<div class="form-group row" required>
+									<label for="inputEmail3" class="col-sm-6 col-form-label">Tipo de cliente</label>
+									<div class="col-sm-6">
+										<select name="tipoCliente" required>
+											<option>Selecione</option>
+											<?php
+
+											$sql2 = "SELECT * from  tipoCliente order by nomeTipoCliente";
+											$result2 = $conn->query($sql2);
+
+											while ($socio2 = $result2->fetch_assoc()) {
+
+											?>
+												<option value="<?php echo $socio2["idTipoCliente"]; ?>"><?php echo $socio2["nomeTipoCliente"]; ?></option>
+											<?php
+											}
+											?>
+										</select>
+									</div>
+								</div>
+								<div class="form-group row" required>
+									<label for="inputEmail3" class="col-sm-6 col-form-label">Cidade</label>
+									<div class="col-sm-6">
+										<select name="cidade" required>
+											<option>Selecione</option>
+											<?php
+
+											$sql3 = "SELECT * from  cidade where entrega =1 order by nomeCidade";
+											$result3 = $conn->query($sql3);
+
+											while ($cidade = $result3->fetch_assoc()) {
+
+											?>
+												<option value="<?php echo $cidade["idCidade"]; ?>"><?php echo $cidade["nomeCidade"]; ?></option>
+											<?php
+											}
+											?>
+										</select>
+									</div>
+								</div>
+
 							</div>
 							<div class="modal-footer">
 								<button type="submit" class=" btn btn-primary">Cadastrar-se</button>

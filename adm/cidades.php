@@ -29,15 +29,15 @@ $incio = ($quantidade_pg * $pagina) - $quantidade_pg;
 $pesquisa = "";
 if (isset($_POST['todos'])) {
     $pesquisa = "todos";
-    $listaTodos = "SELECT idCidade , nomeCidade,precoFrete , ufEstado FROM cidade c INNER JOIN estado e on c.estado = e.idEstado";
+    $listaTodos = "SELECT idCidade , nomeCidade,precoFrete ,entrega, ufEstado FROM cidade c INNER JOIN estado e on c.estado = e.idEstado";
 }
 if (!isset($_POST['termo'])) {
-    $pesquisaCidades = "SELECT idCidade , nomeCidade,precoFrete , ufEstado FROM cidade c INNER JOIN estado e on c.estado = e.idEstado 
+    $pesquisaCidades = "SELECT idCidade , nomeCidade,precoFrete ,entrega, ufEstado FROM cidade c INNER JOIN estado e on c.estado = e.idEstado 
        limit $incio, $quantidade_pg";
 } else {
     $pesquisa = $_POST["termo"];
 
-    $pesquisaCidades = "SELECT idCidade , nomeCidade,precoFrete , ufEstado FROM cidade c INNER JOIN estado e on c.estado = e.idEstado
+    $pesquisaCidades = "SELECT idCidade , nomeCidade,precoFrete ,entrega, ufEstado FROM cidade c INNER JOIN estado e on c.estado = e.idEstado
         WHERE c.nomeCidade LIKE '%" . $pesquisa . "%'";
 }
 if ($pesquisa == "todos") {
@@ -159,7 +159,7 @@ $totalCidades = mysqli_num_rows($resultadoCidades);
 
 
     if ($totalCidades == 0) {
-        $pesquisaUsuarios = "SELECT idCidade , nomeCidade,precoFrete , ufEstado FROM cidade c INNER JOIN estado e on c.estado = e.idEstado 
+        $pesquisaUsuarios = "SELECT idCidade , nomeCidade,precoFrete ,entrega, ufEstado FROM cidade c INNER JOIN estado e on c.estado = e.idEstado 
         limit $incio, $quantidade_pg";
         $resultadoUsuarios = mysqli_query($conn, $pesquisaUsuarios);
 
@@ -180,6 +180,7 @@ $totalCidades = mysqli_num_rows($resultadoCidades);
                 <th>Cidade</th>
                 <th> Estado</th>
                 <th> Preço frete</th>
+                <th> Disponibilidade de entrega</th>
                 <th> Editar</th>
 
 
@@ -197,6 +198,12 @@ $totalCidades = mysqli_num_rows($resultadoCidades);
                     <th> <?php echo $row["ufEstado"] ?> </th>
 
                     <th> R$ <?php echo number_format($row["precoFrete"], 2, ",", "."); ?> </th>
+                    <?php if ($row["entrega"] == 1) { ?>
+                        <th> Disponível para entrega</th>
+                    <?php } else { ?>
+                        <th> Indisponível para entrega</th>
+
+                    <?php } ?>
 
 
 
@@ -222,7 +229,7 @@ $totalCidades = mysqli_num_rows($resultadoCidades);
                                             );
                                         }
                                         ?>
-                                        <h4 class="modal-title">Atualizar preço do frete</h4>
+                                        <h4 class="modal-title">Atualizar dados da cidade</h4>
                                     </div>
                                     <div class="modal-body">
 
@@ -237,6 +244,38 @@ $totalCidades = mysqli_num_rows($resultadoCidades);
                                             <label for="inputEmail3" class="col-sm-2 col-form-label">Preço frete</label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="precoFrete" value="R$ <?php echo number_format($row["precoFrete"], 2, ",", "."); ?>" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row" required>
+                                            <label for="inputEmail3" class="col-sm-6 col-form-label">Entregas na cidade</label>
+                                            <div class="col-sm-6">
+
+                                                <?php
+                                                if ($row["entrega"] == 1) { ?>
+
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="entrega" value="1" checked="checked" required><span class="label label-success">Disponível para entregas</span>
+                                                    </label>
+
+                                                    <br>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="entrega" value="0" required><span class="label label-danger">Indisponível para entregas</span>
+                                                    </label>
+
+                                                <?php } else { ?>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="entrega" value="1" checked="checked" required><span class="label label-success">Disponível para entregas</span>
+                                                    </label>
+
+                                                    <br>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="entrega" value="0" checked="checked" required><span class="label label-danger">Indisponível para entregas</span>
+                                                    </label>
+                                                <?php } ?>
+
+
+
+
                                             </div>
                                         </div>
 
