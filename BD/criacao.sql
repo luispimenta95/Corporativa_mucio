@@ -69,6 +69,8 @@ preco float,
 cliente int,
 produto int,
 codPedido varchar(10),
+precoFrete float,
+
 pedidoFinalizado boolean default 0,
 foreign key(cliente) references cliente (idCliente) ON update cascade on delete restrict,
 foreign key(produto) references produto (idProduto) ON update cascade on delete restrict

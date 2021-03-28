@@ -17,9 +17,13 @@ if ($_SESSION["tipoCliente"] == 1) {
     $total =  $produto["precoDelivery"] * $quantidade;
     $preco =  $produto["precoDelivery"];
 }
+$sql3 = "SELECT precoFrete,nomeCidade FROM cidade ci INNER JOIN cliente cl on cl.cidade = ci.idCidade where cl.idCliente = $idCliente";
+$result3 = $conn->query($sql3);
+$cidade = $result3->fetch_assoc();
+$frete = $cidade["precoFrete"];
 $sqlInsert =
-    "INSERT INTO  pedido(dataPedido, quantidade, preco, codPedido, cliente, produto)
-VALUES (NOW(), '$quantidade', '$preco', '$codPedido', '$idCliente','$idProduto')";
+    "INSERT INTO  pedido(dataPedido, quantidade, preco, codPedido, cliente, produto,precoFrete)
+VALUES (NOW(), '$quantidade', '$preco', '$codPedido', '$idCliente','$idProduto' , '$frete')";
 
 
 if ($conn->query($sqlInsert) === TRUE) {

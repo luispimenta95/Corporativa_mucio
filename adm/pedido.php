@@ -34,50 +34,51 @@ $dataFim = "";
 $buscar = "";
 if (isset($_POST["todos"])) {
     $buscar = "todos";
-    $buscaTodos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+    $buscaTodos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
     ";
 }
 
 if (!isset($_POST['dataIni']) && !isset($_POST['dataFim'])) {
-    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente";
+    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente";
 } else {
     $dataIni = $_POST["dataIni"];
     $dataFim = $_POST["dataFim"];
-    $filtroData = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and dataPedido >= '" . $dataIni . " ' and dataPedido <= '" . $dataFim . "'
+    $filtroData = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and dataPedido between '$dataIni' and '$dataFim'
+
     ";
 }
 if (!isset($_POST['termo'])) {
-    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
     limit $incio, $quantidade_pg";
 } else {
     $pesquisa = $_POST["termo"];
 
-    $filtroClientes = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and nomeCliente  LIKE '%" . $pesquisa . "%'";
+    $filtroClientes = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and nomeCliente  LIKE '%" . $pesquisa . "%'";
 }
 
 if (!isset($_POST['codigo'])) {
-    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
     limit $incio, $quantidade_pg";
 } else {
     $codPedido = $_POST["codigo"];
 
-    $filtroCodigo = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and codPedido=   . $codPedido . ";
+    $filtroCodigo = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and codPedido=   . $codPedido . ";
 }
 if (!isset($_POST['produto'])) {
-    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
     limit $incio, $quantidade_pg";
 } else {
     $nomeProduto = $_POST["produto"];
 
-    $filtroProduto = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and nomeProduto  LIKE '%" . $nomeProduto . "%'";
+    $filtroProduto = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and nomeProduto  LIKE '%" . $nomeProduto . "%'";
 }
 if (!isset($_POST['codigo'])) {
-    $pesquisaCodigo = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+    $pesquisaCodigo = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
     limit $incio, $quantidade_pg";
 } else {
     $codPedido = $_POST["codigo"];
 
-    $filtroCodigo = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and codPedido = $codPedido";
+    $filtroCodigo = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and codPedido = '$codPedido'";
 }
 
 if ($dataIni != "" && $dataFim != "") {
@@ -92,13 +93,6 @@ if ($dataIni != "" && $dataFim != "") {
 } else if ($buscar == "todos") {
     $pesquisaPedidos = $buscaTodos;
 }
-/*
-preciso fazer os filtros:
-Filtro por nome de cliente - OK
-Filtro por data de pedido - Implementar
-Filtro por nome de produto - Implementar
-Filtro por código de pedido - Implementar
-*/
 
 $resultadoPedidos = mysqli_query($conn, $pesquisaPedidos);
 $totalPedidos = mysqli_num_rows($resultadoPedidos);
@@ -200,17 +194,19 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
                                             </div>
                                         </form>
                                     </div>
+
                                     <div class="form-group col-md-6">
                                         <div class="col">
 
                                             <label for="example-date-input" class="col-form-label">Data inicial</label>
+                                            <form method="POST" action="pedido.php" class="search nav-form">
 
-                                            <input class="form-control" max=<?php echo date('Y-m-d'); ?> type="date" name="dataIni" id="example-date-input">
-                                            <label for="example-date-input" class="col-form-label">Data inicial</label>
+                                                <input class="form-control" max=<?php echo date('Y-m-d', strtotime(date("Y-m-d") . "-1 day")); ?> type="date" name="dataIni" id="example-date-input">
+                                                <label for="example-date-input" class="col-form-label">Data Final</label>
 
-                                            <input class="form-control" max=<?php echo date('Y-m-d'); ?> type="date" name="dataIni" id="example-date-input">
-                                            <button type="submit" class="btn btn-primary btn-sm">Filtrar por datas</button>
-
+                                                <input class="form-control" max=<?php echo date('Y-m-d', strtotime(date("Y-m-d") . "-1 day")); ?> type="date" name="dataFim" id="example-date-input">
+                                                <button type="submit" class="btn btn-primary btn-sm">Filtrar por datas</button>
+                                            </form>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12 text-right">
@@ -256,7 +252,7 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
 
 
             if ($totalPedidos == 0) {
-                $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+                $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
     limit $incio, $quantidade_pg";
 
                 $resultadoPedidos = mysqli_query($conn, $pesquisaPedidos);
@@ -278,7 +274,10 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
                         <th>Nome</th>
                         <th>Preço Unitário</th>
                         <th>Quantidade</th>
-                        <th>Preço total</th>
+                        <th>Preço dos produtos</th>
+                        <th>Preço do frete</th>
+                        <th>Preço total do pedido</th>
+
                         <th>Comprador</th>
                         <th>Data do pedido</th>
 
@@ -299,6 +298,10 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
                             <th>R$ <?php echo number_format($row["precoPedido"], 2, ",", "."); ?> </th>
                             <th> <?php echo $row["quantidade"] ?> </th>
                             <th>R$ <?php echo number_format($somaProduto, 2, ",", "."); ?> </th>
+                            <?php $frete = $row["precoFrete"]; ?>
+                            <th>R$ <?php echo number_format($frete, 2, ",", "."); ?> </th>
+                            <th>R$ <?php echo number_format(($somaProduto + $frete), 2, ",", "."); ?> </th>
+
                             <th> <?php echo $row["nomeCliente"] ?> </th>
                             <th>
                                 <?php echo date('d/m/Y', strtotime($row["dataPedido"])); ?>
@@ -310,11 +313,11 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
                     } ?>
 
                         <tr>
-                            <td style="visibility:hidden" colspan="5">
+                            <td style="visibility:hidden" colspan="7">
                             </td>
                             <td> Total de pedidos listados : <?php
                                                                 if ($totalPedidos == 0) {
-                                                                    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
+                                                                    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
                 limit $incio, $quantidade_pg";
                                                                     $resultadoPedidos = mysqli_query($conn, $pesquisaPedidos);
                                                                     $totalPedidos = mysqli_num_rows($resultadoPedidos);
