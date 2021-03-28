@@ -29,7 +29,7 @@ if (isset($_FILES['arquivo'])) {
 
     if (move_uploaded_file($_FILES['arquivo']['tmp_name'], $_UP['pasta'] . $novo_nome)) {
         $logoProduto = $novo_nome;
-        $sqlUpdate = "UPDATE produto SET nomeProduto = '$nomeProduto', precoAtacado = '$precoAtacado' , precoDelivery = '$precoDelivery,'estoque = '$estoque',
+        $sqlUpdate = "UPDATE produto SET nomeProduto = '$nomeProduto', precoAtacado = '$precoAtacado' , precoDelivery = '$precoDelivery',estoque = '$estoque',
             codigo = '$codigo', unidade = '$variacao', ativo = '$situacao', imagem = '$logoProduto' 
           where idProduto=$idProduto";
     } else {
@@ -40,10 +40,12 @@ if (isset($_FILES['arquivo'])) {
 
     if ($conn->query($sqlUpdate) === TRUE) {
         $_SESSION['msg'] = $mensagens["edicao"];
-    
+
         header("Location:produto.php");
     } else {
-    
-        $_SESSION['msg'] = $mensagens["erroEdicao"];
-        header("Location:produto.php");
+        echo $sqlUpdate;
+
+        // $_SESSION['msg'] = $mensagens["erroEdicao"];
+        //header("Location:produto.php");
     }
+}

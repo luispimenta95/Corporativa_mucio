@@ -3,15 +3,17 @@ session_start();
 include '../conecta.php';
 include '../mensagemPadrao.php';
 
-$idProduto = $_GET["id"];
+
 $nomeProduto = $_POST["nome"];
-$preco = $_POST["preco"];
+$precoAtacado = $_POST["precoAtacado"];
+$precoDelivery = $_POST["precoDelivery"];
 $codigo = $_POST["codigo"];
 $estoque = $_POST["quantidade"];
 $variacao = $_POST["variacao"];
-$preco = str_replace(",", ".", $preco);
-$preco = str_replace("R$", "", $preco);
-
+$precoAtacado = str_replace(",", ".", $precoAtacado);
+$precoAtacado = str_replace("R$", "", $precoAtacado);
+$precoDelivery = str_replace(",", ".", $precoDelivery);
+$precoDelivery = str_replace("R$", "", $precoDelivery);
 $logoProduto;
 
 if (isset($_FILES['arquivo'])) {
@@ -25,8 +27,8 @@ if (isset($_FILES['arquivo'])) {
 
     if (move_uploaded_file($_FILES['arquivo']['tmp_name'], $_UP['pasta'] . $novo_nome)) {
         $logoProduto = $novo_nome;
-        $sqlInsert = "INSERT INTO produto (nomeProduto,preco,codigo,estoque,unidade,imagem,dataCadastro)
-        VALUES ('$nomeProduto','$preco','$codigo','$estoque','$variacao','$logoProduto',NOW())";
+        $sqlInsert = "INSERT INTO produto (nomeProduto,precoAtacado,precoDelivery,codigo,estoque,unidade,imagem,dataCadastro)
+        VALUES ('$nomeProduto','$precoAtacado','$precoDelivery','$codigo','$estoque','$variacao','$logoProduto',NOW())";
     }
 
     if ($conn->query($sqlInsert) === TRUE) {

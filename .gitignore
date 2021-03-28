@@ -1,5 +1,7 @@
 # Build and Release Folders
 bin-debug/
+#imagens/
+
 adm/Imagens_produto/
 bin-release/
 [Oo]bj/
