@@ -21,7 +21,7 @@ if (isset($_SESSION["idAdministrador"])) {
 <body>
 	<div class="container">
 		<div class="form-signin">
-			<h2 class="text-center">Área restrita</h2>
+			<h2 class="text-center">Área Administrativa</h2>
 			<?php
 			if (isset($_SESSION['msg'])) {
 				echo $_SESSION['msg'];
