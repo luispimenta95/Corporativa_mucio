@@ -195,7 +195,7 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
       <div class="col-md-4">
         <div class="thumbnail">
 
-          <img src="../adm/Imagens_produto/<?php echo $row["imagem"] ?>" alt="Lights" style="width:100%">
+          <img src="../adm/Imagens_produto/<?php echo $row["imagem"] ?>" alt="Imagem do produto" style="width:100%">
           <div class="caption">
             <h3 class="text-center"> <?php echo $row['nomeProduto'] ?> </h3>
 
