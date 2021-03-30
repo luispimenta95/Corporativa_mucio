@@ -206,6 +206,7 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
 
               <h3 class="text-center"> R$ <?php echo number_format($row["precoDelivery"], 2, ",", "."); ?> </h3>
             <?php } ?>
+            <br>
             <form action="inserirPedido.php?id=<?php echo $row["idProduto"]; ?>" method="POST" class="form-group">
 
               <input type="number" min=0 max=1000 class="form-control" name="contador" required />
