@@ -181,12 +181,7 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
         </div>
 
         <footer class="my-5 pt-5 text-muted text-center text-small">
-            <p class="mb-1">© 2017-2018 Nome da companhia</p>
-            <ul class="list-inline">
-                <li class="list-inline-item"><a href="#">Privacidade</a></li>
-                <li class="list-inline-item"><a href="#">Termos</a></li>
-                <li class="list-inline-item"><a href="#">Suporte</a></li>
-            </ul>
+            <p class="mb-1">© 20201 Legrano Orgânicos</p>
         </footer>
     </div>
 

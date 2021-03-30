@@ -197,7 +197,7 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
 
           <img src="../adm/Imagens_produto/<?php echo $row["imagem"] ?>" alt="Imagem do produto" style="width:100%">
           <div class="caption">
-            <h3 class="text-center"> <?php echo $row['nomeProduto'] ?> </h3>
+            <h3 class="text-center"> <?php echo $row['nomeProduto'] . " " . $row['unidade'] ?> </h3>
 
             <?php if ($_SESSION["tipoCliente"] == 1) { ?>
               <h3 class="text-center"> R$ <?php echo number_format($row["precoAtacado"], 2, ",", "."); ?> </h3>
