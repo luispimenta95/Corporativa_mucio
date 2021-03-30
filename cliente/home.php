@@ -210,6 +210,7 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
             <form action="inserirPedido.php?id=<?php echo $row["idProduto"]; ?>" method="POST" class="form-group">
 
               <input type="number" min=0 max=1000 class="form-control" name="contador" required />
+              <br>
               <button type="submit" class=" btn btn-success btn-sm">Adicionar ao carrinho</button>
 
             </form>
