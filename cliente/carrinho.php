@@ -181,7 +181,7 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
         </div>
 
         <footer class="my-5 pt-5 text-muted text-center text-small">
-            <p class="mb-1">© 20201 Legrano Orgânicos</p>
+            <p class="mb-1">© 2021 Legrano Orgânicos</p>
         </footer>
     </div>
 
