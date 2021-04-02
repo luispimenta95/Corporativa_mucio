@@ -34,51 +34,57 @@ $dataFim = "";
 $buscar = "";
 if (isset($_POST["todos"])) {
     $buscar = "todos";
-    $buscaTodos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
-    ";
+    $buscaTodos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c
+     where idProduto = produto and idCliente = cliente and pedidoFinalizado = 1 ";
 }
 
 if (!isset($_POST['dataIni']) && !isset($_POST['dataFim'])) {
-    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente";
+    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c
+     where idProduto = produto and idCliente = cliente and pedidoFinalizado = 1";
 } else {
     $dataIni = $_POST["dataIni"];
     $dataFim = $_POST["dataFim"];
-    $filtroData = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and dataPedido between '$dataIni' and '$dataFim'
-
+    $filtroData = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c
+     where idProduto = produto and idCliente = cliente and dataPedido between '$dataIni' and '$dataFim' and pedidoFinalizado = 1
     ";
 }
 if (!isset($_POST['termo'])) {
-    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
-    limit $incio, $quantidade_pg";
+    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c
+     where idProduto = produto and idCliente = cliente and pedidoFinalizado = 1  limit $incio, $quantidade_pg";
 } else {
     $pesquisa = $_POST["termo"];
 
-    $filtroClientes = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and nomeCliente  LIKE '%" . $pesquisa . "%'";
+    $filtroClientes = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c 
+    where idProduto = produto and idCliente = cliente and nomeCliente  LIKE '%" . $pesquisa . "%' and pedidoFinalizado = 1
+    ";
 }
 
 if (!isset($_POST['codigo'])) {
-    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
-    limit $incio, $quantidade_pg";
+    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c 
+    where idProduto = produto and idCliente = cliente and pedidoFinalizado = 1 limit $incio, $quantidade_pg";
 } else {
     $codPedido = $_POST["codigo"];
 
-    $filtroCodigo = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and codPedido=   . $codPedido . ";
+    $filtroCodigo = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c 
+    where idProduto = produto and idCliente = cliente and codPedido=   . $codPedido .  and pedidoFinalizado = 1 ";
 }
 if (!isset($_POST['produto'])) {
-    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
-    limit $incio, $quantidade_pg";
+    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c
+     where idProduto = produto and idCliente = cliente and pedidoFinalizado = 1 limit $incio, $quantidade_pg";
 } else {
     $nomeProduto = $_POST["produto"];
 
-    $filtroProduto = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and nomeProduto  LIKE '%" . $nomeProduto . "%'";
+    $filtroProduto = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c 
+    where idProduto = produto and idCliente = cliente and nomeProduto  LIKE '%" . $nomeProduto . "%' and pedidoFinalizado = 1";
 }
 if (!isset($_POST['codigo'])) {
-    $pesquisaCodigo = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
-    limit $incio, $quantidade_pg";
+    $pesquisaCodigo = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c
+     where idProduto = produto and idCliente = cliente and pedidoFinalizado = 1 limit $incio, $quantidade_pg";
 } else {
     $codPedido = $_POST["codigo"];
 
-    $filtroCodigo = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente and codPedido = '$codPedido'";
+    $filtroCodigo = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c
+     where idProduto = produto and idCliente = cliente and codPedido = '$codPedido' and pedidoFinalizado = 1";
 }
 
 if ($dataIni != "" && $dataFim != "") {
@@ -252,8 +258,8 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
 
 
             if ($totalPedidos == 0) {
-                $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
-    limit $incio, $quantidade_pg";
+                $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr,
+                 cliente c where idProduto = produto and idCliente = cliente and pedidoFinalizado = 1 limit $incio, $quantidade_pg";
 
                 $resultadoPedidos = mysqli_query($conn, $pesquisaPedidos);
 
@@ -317,8 +323,9 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
                             </td>
                             <td> Total de pedidos listados : <?php
                                                                 if ($totalPedidos == 0) {
-                                                                    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, produto pr, cliente c where idProduto = produto and idCliente = cliente
-                limit $incio, $quantidade_pg";
+                                                                    $pesquisaPedidos = "select idpedido,codPedido,quantidade, pe.preco precoPedido, dataPedido,precoFrete, nomeProduto, nomeCliente from pedido pe, 
+                                                                    produto pr, cliente c where idProduto = produto and idCliente = cliente and
+                                                                     pedidoFinalizado = 1 limit $incio, $quantidade_pg";
                                                                     $resultadoPedidos = mysqli_query($conn, $pesquisaPedidos);
                                                                     $totalPedidos = mysqli_num_rows($resultadoPedidos);
                                                                 }
