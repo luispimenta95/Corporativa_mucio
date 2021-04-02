@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('../.conecta.php');
+include('../configs/.conecta.php');
 include('../mensagemPadrao.php');
 
 $idProduto = $_GET['id'];

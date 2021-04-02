@@ -1,7 +1,7 @@
 <?php
 session_start();
 $idCliente = $_POST["idCliente"];
-include '../.conecta.php';
+include '../configs/.conecta.php';
 include '../adm/funcoes.php';
 include '../mensagemPadrao.php';
 $pesquisaUsuarios = "SELECT * from cliente u  where u.idCliente = $idCliente";

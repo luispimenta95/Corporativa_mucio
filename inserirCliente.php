@@ -2,7 +2,7 @@
 session_start();
 require 'mailer/PHPMailerAutoload.php';
 
-include '.conecta.php';
+include 'configs/.conecta.php';
 include 'adm/funcoes.php';
 include 'mensagemPadrao.php';
 

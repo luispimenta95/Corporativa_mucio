@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../.conecta.php';
+include '../configs/.conecta.php';
 include 'funcoes.php';
 include '../mensagemPadrao.php';
 

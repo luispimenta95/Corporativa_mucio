@@ -8,7 +8,7 @@ if (!isset($_SESSION["idCliente"])) {
 if ($_SESSION["primeiroAcesso"] == 1) {
     header("Location:primeiroAcesso.php");
 }
-include '../.conecta.php';
+include '../configs/.conecta.php';
 include '../mensagemPadrao.php';
 $codPedido = $_SESSION["codPedido"];
 $pesquisaPedidos = "select idpedido,codPedido,sum(quantidade) as quantidade, pe.preco precoPedido,pe.pedidoFinalizado,
