@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../conecta.php';
+include '../.conecta.php';
 include '../mensagemPadrao.php';
 
 if (!isset($_SESSION["idAdministrador"])) {
