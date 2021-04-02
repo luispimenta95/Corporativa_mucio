@@ -1,7 +1,7 @@
 <?php
 // Incluindo o autoload do DOM PDF
 require_once 'dompdf/autoload.inc.php';
-include("../configs/.conecta.php");
+include("../configuracoes/.conecta.php");
 
 mysqli_set_charset($conn, 'utf8');
 $sql = $_POST['sql'];

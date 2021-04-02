@@ -2,7 +2,7 @@
 session_start();
 $idCliente = $_SESSION["idCliente"];
 
-include '../configs/.conecta.php';
+include '../configuracoes/.conecta.php';
 include '../mensagemPadrao.php';
 
 if (!isset($_SESSION["idCliente"])) {
