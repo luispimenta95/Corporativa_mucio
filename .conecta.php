@@ -1,5 +1,5 @@
 <?php
-include("configuracao.php");
+include(".configuracao.php");
 
 $url = strtolower(preg_replace('/[^a-zA-Z]/', '', $_SERVER['SERVER_PROTOCOL'])) . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
 $urls = explode("/", $url);
