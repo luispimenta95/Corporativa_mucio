@@ -8,4 +8,3 @@ if (in_array("localhost", $urls)) {
 } else {
    $conn = new MySQLi($conexao["servidor"], $conexao["usuarioRemoto"],  $conexao["senhaRemoto"], $conexao["bancoRemoto"]);
 }
-kkkkkk
