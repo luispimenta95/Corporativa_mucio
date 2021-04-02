@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include '../configuracoes/.conecta.php';
+include '../BD/.conecta.php';
 include '../adm/funcoes.php';
 include '../mensagemPadrao.php';
 

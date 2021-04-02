@@ -1,7 +1,7 @@
 <?php
 session_start();
 include("mensagemPadrao.php");
-include("configuracoes/.conecta.php");
+include("BD/.conecta.php");
 
 if (isset($_SESSION["idAdministrador"])) {
 	header("Location:adm/home.php");
