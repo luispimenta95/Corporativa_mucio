@@ -22,6 +22,7 @@ $html .= '<th>Endereço</th>';
 $html .= '<th>Tipo do cliente</th>';
 
 $html .= '<th>Situação do cliente</th>';
+$html .= '<th>Cidade para entregas</th>';
 
 $html .= '<th>Data de associação</th>';
 
@@ -52,6 +53,8 @@ while ($row = $result->fetch_assoc()) {
     if ($row["ativo"] == 1) {
         $html .= '<td> Ativo </td>';
     } else $html .= '<td> Inativo </td>';
+    $html .= '<td>' . $row['nomeCidade'] . "</td>";
+
     $html .= '<td>' . date('d/m/Y', strtotime($row["dataCadastro"])) . "</td>";
 }
 
