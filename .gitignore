@@ -2,7 +2,7 @@
 bin-debug/
 imagens/
 adm/Imagens_produto/
-
+configs/
 # Other files and folders
 *.log
 !example.log
