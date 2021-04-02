@@ -1,5 +1,10 @@
 <?php
-$conn = new MySQLi('localhost', 'u774307099_pimenta', 'Mp13151319', 'u774307099_legrano');
-if ($conn->connect_error) {
-   echo "Desconectado! Erro: " . $conn->connect_error;
+include("configuracao.php");
+
+$url = strtolower(preg_replace('/[^a-zA-Z]/', '', $_SERVER['SERVER_PROTOCOL'])) . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
+$urls = explode("/", $url);
+if (in_array("localhost", $urls)) {
+   $conn = new MySQLi($conexao["servidor"], $conexao["usuarioLocal"],  $conexao["senhaLocal"], $conexao["bancoLocal"]);
+} else {
+   $conn = new MySQLi($conexao["servidor"], $conexao["usuarioRemoto"],  $conexao["senhaRemoto"], $conexao["bancoRemoto"]);
 }
