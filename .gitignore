@@ -1,7 +1,8 @@
 # Build and Release Folders
 bin-debug/
 imagens/
-
+.conecta.php
+.configuracao.php
 adm/Imagens_produto/
 bin-release/
 [Oo]bj/
