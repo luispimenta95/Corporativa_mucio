@@ -14,7 +14,9 @@ $html .= '<th>Código do pedido</th>';
 $html .= '<th>Nome do produto</th>';
 $html .= '<th>Preço unitário</th>';
 $html .= '<th>Quantidade</th>';
-$html .= '<th>Preço total</th>';
+$html .= '<th>Valor dos produtos</th>';
+$html .= '<th>Valor dos frete</th>';
+$html .= '<th>Valor do pedido</th>';
 $html .= '<th>Comprador</th>';
 $html .= '<th>Data do pedido</th>';
 
@@ -42,6 +44,10 @@ while ($row = $result->fetch_assoc()) {
     $html .= '<td>' . number_format($row["precoPedido"], 2, ",", ".") . "</td>";
     $html .= '<td>' . $row['quantidade'] . "</td>";
     $html .= '<td>' . number_format($somaProduto, 2, ",", ".") . "</td>";
+    $frete = $row["precoFrete"];
+    $html .= '<td>' . number_format($frete, 2, ",", ".") . "</td>";
+    $html .= '<td>' . number_format(($somaProduto + $frete), 2, ",", ".") . "</td>";
+
     $html .= '<td>' . $row['nomeCliente'] . "</td>";
     $html .= '<td>' . date('d/m/Y', strtotime($row["dataPedido"])) . "</td>";
 }
