@@ -47,7 +47,7 @@ include 'BD/.conecta.php';
                 <ul class="nav navbar-nav">
                     <li><a target="_self" href="#what-we-do">QUEM SOMOS</a></li>
                     <li><a href="#fazenda">CLUB LEGRANO</a></li>
-                    <li><a href="#cestas">PLANO DE CESTAS</a></li>
+                    <!--  <li><a href="#cestas">PLANO DE CESTAS</a></li> -->
                     <li><a href="#contato">CONTATO</a></li>
                     <li><a href="loginCliente.php"><span class="glyphicon glyphicon-user"></span> Faça login</a></li>
                     <?php
@@ -351,7 +351,7 @@ include 'BD/.conecta.php';
 
     </section>
 
-
+    <!--
     <section class="fundo">
 
 
@@ -361,7 +361,6 @@ include 'BD/.conecta.php';
 
         <div class="container content">
             <div class="row">
-                <!-- Pricing -->
 
 
 
@@ -394,7 +393,7 @@ include 'BD/.conecta.php';
 
     </section>
 
-
+-->
     <div class="text-center">
         <?php
 
@@ -418,7 +417,7 @@ include 'BD/.conecta.php';
                         <div class="card-header bg-dark text-success text-uppercase">Informações de contato</div>
                         <div class="card-body">
                             <br>
-                            <p class="bg-dark text-success"><i class="fa fa-phone-square"> (61)3389.8415 | 99978.9022</i></p>
+                            <!--  <p class="bg-dark text-success"><i class="fa fa-phone-square"> (61)3389.8415 | 99978.9022</i></p> -->
                             <p class="bg-dark text-success"><i class="fa fa-map-marker"> Avenida Floriano Peixoto Q68A LT 4 Lj 1 - Planaltina DF</i></p>
                             <p class="bg-dark text-success"><i class="fa fa-envelope"> contato@legrano.com.br</p></i>
                             <p class="bg-dark text-success"><a class="bg-dark text-success" target="_blank" href="https://www.instagram.com/legranoorganicos/?hl=pt-br"><i class="fa fa-instagram"> Nos siga no Instagram</i></a></p>
