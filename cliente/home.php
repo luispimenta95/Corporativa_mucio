@@ -91,10 +91,10 @@ $totalPedidos = mysqli_num_rows($resultadoPedidos);
       <li class="nav-item">
         <a class="nav-link" href="home.php">Inicio</a>
       </li>
-      <li class="nav-item">
+      <!--  <li class="nav-item">
         <a class="nav-link" href="historico.php">Pedidos</a>
       </li>
-
+-->
     </ul>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
