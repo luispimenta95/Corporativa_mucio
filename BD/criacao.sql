@@ -8,7 +8,7 @@ ativo boolean default 1,
 telefoneAdministrador varchar(255),
 dataCadastro timestamp,
 administradorMaster boolean default 0
-    );,
+    );
     create table categoria (
         idCategoria int auto_increment not null primary key,
         nomeCategoria varchar(255)
