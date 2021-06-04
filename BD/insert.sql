@@ -1,5 +1,4 @@
   insert into categoria (nomeCategoria) values ("Categoria inicial");
-
   insert into produto (codigo, nomeproduto, unidade, precoAtacado,categoria) values (	451	,'Abacate  	','kg',9.80	,1);
   insert into produto (codigo, nomeproduto, unidade, precoAtacado,categoria) values (	1865	,'Abacaxi 	','un ',11.20	,1);
   insert into produto (codigo, nomeproduto, unidade, precoAtacado,categoria) values (	5450	,'Abobora Barbara 	','kg',4.90	,1);
