@@ -225,7 +225,6 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
                 <th> Preço Atacado</th>
                 <th> Preço Delivery</th>
                 <th> Quantidade em estoque</th>
-
                 <th> Situação</th>
                 <th> Editar</th>
 
