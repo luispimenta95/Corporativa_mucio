@@ -40,30 +40,32 @@ if (isset($_POST['todos'])) {
     precoAtacado,
     precoDelivery,
     estoque,
-    dataCadastro 
+    dataCadastro,
+    nomeCategoria 
     from 
-    produto p order by p.nomeProduto";
+    produto p order by p.nomeProduto inner join categoria c on p.idCategoria = c.idCategoria";
 }
 if (!isset($_POST['termo'])) {
     $pesquisaProdutos = "select 
-    idProduto,
+    idProduto, 
     nomeProduto,
-    codigo,
-    imagem,
+    codigo, 
+    imagem, 
     ativo , 
     dataCadastro,
-    unidade,
-    precoAtacado,
+    unidade, 
+    precoAtacado, 
     precoDelivery,
     estoque,
-    dataCadastro 
-    from 
-    produto p order by p.nomeProduto limit $incio, $quantidade_pg";
+    dataCadastro,
+    nomeCategoria
+    from produto p INNER JOIN categoria c
+    on p.categoria = c.idCategoria order by p.nomeProduto limit $incio, $quantidade_pg";
 } else {
     $pesquisa = $_POST["termo"];
 
-    $pesquisaProdutos = "select idProduto, nomeProduto, codigo, imagem, ativo, dataCadastro, unidade, precoAtacado,precoDelivery, estoque 
-    from produto p WHERE p.nomeProduto LIKE '%" . $pesquisa . "%'";
+    $pesquisaProdutos = "select idProduto, nomeProduto, codigo, imagem, ativo, dataCadastro, unidade, precoAtacado,precoDelivery, estoque,dataCadastro,nomeCategoria 
+    from produto p INNER JOIN categoria c ON p.categoria = c.idCategoria WHERE p.nomeProduto LIKE '%" . $pesquisa . "%'";
 }
 if ($pesquisa == "todos") {
     $pesquisaProdutos = $listaTodos;
@@ -185,19 +187,22 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
 
 
     if ($totalProdutos == 0) {
-        $pesquisaUsuarios = "select 
-        idCliente,
-        nomeCliente,
-        cpf_cnpj,
-        emailCliente,
+        $pesquisaProdutos = "select 
+        idProduto, 
+        nomeProduto,
+        codigo, 
+        imagem, 
         ativo , 
-        enderecoCliente,
-        atacado,
-        telefoneCliente,
-        dataCadastro 
-        from 
-        cliente c order by c.nomeCliente limit $incio, $quantidade_pg";
-        $resultadoUsuarios = mysqli_query($conn, $pesquisaUsuarios);
+        dataCadastro,
+        unidade, 
+        precoAtacado, 
+        precoDelivery,
+        estoque,
+        dataCadastro,
+        nomeCategoria
+        from produto p INNER JOIN categoria c
+        on p.categoria = c.idCategoria order by p.nomeProduto limit $incio, $quantidade_pg";
+        $resultadoProdutos = mysqli_query($conn, $pesquisaProdutos);
 
         $_SESSION["msg"] = $mensagens["semRegistro"];
     }
@@ -216,6 +221,7 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
                 <th>Imagem</th>
                 <th> Código</th>
                 <th> Produto</th>
+                <th> Categoria</th>
                 <th> Preço Atacado</th>
                 <th> Preço Delivery</th>
                 <th> Quantidade em estoque</th>
@@ -241,6 +247,7 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
                     <th> <?php echo $row["codigo"] ?> </th>
 
                     <th> <?php echo $row["nomeProduto"] ?> </th>
+                    <th> <?php echo $row["nomeCategoria"] ?> </th>
                     <th> R$ <?php echo number_format($row["precoAtacado"], 2, ",", "."); ?> </th>
                     <th> R$ <?php echo number_format($row["precoDelivery"], 2, ",", "."); ?> </th>
 
