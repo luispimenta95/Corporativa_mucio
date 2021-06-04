@@ -148,6 +148,16 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
                                 </form>
                             </div>
 
+                            <div class="form-group col-md-6">
+                                <form method="POST" action="produto.php" class="search nav-form">
+                                    <div class="input-group input-search">
+                                        <input type="text" class="form-control" name="termo" id="q" placeholder="Pesquisa por categoria...">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                </form>
+                            </div>
 
                             <div class="form-group col-md-12 text-right">
                                 <form method="POST" action="relatorioProduto.php" class="search nav-form">
