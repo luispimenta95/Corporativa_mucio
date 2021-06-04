@@ -30,7 +30,7 @@ create table cidade(
       estado int,
       nomeCidade varchar(50),
       precoFrete float,
-      entrega boolean default 0,
+      entrega boolean default 0
   );
 
 create table cliente (
