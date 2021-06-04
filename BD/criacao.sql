@@ -8,7 +8,12 @@ ativo boolean default 1,
 telefoneAdministrador varchar(255),
 dataCadastro timestamp,
 administradorMaster boolean default 0
+    );,
+    create table categoria (
+        idCategoria int auto_increment not null primary key,
+        nomeCategoria varchar(255)
     );
+
     create table tipoCliente(
         idTipoCliente int auto_increment not null primary key,
         nomeTipoCliente varchar(255)
@@ -57,7 +62,10 @@ unidade varchar(25),
 precoAtacado float,
 precoDelivery float,
 estoque int default 0,
-dataCadastro timestamp
+dataCadastro timestamp,
+categoria int,
+foreign key(categoria) references categoria (idCategoria) ON update cascade on delete restrict
+
 
     );
         
