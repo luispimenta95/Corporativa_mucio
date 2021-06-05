@@ -23,7 +23,7 @@ if ($conn->query($sqlUpdate) === TRUE) {
 }
 */
 
-/*
+
 mysqli_set_charset($conn, 'utf8');
 $sqlPesquisa = "select idPedido, 
 codPedido,
@@ -37,7 +37,7 @@ from pedido pe,
 produto pr, 
 cliente c 
 where idProduto = produto and idCliente = cliente and codPedido = '$_SESSION[codPedido]' GROUP BY produto";
-/*$html = '<table';
+$html = '<table';
 $html .= '<thead>';
 $html .= '<tr>';
 $html .= '<th>Nome do produto</th>';
@@ -121,12 +121,12 @@ $filePDF = $dompdf->stream("relatorio_" . $dia . "", array(
 
     "Attachment" => false
 ));
-*/
+
 
 
 $mail = new PHPMailer;
 $mail->isSMTP();
-$mail->SMTPDebug = 2;
+$mail->SMTPDebug = false;
 $mail->Host = 'smtp.hostinger.com';
 $mail->Port = 587;
 $mail->SMTPAuth = true;
