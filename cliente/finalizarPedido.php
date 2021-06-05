@@ -7,10 +7,6 @@ require '../vendor/autoload.php';
 require_once '../adm/dompdf/autoload.inc.php';
 include("../BD/.conecta.php");
 include '../mensagemPadrao.php';
-
-
-
-
 mysqli_set_charset($conn, 'utf8');
 $sqlPesquisa = "select idPedido, 
 codPedido,
@@ -31,15 +27,9 @@ $html .= '<th>Nome do produto</th>';
 $html .= '<th>Preço unitário</th>';
 $html .= '<th>Quantidade</th>';
 $html .= '<th>Valor total</th>';
-
-
-
-
 $html .= '</tr>';
 $html .= '</thead>';
 $html .= '<tbody>';
-
-
 $result = $conn->query($sqlPesquisa);
 $totalPedido = 0;
 $numLinhas = 0;
@@ -145,5 +135,3 @@ if ($conn->query($sqlUpdate) === TRUE) {
     $_SESSION['msg'] = $mensagens["erroFinalizarPedido"];
     header("Location:home.php");
 }
-
-//$mail->addAttachment('test.txt');
