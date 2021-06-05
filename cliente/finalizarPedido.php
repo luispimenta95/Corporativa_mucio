@@ -67,6 +67,7 @@ while ($row = $result->fetch_assoc()) {
     $somaProduto = $row["precoPedido"] * $row["quantidade"];
     $totalPedido += $somaProduto;
     $nomeCliente = $row["nomeCliente"];
+    $codPedido = $row["codPedido"];
     $frete = $row["precoFrete"];
     $html .= '<tr><td>' . $row['nomeProduto'] . "</td>";
     $html .= '<td>' . number_format($row["precoPedido"], 2, ",", ".") . "</td>";
@@ -134,10 +135,9 @@ $mail->Username = 'pedidosclientes@legrano.com.br';
 $mail->Password = 'Organicos0607';
 $mail->setFrom('pedidosclientes@legrano.com.br', 'Pedidos legrano');
 $mail->addAddress('pedidosclientes@legrano.com.br', 'Pedidos legrano');
-$mail->Subject = 'Testing PHPMailer';
-$mail->msgHTML(file_get_contents('message.html'), __DIR__);
-$mail->Body = 'This';
-//$mail->AddAttachment($filePDF);      // attachment
+$mail->Subject = 'Novo pedido de ' . $nomeCliente;
+$mail->Body = 'Em anexo o pedido ' . $codPedido . ' do cliente ' . $nomeCliente;
+$mail->AddAttachment($filePDF);      // attachment
 
 //$mail->addAttachment('test.txt');
 if (!$mail->send()) {
