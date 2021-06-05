@@ -47,12 +47,12 @@ if (!isset($_POST['termo'])) {
     estoque,
     dataCadastro 
     from 
-    produto p order by p.nomeProduto limit $incio, $quantidade_pg";
+    produto p where p.ativo =1 order by p.nomeProduto limit $incio, $quantidade_pg ";
 } else {
   $pesquisa = $_POST["termo"];
 
   $pesquisaProdutos = "select idProduto, nomeProduto, codigo, imagem, ativo, dataCadastro, unidade, precoAtacado, precoDelivery, estoque 
-    from produto p WHERE p.nomeProduto LIKE '%" . $pesquisa . "%'";
+    from produto p WHERE p.nomeProduto LIKE '%" . $pesquisa . "%' and p.ativo =1";
 }
 $resultadoProdutos = mysqli_query($conn, $pesquisaProdutos);
 $totalProdutos = mysqli_num_rows($resultadoProdutos);
