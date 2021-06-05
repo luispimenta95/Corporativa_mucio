@@ -3,7 +3,7 @@ session_start();
 
 use PHPMailer\PHPMailer\PHPMailer;
 
-require 'vendor/autoload.php';
+require '../vendor/autoload.php';
 require_once '../adm/dompdf/autoload.inc.php';
 include("../BD/.conecta.php");
 include '../mensagemPadrao.php';
