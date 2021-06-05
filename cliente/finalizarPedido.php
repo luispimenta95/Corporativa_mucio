@@ -132,17 +132,13 @@ $mail->AddAttachment('pedido.pdf');      // attachment
 $sqlUpdate = "UPDATE pedido SET pedidoFinalizado =1 WHERE codPedido  = '$_SESSION[codPedido]'";
 
 if ($conn->query($sqlUpdate) === TRUE) {
-    if (!$mail->send()) {
-        $_SESSION['msg'] = "Email";
-
-        //        $_SESSION['msg'] = $mensagens["finalizarPedido"];
+    if ($mail->send()) {
+        $_SESSION['msg'] = $mensagens["finalizarPedido"];
         unset($_SESSION['codPedido']);
 
         header("Location:home.php");
     } else {
-        $_SESSION['msg'] =  $sqlUpdate;
-
-        // $_SESSION['msg'] = $mensagens["erroFinalizarPedido"];
+        $_SESSION['msg'] = $mensagens["erroFinalizarPedido"];
         header("Location:home.php");
     }
 } else {
