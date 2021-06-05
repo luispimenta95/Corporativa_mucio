@@ -1,3 +1,4 @@
+<!-- Falta incluir a categoria em todo o crud de produtos -->
 <?php
 session_start();
 include '../BD/.conecta.php';
@@ -27,23 +28,24 @@ $incio = ($quantidade_pg * $pagina) - $quantidade_pg;
 
 //Selecionar os logs a serem apresentado na página
 $pesquisa = "";
-if (isset($_POST['todos'])) {
-    $pesquisa = "todos";
-    $listaTodos = "select 
-    idProduto,
-    nomeProduto,
-    codigo,
-    imagem,
-    ativo , 
-    dataCadastro,
-    unidade,
-    precoAtacado,
-    precoDelivery,
-    estoque,
-    dataCadastro,
-    nomeCategoria 
-    from 
-    produto p order by p.nomeProduto inner join categoria c on p.idCategoria = c.idCategoria";
+$nomeCategoria = "";
+$buscar = "";
+if (isset($_POST["todos"])) {
+    $buscar = "todos";
+    $listaTodos = "select
+     idProduto,
+     nomeProduto, 
+     codigo, 
+     imagem, 
+     ativo , 
+     dataCadastro, 
+     unidade, 
+     precoAtacado, 
+     precoDelivery, 
+     estoque, 
+     dataCadastro, 
+     nomeCategoria 
+     from produto p inner join categoria c on p.categoria = c.idCategoria order by p.nomeProduto";
 }
 if (!isset($_POST['termo'])) {
     $pesquisaProdutos = "select 
@@ -64,13 +66,39 @@ if (!isset($_POST['termo'])) {
 } else {
     $pesquisa = $_POST["termo"];
 
-    $pesquisaProdutos = "select idProduto, nomeProduto, codigo, imagem, ativo, dataCadastro, unidade, precoAtacado,precoDelivery, estoque,dataCadastro,nomeCategoria 
+    $filtroProduto = "select idProduto, nomeProduto, codigo, imagem, ativo, dataCadastro, unidade, precoAtacado,precoDelivery, estoque,dataCadastro,nomeCategoria 
     from produto p INNER JOIN categoria c ON p.categoria = c.idCategoria WHERE p.nomeProduto LIKE '%" . $pesquisa . "%'";
 }
-if ($pesquisa == "todos") {
+
+if (!isset($_POST['categoria'])) {
+    $pesquisaProdutos = "select 
+    idProduto, 
+    nomeProduto,
+    codigo, 
+    imagem, 
+    ativo , 
+    dataCadastro,
+    unidade, 
+    precoAtacado, 
+    precoDelivery,
+    estoque,
+    dataCadastro,
+    nomeCategoria
+    from produto p INNER JOIN categoria c
+    on p.categoria = c.idCategoria order by p.nomeProduto limit $incio, $quantidade_pg";
+} else {
+    $nomeCategoria = $_POST["categoria"];
+
+    $filtroCategoria = "select idProduto, nomeProduto, codigo, imagem, ativo, dataCadastro, unidade, precoAtacado,precoDelivery, estoque,dataCadastro,nomeCategoria 
+    from produto p INNER JOIN categoria c ON p.categoria = c.idCategoria WHERE c.nomeCategoria LIKE '%" . $nomeCategoria . "%'";
+}
+if ($pesquisa != "") {
+    $pesquisaProdutos = $filtroProduto;
+} else if ($nomeCategoria != "") {
+    $pesquisaProdutos = $filtroCategoria;
+} else if ($buscar == "todos") {
     $pesquisaProdutos = $listaTodos;
 }
-
 
 $resultadoProdutos = mysqli_query($conn, $pesquisaProdutos);
 $totalProdutos = mysqli_num_rows($resultadoProdutos);
@@ -151,7 +179,7 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
                             <div class="form-group col-md-6">
                                 <form method="POST" action="produto.php" class="search nav-form">
                                     <div class="input-group input-search">
-                                        <input type="text" class="form-control" name="termo" id="q" placeholder="Pesquisa por categoria...">
+                                        <input type="text" class="form-control" name="categoria" id="q" placeholder="Pesquisa por categoria...">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
                                         </span>
