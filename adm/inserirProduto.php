@@ -10,6 +10,7 @@ $precoDelivery = $_POST["precoDelivery"];
 $codigo = $_POST["codigo"];
 $estoque = $_POST["quantidade"];
 $variacao = $_POST["variacao"];
+$categoria = $_POST["categoria"];
 $precoAtacado = str_replace(",", ".", $precoAtacado);
 $precoAtacado = str_replace("R$", "", $precoAtacado);
 $precoDelivery = str_replace(",", ".", $precoDelivery);
@@ -27,8 +28,8 @@ if (isset($_FILES['arquivo'])) {
 
     if (move_uploaded_file($_FILES['arquivo']['tmp_name'], $_UP['pasta'] . $novo_nome)) {
         $logoProduto = $novo_nome;
-        $sqlInsert = "INSERT INTO produto (nomeProduto,precoAtacado,precoDelivery,codigo,estoque,unidade,imagem,dataCadastro)
-        VALUES ('$nomeProduto','$precoAtacado','$precoDelivery','$codigo','$estoque','$variacao','$logoProduto',NOW())";
+        $sqlInsert = "INSERT INTO produto (nomeProduto,categoria,precoAtacado,precoDelivery,codigo,estoque,unidade,imagem,dataCadastro)
+        VALUES ('$nomeProduto',$categoria,'$precoAtacado','$precoDelivery','$codigo','$estoque','$variacao','$logoProduto',NOW())";
     }
 
     if ($conn->query($sqlInsert) === TRUE) {

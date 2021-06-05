@@ -332,6 +332,27 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
                                             </div>
                                         </div>
 
+                                        <div class="form-group row" required>
+                                            <label for="inputEmail3" class="col-sm-6 col-form-label">Categoria do produto</label>
+                                            <div class="form-group row">
+                                                <select name="categoria" required>
+                                                    <option>Selecione</option>
+                                                    <?php
+
+                                                    $sql2 = "SELECT * from  categoria order by nomeCategoria";
+                                                    $result2 = $conn->query($sql2);
+
+                                                    while ($socio2 = $result2->fetch_assoc()) {
+
+                                                    ?>
+                                                        <option value="<?php echo $socio2["idCategoria"]; ?>"><?php echo $socio2["nomeCategoria"]; ?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
                                         <div class="form-group row">
                                             <label for="inputEmail3" class="col-sm-2 col-form-label">Código: </label>
                                             <div class="col-sm-10">
@@ -434,6 +455,26 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
                             <label for="inputEmail3" class="col-sm-2 col-form-label">Nome</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" name="nome" required>
+                            </div>
+                        </div>
+                        <div class="form-group row" required>
+                            <label for="inputEmail3" class="col-sm-6 col-form-label">Categoria do produto</label>
+                            <div class="form-group row">
+                                <select name="categoria" required>
+                                    <option>Selecione</option>
+                                    <?php
+
+                                    $sql2 = "SELECT * from  categoria order by nomeCategoria";
+                                    $result2 = $conn->query($sql2);
+
+                                    while ($socio2 = $result2->fetch_assoc()) {
+
+                                    ?>
+                                        <option value="<?php echo $socio2["idCategoria"]; ?>"><?php echo $socio2["nomeCategoria"]; ?></option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
                             </div>
                         </div>
 

@@ -11,6 +11,7 @@ $estoque = $_POST["quantidade"];
 $codigo = $_POST["codigo"];
 $variacao = $_POST["variacao"];
 $situacao = $_POST["situacao"];
+$categoria = $_POST["categoria"];
 
 $precoAtacado = str_replace(",", ".", $precoAtacado);
 $precoAtacado = str_replace("R$", "", $precoAtacado);
@@ -30,11 +31,11 @@ if (isset($_FILES['arquivo'])) {
     if (move_uploaded_file($_FILES['arquivo']['tmp_name'], $_UP['pasta'] . $novo_nome)) {
         $logoProduto = $novo_nome;
         $sqlUpdate = "UPDATE produto SET nomeProduto = '$nomeProduto', precoAtacado = '$precoAtacado' , precoDelivery = '$precoDelivery',estoque = '$estoque',
-            codigo = '$codigo', unidade = '$variacao', ativo = '$situacao', imagem = '$logoProduto' 
+            codigo = '$codigo', unidade = '$variacao', ativo = '$situacao', imagem = '$logoProduto', categoria = '$categoria' 
           where idProduto=$idProduto";
     } else {
         $sqlUpdate = "UPDATE produto SET nomeProduto = '$nomeProduto', precoAtacado = '$precoAtacado' , precoDelivery = '$precoDelivery' , estoque = '$estoque',
-        codigo = '$codigo', unidade = '$variacao', ativo = '$situacao' 
+        codigo = '$codigo', unidade = '$variacao', ativo = '$situacao', categoria = '$categoria'  
       where idProduto=$idProduto";
     }
 
