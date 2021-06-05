@@ -10,10 +10,6 @@ include '../mensagemPadrao.php';
 
 
 
-if () {
-  
-
-
 
 mysqli_set_charset($conn, 'utf8');
 $sqlPesquisa = "select idPedido, 
@@ -132,17 +128,21 @@ $mail->Subject = 'Novo pedido de ' . $nomeCliente;
 $mail->Body = 'Em anexo o pedido ' . $codPedido . ' do cliente ' . $nomeCliente;
 $mail->AddAttachment('pedido.pdf');      // attachment
 
-//$mail->addAttachment('test.txt');
 $sqlUpdate = "UPDATE pedido SET pedidoFinalizado = 1 WHERE codPedido = '$_SESSION[codPedido]'";
 
-if (!$mail->send() && $conn->query($sqlUpdate) === TRUE) {
-   
-    $_SESSION['msg'] = $mensagens["finalizarPedido"];
-    unset($_SESSION['codPedido']);
+if ($conn->query($sqlUpdate) === TRUE) {
+    if (!$mail->send()) {
+        $_SESSION['msg'] = $mensagens["finalizarPedido"];
+        unset($_SESSION['codPedido']);
 
-    header("Location:home.php");
+        header("Location:home.php");
+    } else {
+        $_SESSION['msg'] = $mensagens["erroFinalizarPedido"];
+        header("Location:home.php");
+    }
 } else {
-
     $_SESSION['msg'] = $mensagens["erroFinalizarPedido"];
     header("Location:home.php");
 }
+
+//$mail->addAttachment('test.txt');
