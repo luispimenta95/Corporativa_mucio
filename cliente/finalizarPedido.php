@@ -136,7 +136,7 @@ $mail->setFrom('pedidosclientes@legrano.com.br', 'Your Name');
 $mail->addAddress('pedidosclientes@legrano.com.br', 'Receiver Name');
 $mail->Subject = 'Testing PHPMailer';
 $mail->msgHTML(file_get_contents('message.html'), __DIR__);
-$mail->Body = 'This is a plain text message body';
+$mail->Body = 'This';
 //$mail->AddAttachment($filePDF);      // attachment
 
 //$mail->addAttachment('test.txt');
