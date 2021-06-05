@@ -118,11 +118,13 @@ $dompdf->render();
 
 // Saída do pdf para a renderização do navegador.
 //Coloca o nome que deseja que seja renderizado.
-$filePDF = $dompdf->stream("relatorio_" . $dia . "", array(
+$dompdf->stream("relatorio_" . $dia . "", array(
 
     "Attachment" => false
 ));
-
+$output = $dompdf->output();
+$file_to_save = 'pedido.pdf';
+file_put_contents($file_to_save, $output);
 
 
 $mail = new PHPMailer;
@@ -137,7 +139,7 @@ $mail->setFrom('pedidosclientes@legrano.com.br', 'Pedidos legrano');
 $mail->addAddress('pedidosclientes@legrano.com.br', 'Pedidos legrano');
 $mail->Subject = 'Novo pedido de ' . $nomeCliente;
 $mail->Body = 'Em anexo o pedido ' . $codPedido . ' do cliente ' . $nomeCliente;
-$mail->AddAttachment($filePDF);      // attachment
+$mail->AddAttachment('pedido.pdf');      // attachment
 
 //$mail->addAttachment('test.txt');
 if (!$mail->send()) {
