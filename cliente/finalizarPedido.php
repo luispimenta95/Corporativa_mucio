@@ -9,7 +9,7 @@ include("../BD/.conecta.php");
 include '../mensagemPadrao.php';
 
 
-$sqlUpdate = "UPDATE pedido SET pedidoFinalizado = 1 WHERE codPedido = '$_SESSION[codPedido]'";
+/*$sqlUpdate = "UPDATE pedido SET pedidoFinalizado = 1 WHERE codPedido = '$_SESSION[codPedido]'";
 
 if ($conn->query($sqlUpdate) === TRUE) {
     $_SESSION['msg'] = $mensagens["finalizarPedido"];
@@ -21,9 +21,9 @@ if ($conn->query($sqlUpdate) === TRUE) {
     $_SESSION['msg'] = $mensagens["erroFinalizarPedido"];
     header("Location:home.php");
 }
+*/
+
 /*
-
-
 mysqli_set_charset($conn, 'utf8');
 $sqlPesquisa = "select idPedido, 
 codPedido,
@@ -121,7 +121,7 @@ $filePDF = $dompdf->stream("relatorio_" . $dia . "", array(
 
     "Attachment" => false
 ));
-
+*/
 
 
 $mail = new PHPMailer;
@@ -143,4 +143,3 @@ if (!$mail->send()) {
 } else {
     echo 'The email message was sent.';
 }
-*/
