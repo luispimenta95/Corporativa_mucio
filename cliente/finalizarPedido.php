@@ -40,7 +40,7 @@ $totalPedido = 0;
 $numLinhas = 0;
 $somaProduto = 0;
 $nomeCliente;
-
+//teste
 
 while ($row = $result->fetch_assoc()) {
     //$somaProduto = $row["precoPedido"] * $row["quantidade"];
