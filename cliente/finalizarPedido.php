@@ -104,22 +104,10 @@ $filePDF = $dompdf->stream("relatorio_" . $dia . "", array(
     "Attachment" => false
 ));
 */
-$mail = new PHPMailer;
-$mail->CharSet = "UTF-8";
-$mail->IsSMTP();        // Ativar SMTP
-$mail->SMTPDebug = false;       // Debugar: 1 = erros e mensagens, 2 = mensagens apenas
-$mail->SMTPAuth = true;     // Autenticação ativada
-$mail->SMTPSecure = 'ssl';  // SSL REQUERIDO pelo GMail
-$mail->Host = 'smtp.hostinger.com'; // SMTP utilizado
-$mail->Port = 587;
-$mail->Username = 'pedidosclientes@legrano.com.br';
-$mail->Password = 'Mpl13151319';
-$mail->SetFrom('lpedidosclientes@legrano.com.br');
-$mail->addAddress('lpedidosclientes@legrano.com.br');
-$mail->Subject = ("Definição de senha ");
-$mail->msgHTML("Sua nova senha é : ");
-if (!$mail->send()) {
-    $msg = 'Sorry, something went wrong. Please try again later.';
-} else {
-    $msg = 'Message sent! Thanks for contacting us.';
-}
+$from = "pedidosclientes@legrano.com.br";
+$to = "pedidosclientes@legrano.com.br";
+$subject = "Checking PHP mail";
+$message = "PHP mail works just fine";
+$headers = "From:" . $from;
+mail($to, $subject, $message, $headers);
+echo "The email message was sent.";
