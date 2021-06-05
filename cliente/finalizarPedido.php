@@ -1,12 +1,14 @@
 <?php
 session_start();
-require_once '../adm/dompdf/autoload.inc.php';
-include("../BD/.conecta.php");
-include '../mensagemPadrao.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 
 require 'vendor/autoload.php';
+require_once '../adm/dompdf/autoload.inc.php';
+include("../BD/.conecta.php");
+include '../mensagemPadrao.php';
+
+
 
 mysqli_set_charset($conn, 'utf8');
 $sqlPesquisa = "select idPedido, 
