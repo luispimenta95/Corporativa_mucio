@@ -128,7 +128,8 @@ $mail->Subject = 'Novo pedido de ' . $nomeCliente;
 $mail->Body = 'Em anexo o pedido ' . $codPedido . ' do cliente ' . $nomeCliente;
 $mail->AddAttachment('pedido.pdf');      // attachment
 
-$sqlUpdate = "UPDATE pedido SET pedidoFinalizado = 1 WHERE codPedido = '$_SESSION[codPedido]'";
+
+$sqlUpdate = "UPDATE pedido SET pedidoFinalizado =1 WHERE codPedido  = '$_SESSION[codPedido]'";
 
 if ($conn->query($sqlUpdate) === TRUE) {
     if (!$mail->send()) {
