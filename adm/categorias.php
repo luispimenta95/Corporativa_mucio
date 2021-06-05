@@ -8,19 +8,19 @@ if (!isset($_SESSION["idAdministrador"])) {
 }
 mysqli_set_charset($conn, 'utf8');
 $pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
-$pagina_atual = "cidades.php";
+$pagina_atual = "categorias.php";
 //Selecionar todos os logs da tabela
-$pesquisaCidades = "SELECT nomeProduto from produto p order by p.nomeProduto";
-$Cidades = mysqli_query($conn, $pesquisaCidades);
+$pesquisaCategorias = "SELECT nomeProduto from produto p order by p.nomeProduto";
+$Categorias = mysqli_query($conn, $pesquisaCategorias);
 
 //Contar o total de logs
-$totalCidades = mysqli_num_rows($Cidades);
+$totalCategorias = mysqli_num_rows($Categorias);
 
 //Seta a quantidade de logs por pagina
 $quantidade_pg = 30;
 
 //calcular o número de pagina necessárias para apresentar os logs
-$num_pagina = ceil($totalCidades / $quantidade_pg);
+$num_pagina = ceil($totalCategorias / $quantidade_pg);
 
 //Calcular o inicio da visualizacao
 $incio = ($quantidade_pg * $pagina) - $quantidade_pg;
@@ -29,24 +29,22 @@ $incio = ($quantidade_pg * $pagina) - $quantidade_pg;
 $pesquisa = "";
 if (isset($_POST['todos'])) {
     $pesquisa = "todos";
-    $listaTodos = "SELECT idCidade , nomeCidade,precoFrete ,entrega, ufEstado FROM cidade c INNER JOIN estado e on c.estado = e.idEstado";
+    $listaTodos = "SELECT idCategoria, nomeCategoria FROM categoria c order by c.nomeCategoria";
 }
 if (!isset($_POST['termo'])) {
-    $pesquisaCidades = "SELECT idCidade , nomeCidade,precoFrete ,entrega, ufEstado FROM cidade c INNER JOIN estado e on c.estado = e.idEstado 
-       limit $incio, $quantidade_pg";
+    $pesquisaCategorias = "SELECT idCategoria, nomeCategoria FROM categoria c order by c.nomeCategoria limit $incio, $quantidade_pg";
 } else {
     $pesquisa = $_POST["termo"];
 
-    $pesquisaCidades = "SELECT idCidade , nomeCidade,precoFrete ,entrega, ufEstado FROM cidade c INNER JOIN estado e on c.estado = e.idEstado
-        WHERE c.nomeCidade LIKE '%" . $pesquisa . "%'";
+    $pesquisaCategorias = "SELECT idCategoria , nomeCategoria FROM categoria c WHERE c.nomeCategoria LIKE '%" . $pesquisa . "%'";
 }
 if ($pesquisa == "todos") {
-    $pesquisaCidades = $listaTodos;
+    $pesquisaCategorias = $listaTodos;
 }
 
 
-$resultadoCidades = mysqli_query($conn, $pesquisaCidades);
-$totalCidades = mysqli_num_rows($resultadoCidades);
+$resultadoCategorias = mysqli_query($conn, $pesquisaCategorias);
+$totalCategorias = mysqli_num_rows($resultadoCategorias);
 
 ?>
 <!DOCTYPE html>
@@ -107,13 +105,13 @@ $totalCidades = mysqli_num_rows($resultadoCidades);
         <div class="card">
             <article class="card-group-item">
                 <header class="card-header">
-                    <h6 class="title">Filtrar Cidades </h6>
+                    <h6 class="title">Filtrar Categorias </h6>
                 </header>
                 <div class="filter-content">
                     <div class="card-body">
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <form method="POST" action="cidades.php" class="search nav-form">
+                                <form method="POST" action="categorias.php" class="search nav-form">
                                     <div class="input-group input-search">
                                         <input type="text" class="form-control" name="termo" id="q" placeholder="Pesquisa por nome...">
                                         <span class="input-group-btn">
@@ -125,10 +123,10 @@ $totalCidades = mysqli_num_rows($resultadoCidades);
 
 
                             <div class="form-group col-md-12 text-right">
-                                <form method="POST" action="relatoriocidades.php" class="search nav-form">
+                                <form method="POST" action="relatoriocategorias.php" class="search nav-form">
                             </div>
 
-                            <input type="hidden" name="sql" value="<?php echo $pesquisaCidades ?>">
+                            <input type="hidden" name="sql" value="<?php echo $pesquisaCategorias ?>">
                             <input type="hidden" name="pg_atual" value="<?php echo $pagina ?>">
                             <input type="hidden" name="total_pg" value="<?php echo $num_pagina ?>">
 
@@ -137,7 +135,7 @@ $totalCidades = mysqli_num_rows($resultadoCidades);
 
                             </form>
 
-                            <form method="POST" action="cidades.php" class="col-md-6 search nav-form">
+                            <form method="POST" action="categorias.php" class="col-md-6 search nav-form">
                                 <div class="input-group input-search">
                                     <input type="hidden" name="todos">
                                     <span class="input-group-btn">
@@ -154,17 +152,16 @@ $totalCidades = mysqli_num_rows($resultadoCidades);
     </div>
     <br><br>
 
-    <h3 class="text-center"> Cidades coorporativa </h3>
+    <h3 class="text-center"> Categorias coorporativa </h3>
     <br><br>
 
     <?php
 
 
 
-    if ($totalCidades == 0) {
-        $pesquisaUsuarios = "SELECT idCidade , nomeCidade,precoFrete ,entrega, ufEstado FROM cidade c INNER JOIN estado e on c.estado = e.idEstado 
-        limit $incio, $quantidade_pg";
-        $resultadoUsuarios = mysqli_query($conn, $pesquisaUsuarios);
+    if ($totalCategorias == 0) {
+        $pesquisaCategorias = "SELECT idCategoria, nomeCategoria FROM categoria c order by c.nomeCategoria limit $incio, $quantidade_pg";
+        $resultadoCategorias = mysqli_query($conn, $pesquisaCategorias);
 
         $_SESSION["msg"] = $mensagens["semRegistro"];
     }
@@ -180,10 +177,8 @@ $totalCidades = mysqli_num_rows($resultadoCidades);
 
         <thead>
             <tr>
-                <th>Cidade</th>
-                <th> Estado</th>
-                <th> Preço frete</th>
-                <th> Disponibilidade de entrega</th>
+                <th>Nome</th>
+
                 <th> Editar</th>
 
 
@@ -194,29 +189,20 @@ $totalCidades = mysqli_num_rows($resultadoCidades);
             <?php
 
 
-            while ($row = mysqli_fetch_assoc($resultadoCidades)) { ?>
+            while ($row = mysqli_fetch_assoc($resultadoCategorias)) { ?>
 
                 <tr>
-                    <th> <?php echo $row["nomeCidade"] ?> </th>
-                    <th> <?php echo $row["ufEstado"] ?> </th>
-
-                    <th> R$ <?php echo number_format($row["precoFrete"], 2, ",", "."); ?> </th>
-                    <?php if ($row["entrega"] == 1) { ?>
-                        <th> Disponível para entrega</th>
-                    <?php } else { ?>
-                        <th> Indisponível para entrega</th>
-
-                    <?php } ?>
+                    <th> <?php echo $row["nomeCategoria"] ?> </th>
 
 
 
                     <th>
-                        <a href="#edicao<?php echo $row["idCidade"] ?>" data-toggle="modal"><button type='button' class='btn btn-primary btn-sm'><i class="fa fa-pencil"></i> </button></a>
+                        <a href="#edicao<?php echo $row["idCategoria"] ?>" data-toggle="modal"><button type='button' class='btn btn-primary btn-sm'><i class="fa fa-pencil"></i> </button></a>
 
                     </th>
-                    <form action="updateFrete.php?id=<?php echo $row["idCidade"]; ?>" method="POST" class="form-group">
+                    <form action="updateCategoria.php?id=<?php echo $row["idCategoria"]; ?>" method="POST" class="form-group">
 
-                        <div id="edicao<?php echo $row["idCidade"] ?>" class="modal fade" role="dialog" class="form-group">
+                        <div id="edicao<?php echo $row["idCategoria"] ?>" class="modal fade" role="dialog" class="form-group">
                             <div class="modal-dialog">
 
                                 <!-- Modal content-->
@@ -232,55 +218,18 @@ $totalCidades = mysqli_num_rows($resultadoCidades);
                                             );
                                         }
                                         ?>
-                                        <h4 class="modal-title">Atualizar dados da cidade</h4>
+                                        <h4 class="modal-title">Atualizar dados da categoria</h4>
                                     </div>
                                     <div class="modal-body">
 
                                         <div class="form-group row">
                                             <label for="inputEmail3" class="col-sm-2 col-form-label">Nome</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" name="nome" value="<?php echo $row["nomeCidade"] ?>" readonly>
+                                                <input type="text" class="form-control" name="nomeCategoria" value="<?php echo $row["nomeCategoria"] ?>">
                                             </div>
                                         </div>
 
-                                        <div class="form-group row">
-                                            <label for="inputEmail3" class="col-sm-2 col-form-label">Preço frete</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" name="precoFrete" value="R$ <?php echo number_format($row["precoFrete"], 2, ",", "."); ?>" required>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row" required>
-                                            <label for="inputEmail3" class="col-sm-6 col-form-label">Entregas na cidade</label>
-                                            <div class="col-sm-6">
 
-                                                <?php
-                                                if ($row["entrega"] == 1) { ?>
-
-                                                    <label class="radio-inline">
-                                                        <input type="radio" name="entrega" value="1" checked="checked" required><span class="label label-success"> Disponível para entregas</span>
-                                                    </label>
-
-                                                    <br>
-                                                    <label class="radio-inline">
-                                                        <input type="radio" name="entrega" value="0" required><span class="label label-danger"> Indisponível para entregas</span>
-                                                    </label>
-
-                                                <?php } else { ?>
-                                                    <label class="radio-inline">
-                                                        <input type="radio" name="entrega" value="1" checked="checked" required><span class="label label-success"> Disponível para entregas</span>
-                                                    </label>
-
-                                                    <br>
-                                                    <label class="radio-inline">
-                                                        <input type="radio" name="entrega" value="0" checked="checked" required><span class="label label-danger"> Indisponível para entregas</span>
-                                                    </label>
-                                                <?php } ?>
-
-
-
-
-                                            </div>
-                                        </div>
 
                                     </div>
                                     <div class="modal-footer">
@@ -300,30 +249,72 @@ $totalCidades = mysqli_num_rows($resultadoCidades);
 
         </tbody>
     </table>
+    <form action="inserirCategoria.php" method="POST" class="form-group">
+
+        <div id="cadastro" class="modal fade" role="dialog" class="form-group">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <?php
+                        if (isset($_SESSION['msg'])) {
+                            echo $_SESSION['msg'];
+                            unset(
+                                $_SESSION['msg']
+
+                            );
+                        }
+                        ?>
+                        <h4 class="modal-title">Cadastrar categoria</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group row">
+                            <label for="inputEmail3" class="col-sm-2 col-form-label">Nome</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="nomeCategoria" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class=" btn btn-primary">Inserir registro</button>
+
+                        <button type="submit" class=" btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </form>
+    <a href="#cadastro" data-toggle="modal"><button type='button' class='btn btn-success'>Cadastrar categoria</button></a>
+
 
 
 
     <?php
 
-    $result_log = "SELECT * from cidade";
+    $result_log = "SELECT * from categoria";
 
-    $Usuarios = mysqli_query($conn, $result_log);
+    $Categorias = mysqli_query($conn, $result_log);
 
     //Contar o total de logs
-    $totalUsuarios = mysqli_num_rows($Usuarios);
+    $totalCategorias = mysqli_num_rows($Categorias);
     $limitador = 1;
-    if ($totalUsuarios > $quantidade_pg && $totalUsuarios > 0) { ?>
+    if ($totalCategorias > $quantidade_pg && $totalCategorias > 0) { ?>
         <nav class="text-center">
             <ul class="pagination">
 
-                <li><a href="cidades.php?pagina=1"> Primeira página </a></li>
+                <li><a href="categorias.php?pagina=1"> Primeira página </a></li>
 
 
                 <?php
                 for ($i = $pagina - $limitador; $i <= $pagina - 1; $i++) {
                     if ($i >= 1) {
                 ?>
-                        <li><a href="cidades.php?pagina=<?php echo $i; ?>"> <?php echo $i; ?></a></li>
+                        <li><a href="categorias.php?pagina=<?php echo $i; ?>"> <?php echo $i; ?></a></li>
 
 
                 <?php }
@@ -334,7 +325,7 @@ $totalCidades = mysqli_num_rows($resultadoCidades);
                 <?php
                 for ($i = $pagina + 1; $i <= $pagina + $limitador; $i++) {
                     if ($i <= $num_pagina) { ?>
-                        <li><a href="cidades.php?pagina=<?php echo $i; ?>"> <?php echo $i; ?></a></li>
+                        <li><a href="categorias.php?pagina=<?php echo $i; ?>"> <?php echo $i; ?></a></li>
 
                 <?php }
                 }
@@ -342,7 +333,7 @@ $totalCidades = mysqli_num_rows($resultadoCidades);
 
 
                 ?>
-                <li><a href="cidades.php?pagina=<?php echo $num_pagina; ?>"> <span aria-hidden="true"> Ultima página </span></a></li>
+                <li><a href="categorias.php?pagina=<?php echo $num_pagina; ?>"> <span aria-hidden="true"> Ultima página </span></a></li>
 
 
 

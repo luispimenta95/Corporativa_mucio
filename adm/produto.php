@@ -141,6 +141,9 @@ $totalProdutos = mysqli_num_rows($resultadoProdutos);
             <li class="nav-item">
                 <a class="nav-link" href="cidades.php">Cidades</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="categorias.php">Categorias</a>
+            </li>
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
