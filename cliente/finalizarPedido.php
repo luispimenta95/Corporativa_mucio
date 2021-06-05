@@ -139,7 +139,7 @@ if ($conn->query($sqlUpdate) === TRUE) {
 
         header("Location:home.php");
     } else {
-        $_SESSION['msg'] = "Update";
+        $_SESSION['msg'] =  $sqlUpdate;
 
         // $_SESSION['msg'] = $mensagens["erroFinalizarPedido"];
         header("Location:home.php");
