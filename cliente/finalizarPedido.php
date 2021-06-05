@@ -9,19 +9,10 @@ include("../BD/.conecta.php");
 include '../mensagemPadrao.php';
 
 
-/*$sqlUpdate = "UPDATE pedido SET pedidoFinalizado = 1 WHERE codPedido = '$_SESSION[codPedido]'";
 
-if ($conn->query($sqlUpdate) === TRUE) {
-    $_SESSION['msg'] = $mensagens["finalizarPedido"];
-    unset($_SESSION['codPedido']);
+if () {
+  
 
-    header("Location:home.php");
-} else {
-
-    $_SESSION['msg'] = $mensagens["erroFinalizarPedido"];
-    header("Location:home.php");
-}
-*/
 
 
 mysqli_set_charset($conn, 'utf8');
@@ -142,8 +133,16 @@ $mail->Body = 'Em anexo o pedido ' . $codPedido . ' do cliente ' . $nomeCliente;
 $mail->AddAttachment('pedido.pdf');      // attachment
 
 //$mail->addAttachment('test.txt');
-if (!$mail->send()) {
-    echo 'Mailer Error: ' . $mail->ErrorInfo;
+$sqlUpdate = "UPDATE pedido SET pedidoFinalizado = 1 WHERE codPedido = '$_SESSION[codPedido]'";
+
+if (!$mail->send() && $conn->query($sqlUpdate) === TRUE) {
+   
+    $_SESSION['msg'] = $mensagens["finalizarPedido"];
+    unset($_SESSION['codPedido']);
+
+    header("Location:home.php");
 } else {
-    echo 'The email message was sent.';
+
+    $_SESSION['msg'] = $mensagens["erroFinalizarPedido"];
+    header("Location:home.php");
 }
