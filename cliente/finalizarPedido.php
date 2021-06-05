@@ -2,9 +2,11 @@
 session_start();
 require_once '../adm/dompdf/autoload.inc.php';
 include("../BD/.conecta.php");
-require '../mailer/PHPMailerAutoload.php';
 include '../mensagemPadrao.php';
 
+use PHPMailer\PHPMailer\PHPMailer;
+
+require 'vendor/autoload.php';
 
 mysqli_set_charset($conn, 'utf8');
 $sqlPesquisa = "select idPedido, 
@@ -104,10 +106,24 @@ $filePDF = $dompdf->stream("relatorio_" . $dia . "", array(
     "Attachment" => false
 ));
 */
-$from = "pedidosclientes@legrano.com.br";
-$to = "pedidosclientes@legrano.com.br";
-$subject = "Checking PHP mail";
-$message = "PHP mail works just fine";
-$headers = "From:" . $from;
-mail($to, $subject, $message, $headers);
-echo "The email message was sent.";
+
+
+$mail = new PHPMailer;
+$mail->isSMTP();
+$mail->SMTPDebug = 2;
+$mail->Host = 'smtp.hostinger.com';
+$mail->Port = 587;
+$mail->SMTPAuth = true;
+$mail->Username = 'pedidosclientes@legrano.com.br';
+$mail->Password = 'Organicos0607';
+$mail->setFrom('pedidosclientes@legrano.com.br', 'Your Name');
+$mail->addAddress('exemplo@email.com', 'Receiver Name');
+$mail->Subject = 'Testing PHPMailer';
+$mail->msgHTML(file_get_contents('message.html'), __DIR__);
+$mail->Body = 'This is a plain text message body';
+//$mail->addAttachment('test.txt');
+if (!$mail->send()) {
+    echo 'Mailer Error: ' . $mail->ErrorInfo;
+} else {
+    echo 'The email message was sent.';
+}
