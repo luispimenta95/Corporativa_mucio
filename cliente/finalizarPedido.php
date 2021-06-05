@@ -132,12 +132,16 @@ $sqlUpdate = "UPDATE pedido SET pedidoFinalizado = 1 WHERE codPedido = '$_SESSIO
 
 if ($conn->query($sqlUpdate) === TRUE) {
     if (!$mail->send()) {
-        $_SESSION['msg'] = $mensagens["finalizarPedido"];
+        $_SESSION['msg'] = "Email";
+
+        //        $_SESSION['msg'] = $mensagens["finalizarPedido"];
         unset($_SESSION['codPedido']);
 
         header("Location:home.php");
     } else {
-        $_SESSION['msg'] = $mensagens["erroFinalizarPedido"];
+        $_SESSION['msg'] = "Update";
+
+        // $_SESSION['msg'] = $mensagens["erroFinalizarPedido"];
         header("Location:home.php");
     }
 } else {
