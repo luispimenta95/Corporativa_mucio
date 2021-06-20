@@ -6,7 +6,7 @@
     height="80"
     width="80"
     alt="goat"
-    src="https://www.google.com/imgres?imgurl=https%3A%2F%2Fstatic.goomer.app%2Fstores%2F34952%2Fproducts%2Fmobile_menu%2Ftemplates%2F46517%2Flogo_v1593452968.png&imgrefurl=https%3A%2F%2Flegrano-organicos.goomer.app%2Fmenu&tbnid=N8d2NQ-tdqc5-M&vet=12ahUKEwiCsMT9mqfxAhVQCrkGHXZNABkQMygAegQIARBB..i&docid=7mtOxsd5NdxTCM&w=350&h=196&q=legrano%20org%C3%A2nicos&ved=2ahUKEwiCsMT9mqfxAhVQCrkGHXZNABkQMygAegQIARBB"
+    src="logo.png"
   />
 </a>
 
