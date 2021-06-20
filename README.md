@@ -18,11 +18,11 @@
 
  <img src="tecnologias.jpg" width="100px;" alt=""/>
 
-  ##Situação do projeto
+  <H2>Situação do projeto</h2>
   <h4 align="center"> 
- 🚀 Em plena produção ... (https://legrano.com.br) 
+ 🚀 Em plena produção (https://legrano.com.br) 
 </h4>
-### Autor
+  <h2>Autor</h2>
 ---
 
  <img style="border-radius: 50%;" src="selfie.jpg" width="100px;" alt=""/>
