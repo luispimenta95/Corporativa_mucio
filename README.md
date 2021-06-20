@@ -21,11 +21,11 @@ As seguintes ferramentas foram usadas na construção do projeto:
 ### Autor
 ---
 
- <img style="border-radius: 50%;" src="https://photos.app.goo.gl/ZgEZAjCV7SnD4Rsc9" width="100px;" alt=""/>
+ <img style="border-radius: 50%;" src="selfie.jpg" width="100px;" alt=""/>
 
-Feito por Thiago Marinho 👋🏽 Entre em contato!
+Feito por Luis Pimenta 👋🏽 Entre em contato!
 
-[![Linkedin Badge](https://img.shields.io/badge/-Thiago-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/tgmarinho/)](https://www.linkedin.com/in/tgmarinho/) 
-[![Gmail Badge](https://img.shields.io/badge/-tgmarinho@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:tgmarinho@gmail.com)](mailto:tgmarinho@gmail.com)
+[![Linkedin Badge](https://img.shields.io/badge/-LuisPimenta-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/luis-felipe-araujo-pimenta-60a1b7118/)](https://www.linkedin.com/in/luis-felipe-araujo-pimenta-60a1b7118/) 
+[![Gmail Badge](https://img.shields.io/badge/-luisfelipearaujopimenta@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:luisfelipearaujopimenta@gmail.com)](mailto:luisfelipearaujopimenta@gmail.com)
 
 
