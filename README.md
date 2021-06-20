@@ -18,6 +18,10 @@
 
  <img src="tecnologias.jpg" width="100px;" alt=""/>
 
+  ##Situação do projeto
+  <h4 align="center"> 
+ 🚀 Em plena produção ... (https://legrano.com.br) 
+</h4>
 ### Autor
 ---
 
