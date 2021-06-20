@@ -16,7 +16,7 @@
 
 ### 🛠 Tecnologias
 
-As seguintes ferramentas foram usadas na construção do projeto:
+ <img src="tecnologias.jpg" width="100px;" alt=""/>
 
 ### Autor
 ---
